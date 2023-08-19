@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css';
+import { Link, NavLink } from 'react-router-dom';
 
 const HeaderComponent = () => {
     return (
@@ -11,39 +12,26 @@ const HeaderComponent = () => {
             <nav className="navbar navbar-expand">
                 <div className="navbar-container">
                     <ul className="navbar-nav">
+                       
                         <li className="nav-item">
-                            <a href="#" className="nav-link nav-link-hidden">INTERNAL FEEDBACK</a>
-                        </li>
-                        <li className="nav-item">
-                            <a href="#" className="nav-link nav-link-special">SAVE MORE ON APP</a>
+                            <NavLink to="/" className="nav-link">TRACK MY ORDER</NavLink>
                         </li>
                         <li className="nav-item">
-                            <a href="#" className="nav-link nav-link-special">SELL ON LAZADA</a>
+                            <NavLink to="/sign-in" className="nav-link">LOGIN</NavLink>
                         </li>
                         <li className="nav-item">
-                            <a href="#" className="nav-link">CUSTOMER CARE</a>
+                            <NavLink to="/sign-up" className="nav-link">SIGN UP</NavLink>
                         </li>
-                        <li className="nav-item">
-                            <a href="#" className="nav-link">TRACK MY ORDER</a>
-                        </li>
-                        <li className="nav-item">
-                            <a href="#" className="nav-link">LOGIN</a>
-                        </li>
-                        <li className="nav-item">
-                            <a href="#" className="nav-link">SIGN UP</a>
-                        </li>
-                        <li className="nav-item nav-last-item">
-                            <a href="#" className="nav-link">CHANGE LANGUAGE</a>
-                        </li>
+                      
                     </ul>
                 </div>
             </nav>
             <div className="lzd-logo-bar">
                 <div className="logo-bar-content">
                     <div className="lzd-logo-content">
-                        <a href="#" className="lzd-logo-link">
+                        <Link to="/" className="lzd-logo-link">
                             <img src="//laz-img-cdn.alicdn.com/images/ims-web/TB1T7K2d8Cw3KVjSZFuXXcAOpXa.png" alt="Online Shopping Lazada.vn Logo"/> 
-                        </a>
+                        </Link>
                     </div>
                     <div className="search-bar-content">
                         <form className="search-form">

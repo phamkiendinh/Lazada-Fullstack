@@ -60,6 +60,8 @@
     padding: 16px 0;
     width: 100%;
     height: fit-content;
+    box-shadow: 10px 10px 1px rgba(79, 77, 77, 0.5);
+    background-color: #f3742f;
 }
 
 .lzd-logo-bar .logo-bar-content {
@@ -67,7 +69,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .lzd-logo-bar .logo-bar-content .lzd-logo-content {
@@ -80,7 +82,7 @@
 }
 
 .logo-bar-content .search-bar-content {
-    width: 688px;
+    width: 650px;
 }
 
 .search-bar-content .search-form {

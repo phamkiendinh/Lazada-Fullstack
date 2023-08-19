@@ -4,7 +4,7 @@ import FooterComponent from '../FooterComponent';
 
 const DefaultComponent = ({children}) => {
     return (
-        <div>
+        <div >
             <HeaderComponent></HeaderComponent>
             {children}
             <FooterComponent></FooterComponent>

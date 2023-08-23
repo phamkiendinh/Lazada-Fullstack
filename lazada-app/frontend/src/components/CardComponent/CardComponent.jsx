@@ -5,10 +5,11 @@ import Card from 'react-bootstrap/Card'
 import './CardComponent.css'
 
 const CardComponent = () => {
-  return (
-    <div>
-      <h3 className='text-fw-bold mt-4'> #Just For You </h3>
-      <div className='mt-4 h-auto d-flex' style={{gap: '70px'}} >
+    return (
+        <div>
+            <h3 className='text-fw-bold mt-4'> #Just For You </h3>
+            
+      <div className='mt-4 h-auto d-flex' style={{gap: '75px'}} >
         <Card className='card-item'>
             <Card.Img
             variant='top'
@@ -340,8 +341,8 @@ const CardComponent = () => {
         </div>   
  
 
-      </div>
-  )
+        </div>
+    )
 }
 
 export default CardComponent

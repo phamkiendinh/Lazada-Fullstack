@@ -66,7 +66,7 @@ const CardComponent = () => {
         </Card>
       </div>
       <div className='mt-4 h-auto d-flex gap-5'>
-        <Card style={{ width: '18rem' }}>
+        <Card style={{ width: '20rem' }}>
             <Card.Img
             variant='top'
             src='https://down-vn.img.susercontent.com/file/vn-11134207-23020-tz6tf5eftpnv15_tn'

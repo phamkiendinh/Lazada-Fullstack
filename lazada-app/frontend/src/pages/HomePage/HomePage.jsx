@@ -2,7 +2,6 @@ import React from 'react'
 import TypeProduct from '../../components/TypeProduct'
 import SliderComponent from '../../components/SliderComponent'
 import CardComponent from '../../components/CardComponent'
-import Badge from 'react-bootstrap/Badge';
 
 
 const Home = () => {

@@ -63,7 +63,7 @@ const NavBarComponent = () => {
         return {}
     }
   }
-
+  
   return (
     <div>
       <WrapperLableText>Lable</WrapperLableText>

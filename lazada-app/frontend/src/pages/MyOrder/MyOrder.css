@@ -1,0 +1,85 @@
+.row .col {
+    background-color: antiquewhite;
+}
+
+.list-header {
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 12px;
+}
+
+.list-header .list-header-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    height: 40px;
+    font-size: 12px;
+    line-height: 14px;
+    color: #757575;
+}
+
+.list-header-container .list-header-main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-transform: uppercase;
+    line-height: 40px;
+}
+
+.list-header-main .checkbox-wrap {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+.next-checkbox {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    line-height: 14px;
+}
+
+.list-header-main .list-header-checkbox {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+}
+
+.next-checkbox input[type=checkbox] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.next-checkbox input[type=checkbox]:hover {
+    border: 1px solid #f57224; 
+    background-color: #fff8da;
+    box-shadow: none;  /* This is to remove any default browser styling */
+}
+
+.list-header-main .list-header-operations {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    flex-direction: row;
+    justify-content: flex-end;
+    justify-items: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.trash-can {
+    width: 18px;
+    margin-right: 4px;
+}
+
+.list-header-main .list-header-operations:hover{
+    color: #f57224;
+}

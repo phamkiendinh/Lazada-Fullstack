@@ -16,8 +16,8 @@ const CardTypeProduct = () => {
         <Link to={typeProductPath.path}>
           <Card.Img
             variant='top'
-            src='https://www.cheaperthandirt.com/dw/image/v2/BDCK_PRD/on/demandware.static/-/Sites-ctd-master-catalog/default/dw764a8304/large/2-lwicdir5bb16com.jpg?sw=800&sh=800'
-            className='item-img'
+            src='https://lzd-img-global.slatic.net/g/p/2df0d5471060c5b544a48c80b7fa8e78.png_720x720q80.png_.webp'
+            className=''
           />
           <Card.Body className='item-body'>
             <Card.Text className='item-desc'>
@@ -120,7 +120,7 @@ const CardTypeProduct = () => {
         <Card.Img
           variant='top'
           src='https://www.cheaperthandirt.com/dw/image/v2/BDCK_PRD/on/demandware.static/-/Sites-ctd-master-catalog/default/dw764a8304/large/2-lwicdir5bb16com.jpg?sw=800&sh=800'
-          className='item-img'
+          className=''
         />
         <Card.Body className='item-body'>
           <Card.Text className='item-desc'>
@@ -220,7 +220,7 @@ const CardTypeProduct = () => {
         <Card.Img
           variant='top'
           src='https://www.cheaperthandirt.com/dw/image/v2/BDCK_PRD/on/demandware.static/-/Sites-ctd-master-catalog/default/dw764a8304/large/2-lwicdir5bb16com.jpg?sw=800&sh=800'
-          className='item-img'
+          className=''
         />
         <Card.Body className='item-body'>
           <Card.Text className='item-desc'>
@@ -320,7 +320,7 @@ const CardTypeProduct = () => {
         <Card.Img
           variant='top'
           src='https://www.cheaperthandirt.com/dw/image/v2/BDCK_PRD/on/demandware.static/-/Sites-ctd-master-catalog/default/dw764a8304/large/2-lwicdir5bb16com.jpg?sw=800&sh=800'
-          className='item-img'
+          className=''
         />
         <Card.Body className='item-body'>
           <Card.Text className='item-desc'>

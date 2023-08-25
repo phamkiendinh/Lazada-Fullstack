@@ -3,7 +3,6 @@ import './HeaderComponent.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
-import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 import { Link, NavLink } from 'react-router-dom'
 
 const HeaderComponent = () => {
@@ -55,7 +54,7 @@ const HeaderComponent = () => {
             </form>
           </div>
           <div className='cart-bar-content'>
-            <a href=''>
+            <a href='#'>
               <span className='cart-item'>
                 <FontAwesomeIcon icon={faCartShopping} />
               </span>

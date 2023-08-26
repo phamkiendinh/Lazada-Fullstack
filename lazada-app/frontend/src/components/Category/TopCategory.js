@@ -1,18 +1,68 @@
 import {Link, useLoaderData} from 'react-router-dom';
-import LeftPanel from '../Panel/LeftPanel/LeftPanel';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 function TopCategory() {
+    const navigate = useNavigate();
     const categories = useLoaderData();
+    console.log(categories);
+
+    async function deleteTopCategory(category) {
+        await fetch(`http://localhost:3001/admin/category/${category}/delete`, {
+            method: 'DELETE'
+        })
+        .then(res => res.json())
+        .then(data => {
+            return data;
+        })
+        .catch(e => {
+            console.log(e);
+            return null;
+        })
+        navigate(0);
+    }
+
+    async function updateTopCategory(category) {
+        navigate(`/admin/category/${category}/update`);
+    }
+    
+    if (categories === null) {
+        return (
+            <div>
+                <div className='row'>
+                    <div className='col-2 left-panel mt-5'>
+                        <button className="btn btn-primary w-100 m-1" onClick={() => navigate(-1)}>
+                            Go Back
+                        </button>
+                    </div>
+                    <div className='col-8 d-inline-block mt-5'>
+                        <div className='d-flex justify-content-center mt-5'>
+                            <h1 className="text text-white fw-bold border border-3 p-5 bg-primary border-black">Add Your First Category</h1>
+                        </div>
+                        <div id='category-crud' className='container d-flex justify-content-center'>
+                            <button className='btn btn-success'>
+                                <Link to="create" className='text-white' state={{history: `${window.location.href}`}}>
+                                    Create New Top-Category
+                                </Link>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    var counter = 0;
     var result = categories.map(category => {
+        counter += 1
         const entries = Object.entries(category);
         return (
-            <div className='d-flex container-fluid'>
+            <div className='d-flex container-fluid' key={`${category['name']}${counter}`}>
                 <Link to={`${category['name']}`} className='w-75'>
                     <div className="container-fluid border border-2 border-primary w-100 mt-2">
                         {
-                            <h3> 
+                            <h3 key={`${category['name']}`}> 
                                 {entries.map(entry => {
                                     return (
-                                        <>
+                                        <span key={`${category['name']}`}>
                                             <span className='text-danger'>
                                                 {entry[0].charAt(0).toUpperCase()}{entry[0].slice(1)}
                                             </span>
@@ -20,7 +70,7 @@ function TopCategory() {
                                                 : {entry[1]}
                                             </span>
                                             <br/>
-                                        </>
+                                        </span>
                                     );
                                 })}
                             </h3>
@@ -28,17 +78,20 @@ function TopCategory() {
                     </div>
                 </Link>
                 <div className='d-flex w-25'>
-                    <button className='btn btn-primary mx-1 mt-2' onClick={() => updateTopCategory(0)}>Update</button>
-                    <button className='btn btn-danger mx-1 mt-2' onClick={() => deleteTopCategory(0)}>Delete</button>
+                    <button className='btn btn-primary mx-1 mt-2' onClick={() => updateTopCategory(`${category['name']}`)}>Update</button>
+                    <button className='btn btn-danger mx-1 mt-2' onClick={() => deleteTopCategory(`${category['name']}`)}>Delete</button>
                 </div>
             </div>
             );
         })
+    counter = 0;
     return (
         <div>
             <div className='row'>
-                <div className='col-2 left-panel bg-dark mt-5'>
-                    <LeftPanel />
+                <div className='col-2 left-panel mt-5'>
+                    <button className="btn btn-primary w-100 m-1" onClick={() => navigate(-1)}>
+                        Go Back
+                    </button>
                 </div>
                 <div className='col-8 d-inline-block mt-5'>
                     <div id='category-crud' className='container d-flex justify-content-center'>
@@ -61,7 +114,7 @@ function TopCategory() {
 export default TopCategory;
 
 
-export async function loadTopCategory() {
+export async function loadAllTopCategory({params}) {
     var data = await
     fetch('http://localhost:3001/admin/category')
     .then(res => res.json())
@@ -75,12 +128,3 @@ export async function loadTopCategory() {
     return data;
 }
 
-function updateTopCategory(category) {
-    console.log(category);
-}
-
-
-function deleteTopCategory(category) {
-    console.log(category);
-
-}

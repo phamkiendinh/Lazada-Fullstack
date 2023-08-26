@@ -3,8 +3,10 @@ import Card from 'react-bootstrap/Card'
 import './CardComponent.css'
 import { NavLink } from 'react-router-dom';
 import { routes } from './../../routes/index'
+import Button from 'react-bootstrap/Button'
 
 const CardComponent = () => {
+    const loadMorePath = routes.find(route => route.name === '/type')
   return (
     <div>
       <h3 className='text-fw-bold mt-4'> #Just For You </h3>

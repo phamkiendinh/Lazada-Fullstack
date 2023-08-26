@@ -6,6 +6,8 @@ import SignInPage from './../pages/SingInPage/index'
 import NotFoundPage from './../pages/NotFoundPage/NotFoundPage'
 import ProductDetailPage from './../pages/ProductDetail/index'
 import TypeProductPage from './../pages/TypeProduct/TypeProductPage';
+import OrderManagement from './../pages/OrderManagement/index';
+
 
 export const routes = [
   {
@@ -26,17 +28,12 @@ export const routes = [
   {
     path: '/sign-up',
     page: SignUpPage,
-    isShowHeader: true
+    isShowHeader: false
   },
   {
     path: '/sign-in',
     page: SignInPage,
-    isShowHeader: true
-  },
-  {
-    path: '/sign-in',
-    page: SignInPage,
-    isShowHeader: true
+    isShowHeader: false
   },
   {
     path: '/product-detail/:id',
@@ -46,6 +43,11 @@ export const routes = [
   {
     path: '/type',
     page: TypeProductPage,
+    isShowHeader: true
+  },
+  {
+    path: '/track-order',
+    page: OrderManagement,
     isShowHeader: true
   },
   {

@@ -10,7 +10,7 @@ const CardTypeProduct = () => {
   )
 
   return (
-    <div className=' h-auto d-grid grid-4 ' style={{ gap: '20px', height: '100vh'  }}>
+    <div className=' h-auto d-grid grid-4 ' style={{ gap: '20px', height: '100vh'}}>
       <Card className='card-item'>
         <Link to={typeProductPath.path}>
           <Card.Img
@@ -19,12 +19,11 @@ const CardTypeProduct = () => {
             className=''
           />
           <Card.Body className='item-body'>
-            <Card.Text className='item-desc'>
+            <Card.Text className='item-desc' style={{ textDecoration: "none"}} >
               <div className='item-segment'>
                 <img
                   src='https://lzd-img-global.slatic.net/g/tps/tfs/TB1r3Rqi2zO3e4jSZFxXXaP_FXa-94-28.png'
                   className='segment-img'
-                  alt='image'
                 />
               </div>
               <div className='desc-details'>

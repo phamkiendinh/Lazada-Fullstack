@@ -1,109 +1,137 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { routes } from './../../routes/index'
 import { useState } from 'react'
+import AuthContext from './../../context/AuthContext'
 
 const SignUpPage = () => {
   const signInPath = routes.find(route => route.path === '/sign-in')
-  const [form, setForm] = useState({ phone: '', password: '', confirm_password: '', email: ''});
+  const { user, setUser } = useContext(AuthContext)
+  const [formValidation, setFormValidation] = useState({
+    email: '',
+    phone: '',
+    password: '',
+    confirm_password: ''
+  })
+
+  const navigate = useNavigate()
   const [errors, setError] = useState({})
+  const [successMessage, setSuccessMessage] = useState('')
 
-  // Update the state of form
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value
-
-      // sử dụng tính năng "computed property names" trong JavaScript để cập nhật hoặc thêm một trường mới trong đối tượng "form". Trường này có tên được xác định bởi giá trị của biến field, và giá trị của trường là giá trị của biến value.
-    })
-
-    // Check and see if errors exist, and remove them from the error object:
-    if (errors[field]) {
-      setError({
-        ...errors,
-        [field]: null
-      })
-    }
+  const isValidEmail = email => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
   }
 
-  const findFormErrors = (e) => {
-    const { password, phone, email, confirm_password } = form
-    const newErrors = {}
-    // name errors
-    if (!email || email === '') newErrors.email = ' email cannot be blank '
-    else if (email.type !== 'email') newErrors.email = 'must be a valid email'
-
-    // comment errors
-    if (!password || password === '') { newErrors.password = 'password cannot be blank!' } 
-   
-
-    // comment errors
-    if (!confirm_password || confirm_password === '') { newErrors.confirm_password = 'confirm_password cannot be blank!' } 
-   
-    return newErrors
+  const isValidPhoneNumber = phone => {
+    const phoneRegex = /^\d{10}$/
+    return phoneRegex.test(phone)
   }
 
-
-  const validatePhoneNumber = (phoneNumber) => {
-    // Regular expression for a basic 10-digit US phone number format
-    const phonePattern = /^\d{10}$/;
-
-    if (!phonePattern.test(phoneNumber)) {
-      return 'Please enter a valid 10-digit phone number';
-    } 
-
-  return '';
-
-  };
-
-  const validatePassword = (password) => {
-    if (password.length < 8) {
-      return " Password must be at least 8 characters long";   
-    } 
-
-    return ''
-  
-  }
-
-  const validateConfirmPassword = (confirm_password) => {
-    if (confirm_password !== form.password) {
-        return "Password do not match";
-    } 
-
-    return '';
-  
-  }
-
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Validate all fields
-    const phoneError = validatePhoneNumber(form.phone);
-      const passwordError = validatePassword(form.password);
-      const confirmpasswordError = validateConfirmPassword(form.confirm_password)
-
-    // get Errors
-    const newError = findFormErrors()
-
-    const combineError = {
-      ...newError,
-      phone: phoneError,
-      password: passwordError,
-      confirm_password: confirmpasswordError,
-
-    };
-
-    if (Object.keys(combineError).length > 0) {
-      setError(combineError)
+  const validateEmail = () => {
+    if (!formValidation.email) {
+      setError(prevErrors => ({
+        ...prevErrors,
+        email: 'Email is required'
+      }))
+    } else if (!isValidEmail(formValidation.email)) {
+      setError(prevErrors => ({
+        ...prevErrors,
+        email: 'Invalid email'
+      }))
     } else {
-      alert('Thank for creating new account')
+      setError(prevErrors => ({
+        ...prevErrors,
+        email: ''
+      }))
     }
+  }
+
+  const validatePhone = () => {
+    if (!formValidation.phone) {
+      setError(prevErrors => ({
+        ...prevErrors,
+        phone: 'Phone is required'
+      }))
+    } else if (!isValidPhoneNumber(formValidation.phone)) {
+      setError(prevErrors => ({
+        ...prevErrors,
+        phone: 'Phone must be a valid number'
+      }))
+    } else {
+      setError(prevErrors => ({
+        ...prevErrors,
+        phone: ''
+      }))
+    }
+  }
+
+  const validatePassword = () => {
+    if (!formValidation.password) {
+      setError(prevErrors => ({
+        ...prevErrors,
+        password: 'Password is required'
+      }))
+    } else if (formValidation.lenght < 8) {
+      setError(prevErrors => ({
+        ...prevErrors,
+        password: 'Password must be at least 8 characters'
+      }))
+    } else {
+      setError(prevErrors => ({
+        ...prevErrors,
+        password: ''
+      }))
+    }
+  }
+
+  const validateConfirmPassword = () => {
+    if (!formValidation.confirm_password) {
+      setError(prevErrors => ({
+        ...prevErrors,
+        confirm_password: 'Confirm password is required'
+      }))
+    } else if (formValidation.password !== formValidation.confirm_password) {
+      setError(prevErrors => ({
+        ...prevErrors,
+        confirm_password: 'Passoword do not match '
+      }))
+    } else {
+      setError(prevErrors => ({
+        ...prevErrors,
+        confirm_password: ''
+      }))
+    }
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    validateEmail()
+    validatePhone()
+    validatePassword()
+    validateConfirmPassword()
+
+    const noErrors = Object.values(errors).every(error => error === '')
+    if (noErrors) {
+      // Form submission logic (API call, etc.)
+      setSuccessMessage('Account created successfully!')
+      setUser({ email: formValidation.email })
+      navigate('/')
+    } else {
+      setSuccessMessage('')
+    }
+  }
+
+  const handleChange = (field, value) => {
+    setFormValidation(preFormValidation => ({
+      ...preFormValidation,
+      [field]: value
+    }))
   }
 
   return (
-    <div style={{ background: "#ccc", height: "auto", padding: "20px" }} >
+    <div style={{ background: '#ccc', height: 'auto', padding: '20px' }}>
       <Container>
         <Row className='vh-100 d-flex justify-content-center align-items-center'>
           <Col md={8} lg={6} xs={12}>
@@ -128,7 +156,8 @@ const SignUpPage = () => {
                         <Form.Control
                           type='email'
                           placeholder='Nhập email của bạn vào đây'
-                          onChange={e => setField('email', e.target.value)}
+                          onChange={e => handleChange('email', e.target.value)}
+                          onBlur={validateEmail}
                           isInvalid={!!errors.email}
                         />
 
@@ -143,7 +172,8 @@ const SignUpPage = () => {
                         <Form.Control
                           type='text'
                           placeholder='Nhập số điện thoại của bận vào đây'
-                          onChange={e => setField('phone', e.target.value)}
+                          onChange={e => handleChange('phone', e.target.value)}
+                          onBlur={validatePhone}
                           isInvalid={!!errors.phone}
                         />
 
@@ -161,7 +191,9 @@ const SignUpPage = () => {
                         <Form.Control
                           type='password'
                           placeholder='Vui lòng nhập password của bạn'
-                          onChange={e => setField('password', e.target.value)}
+                          onChange={e =>
+                            handleChange('password', e.target.value)}
+                          onBlur={validatePassword}
                           isInvalid={!!errors.password}
                         />
 
@@ -179,10 +211,12 @@ const SignUpPage = () => {
                         <Form.Control
                           type='password'
                           placeholder='Nhập lại password của bạn '
-                          onChange={e => setField('confirm_password', e.target.value)}
+                          onChange={e =>
+                            handleChange('confirm_password', e.target.value)}
+                          onBlur={validateConfirmPassword}
                           isInvalid={!!errors.confirm_password}
-                          />
-                         {/* Show error */}
+                        />
+                        {/* Show error */}
                         <Form.Control.Feedback type='invalid'>
                           {errors.confirm_password}
                         </Form.Control.Feedback>

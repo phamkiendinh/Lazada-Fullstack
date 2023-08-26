@@ -1,31 +1,44 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './HeaderComponent.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import { Link, NavLink } from 'react-router-dom'
+import AuthContext from './../../context/AuthContext';
+
 
 const HeaderComponent = () => {
+  const { isAuthenticated, user } = useContext(AuthContext)
+
   return (
     <div className='header'>
       <nav className='navbar navbar-expand'>
         <div className='navbar-container'>
           <ul className='navbar-nav'>
-            <li className='nav-item'>
-              <NavLink to='/' className='nav-link'>
-                TRACK MY ORDER
-              </NavLink>
-            </li>
-            <li className='nav-item'>
-              <NavLink to='/sign-in' className='nav-link'>
-                LOGIN
-              </NavLink>
-            </li>
-            <li className='nav-item'>
-              <NavLink to='/sign-up' className='nav-link'>
-                SIGN UP
-              </NavLink>
-            </li>
+            {isAuthenticated
+              ?
+               <li className='nav-item'>
+                <span className='nav-link' style={{ fontSize: '12px', fontWeight: "bold" }}> 
+                  {user.email}
+                </span>
+              </li>
+              : <>
+                <li className='nav-item'>
+                  <NavLink to='/sign-in' className='nav-link'>
+                      LOGIN
+                    </NavLink>
+                </li>
+                <li className='nav-item'>
+                  <NavLink to='/sign-up' className='nav-link'>
+                      SIGN UP
+                    </NavLink>
+                </li>
+              </>}
+              <li className='nav-item'>
+                  <NavLink to='/track-order' className='nav-link'>
+                      TRACK MY ORDER
+                    </NavLink>
+                </li>
           </ul>
         </div>
       </nav>
@@ -54,11 +67,11 @@ const HeaderComponent = () => {
             </form>
           </div>
           <div className='cart-bar-content'>
-            <a href='#'>
+            <NavLink to='/my-order'>
               <span className='cart-item'>
                 <FontAwesomeIcon icon={faCartShopping} />
               </span>
-            </a>
+            </NavLink>
           </div>
         </div>
       </div>

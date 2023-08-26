@@ -7,7 +7,7 @@ const ProductDetailPage = () => {
   const navigate = useNavigate()
 
   return (
-    <div style={{ width: '100vw', background: '#eff0f5', height: '100vh' }}>
+    <div style={{background: '#eff0f5', height: '100vh' }}>
       <div style={{ width: "1450px", height: '100%', margin: '0 auto' }}>
         <h5 className="pt-3">
           <span

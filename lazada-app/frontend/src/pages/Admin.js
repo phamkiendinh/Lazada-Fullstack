@@ -13,9 +13,6 @@ function Admin() {
                 <button className="btn btn-primary w-100 m-1">
                     <Link to="seller" className="text text-white">Seller Management</Link>
                 </button>
-                <button className="btn btn-primary w-100 m-1">
-                    <Link to="warehouse" className="text text-white">Warehouse Management</Link>
-                </button>
             </div>
             <div className='col-8 d-inline-block mt-5'>
                 <div>

@@ -1,5 +1,4 @@
 import {Link, useLoaderData} from 'react-router-dom';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 function TopCategory() {
     const navigate = useNavigate();

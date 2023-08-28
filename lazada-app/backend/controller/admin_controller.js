@@ -1,4 +1,4 @@
-const client = require('../database/connection.js');
+const client = require('../database/admin_database.js');
 
 async function getOneAdmin(req, res) {
     try {

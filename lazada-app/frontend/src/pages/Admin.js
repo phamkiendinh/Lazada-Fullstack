@@ -1,5 +1,4 @@
-import LeftPanel from '../components/Panel/LeftPanel/LeftPanel';
-import { Outlet, useLoaderData } from 'react-router-dom';
+import { Outlet, useLoaderData, Link} from 'react-router-dom';
 
 function Admin() {
     const data = useLoaderData();
@@ -8,7 +7,15 @@ function Admin() {
     return (
         <div className='row'>
             <div className='col-2 left-panel bg-dark mt-5'>
-                <LeftPanel />
+                <button className="btn btn-primary w-100 m-1">
+                    <Link to="category" className="text text-white">Category Management</Link>
+                </button>
+                <button className="btn btn-primary w-100 m-1">
+                    <Link to="seller" className="text text-white">Seller Management</Link>
+                </button>
+                <button className="btn btn-primary w-100 m-1">
+                    <Link to="warehouse" className="text text-white">Warehouse Management</Link>
+                </button>
             </div>
             <div className='col-8 d-inline-block mt-5'>
                 <div>

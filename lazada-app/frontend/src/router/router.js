@@ -10,18 +10,18 @@ import SellerApproval from "../components/AdminSellerApproval/SellerApproval";
 //Loader 
 import { loadAdmin } from "../pages/Admin";
 import { loadAllSubCategory } from "../components/AdminCategory/SubCategory";
-import { loadSeller } from "../components/AdminSellerApproval/SellerApproval";
 import { loadAllTopCategory } from "../components/AdminCategory/TopCategory";
 import { loadTopCategory } from "../components/AdminCategory/UpdateTopCategory";
 //Component
 import TopCategory from "../components/AdminCategory/TopCategory";
+import TopCategoryDetail from "../components/AdminCategory/TopCategoryDetail";
 import CreateTopCategory from "../components/AdminCategory/CreateTopCategory";
 import SubCategory from "../components/AdminCategory/SubCategory";
+import SubCategoryDetail from "../components/AdminCategory/SubCategoryDetail";
 import CreateSubCategory, { loadTopCategoryField } from "../components/AdminCategory/CreateSubCategory";
 
+
 //Action Function
-import { saveTopCategory } from "../components/AdminCategory/CreateTopCategory";
-import { saveSubCategory } from "../components/AdminCategory/CreateSubCategory";
 import UpdateTopCategory, { updateTopCategory } from "../components/AdminCategory/UpdateTopCategory";
 import UpdateSubCategory, {loadSubCategory, updateSubCategory} from "../components/AdminCategory/UpdateSubCategory";
 export const routes = createBrowserRouter([
@@ -38,15 +38,8 @@ export const routes = createBrowserRouter([
         error : <Error />
     },
     {
-        path : '/admin/seller',
-        element : <SellerApproval />,
-        loader : loadSeller,
-        error : <Error />
-    },
-    {
         path : '/admin/category/create',
         element : <CreateTopCategory />,
-        action : saveTopCategory,
         error : <Error />
     },
     {
@@ -54,6 +47,11 @@ export const routes = createBrowserRouter([
         element : <UpdateTopCategory />,
         action : updateTopCategory,
         loader : loadTopCategory,
+        error : <Error />
+    },
+    {
+        path : '/admin/category/:categoryName/detail',
+        element : <TopCategoryDetail />,
         error : <Error />
     },
     {
@@ -65,7 +63,6 @@ export const routes = createBrowserRouter([
     {
         path : '/admin/category/:categoryName/create',
         element : <CreateSubCategory />,
-        action : saveSubCategory,
         loader : loadTopCategoryField,
         error : <Error />
     },
@@ -74,6 +71,16 @@ export const routes = createBrowserRouter([
         element : <UpdateSubCategory />,
         action: updateSubCategory,
         loader: loadSubCategory,
+        error : <Error />
+    },
+    {
+        path : '/admin/category/:categoryName/:subCategoryName/detail',
+        element : <SubCategoryDetail />,
+        error : <Error />
+    },
+    {
+        path : '/admin/seller',
+        element : <SellerApproval />,
         error : <Error />
     }
 ]);

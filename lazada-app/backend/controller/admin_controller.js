@@ -1,4 +1,4 @@
-const client = require('../database/admin_database.js');
+const client = require('../database/admin_database');
 
 async function getOneAdmin(req, res) {
     try {
@@ -30,12 +30,39 @@ async function getAllTopCategory(req, res) {
 async function addTopCategory(req, res) {
     // console.log(req.body);
     let json = req.body;
-    // console.log(json);
+    console.log(json);
     try {
         var db = client.db('lazada');
         var collection = db.collection('category');
-        const data = await collection.insertOne(json);
-        console.log(json);
+        var object = {
+            name: ""
+        };
+        var subject = "";
+        json.map(data => { 
+            var entries = Object.entries(data);
+            var subObject = {}
+            entries.map(entry => {
+                var key = entry[0];
+                var value = entry[1];
+                if (key === "categoryName") {
+                    object.name = value;
+                    // console.log(object);
+                }
+                else if (key === "name") {
+                    subject = value;
+                }
+                else {
+                    subObject[key] = value;
+                }
+            });
+            if (subject !== "") {
+                object[subject] = subObject;
+            }
+        })
+        console.log(object);
+        const data = await collection.insertOne(object);
+        var query = "";
+
         res.send({status: 200});
     } catch (error) {
         console.log(error);
@@ -110,18 +137,59 @@ async function getAllSubCategory(req, res) {
 async function addSubCategory(req, res) {
     // console.log(req.body);
     let json = req.body;
-    var category = json.category;
-    delete json.category;
-    // json = JSON.parse(json);
-    // console.log("JSON: ");
+
     console.log(json);
-    // console.log(category);
     try {
         var db = client.db('lazada');
         var collection = db.collection('category');
-        const data = await collection.updateOne({name : category}, {$push: {"sub_category" : json}});
-        res.send({status: 200});
+        var topCategory = "";
+        var object = {
+            name: ""
+        };
+        var subject = "";
+        json.map(data => { 
+            var entries = Object.entries(data);
+            var subObject = {}
+            entries.map(entry => {
+                var key = entry[0];
+                var value = entry[1];
+                if (key === "category") {
+                    topCategory = value;
+                }
+                else if (key === "categoryName") {
+                    object.name = value;
+                    // console.log(object);
+                }
+                else if (key === "name") {
+                    subject = value;
+                }
+                else {
+                    subObject[key] = value;
+                }
+            });
+            // console.log(subObject);
+            if (subject !== "") {
+                object[subject] = subObject;
+                subject = "";
+            }
+            if (subObject !== null || subObject !== undefined) {
+                var newEntry = Object.entries(subObject);
+                newEntry.map(item => {
+                    var k = item[0];
+                    var v = item[1];
+                    if (k !== "type" && k !== "required") {
+                        object[k] = v;
+                    }
+                });
+            }
+        })
+        console.log(object);
+        // const data = await collection.insertOne(object);
+        const data = await collection.updateOne({name : topCategory}, {$push: {"sub_category" : object}});
 
+        var query = "";
+
+        res.send({status: 200});
     } catch (error) {
         console.log(error);
     }
@@ -133,10 +201,10 @@ async function deleteSubCategory(req, res) {
     const categoryName = req.params.categoryName;
     const subCategoryName = req.params.subCategoryName;
     // console.log(json);
-    console.log("Called");
     try {
         var db = client.db('lazada');
         var collection = db.collection('category');
+        console.log(subCategoryName);
         const data = await collection.updateOne({name : categoryName}, {$pull: {"sub_category" : {name : subCategoryName}}});
         // console.log(json);
         res.send({status: 200});

@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 function TopCategory() {
     const navigate = useNavigate();
     const categories = useLoaderData();
-    console.log(categories);
 
     async function deleteTopCategory(category) {
         await fetch(`http://localhost:3001/admin/category/${category}/delete`, {
@@ -49,36 +48,30 @@ function TopCategory() {
             </div>
         );
     }
+    
     var counter = 0;
     var result = categories.map(category => {
         counter += 1
-        const entries = Object.entries(category);
+        var name = category.name;
+        // delete category.name
+        console.log(category);
         return (
             <div className='d-flex container-fluid' key={`${category['name']}${counter}`}>
-                <Link to={`${category['name']}`} className='w-75'>
+                <Link to={name} className='w-75'>
                     <div className="container-fluid border border-2 border-primary w-100 mt-2">
                         {
                             <h3 key={`${category['name']}`}> 
-                                {entries.map(entry => {
-                                    return (
-                                        <span key={`${category['name']}`}>
-                                            <span className='text-danger'>
-                                                {entry[0].charAt(0).toUpperCase()}{entry[0].slice(1)}
-                                            </span>
-                                            <span className='text-dark'>
-                                                : {entry[1]}
-                                            </span>
-                                            <br/>
-                                        </span>
-                                    );
-                                })}
+                                {name.charAt(0).toUpperCase()}{name.slice(1)}
                             </h3>
                         }
                     </div>
                 </Link>
                 <div className='d-flex w-25'>
-                    <button className='btn btn-primary mx-1 mt-2' onClick={() => updateTopCategory(`${category['name']}`)}>Update</button>
-                    <button className='btn btn-danger mx-1 mt-2' onClick={() => deleteTopCategory(`${category['name']}`)}>Delete</button>
+                    <button className='btn btn-primary mx-1 mt-2'>
+                        <Link to={`${name}/detail`} className='text text-white' state={category}>Details</Link>
+                    </button>
+                    <button className='btn btn-primary mx-1 mt-2' onClick={() => updateTopCategory(name)}>Update</button>
+                    <button className='btn btn-danger mx-1 mt-2' onClick={() => deleteTopCategory(name)}>Delete</button>
                 </div>
             </div>
             );

@@ -2,21 +2,23 @@ import { Form, useLocation, useNavigate, redirect} from "react-router-dom";
 import { useRef, useState } from "react";
 
 function CreateTopCategory () {
-    var initialState = [
-        {
-            name: 'name',
-            type: 'text',
-            required: "required"
-        }
-    ];
 
     const navigate = useNavigate();
-    const [defaultCategory, setDefaultCategory] = useState(initialState);
-    const [category, setCategory] = useState(initialState);
+    const [defaultCategory, setDefaultCategory] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [nameInput, setNameInput] = useState({categoryName: ""});
     const [input, setInput] = useState('');
-    const [require, setRequire] = useState("required");
+    const [require, setRequire] = useState("true");
     const [type, setType] = useState('text');
     const [fieldFormVisibility, setFieldFormVisibility] = useState('none');
+
+    function updateNameInput(event) {
+        var object = {
+            categoryName : event.target.value,
+        }
+        setNameInput(object);
+    }
+
     function addFieldForm() {
         setFieldFormVisibility('block');
     }
@@ -37,6 +39,32 @@ function CreateTopCategory () {
     function closeFieldForm() {
         setFieldFormVisibility('none');
     }
+
+    async function saveTopCategory(event) {
+        nameInput.categoryName = nameInput.categoryName.toLowerCase().replace(' ','').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+        let data = [
+            nameInput,
+            ...category
+        ];
+        console.log(data);
+        await fetch('http://localhost:3001/admin/category/create', 
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(e => {
+            console.log(e);
+            return null;
+        })
+        navigate('/admin/category');
+    }
     
     
     function addField() {
@@ -44,8 +72,12 @@ function CreateTopCategory () {
             window.alert('Input must not be blanked');
             return;
         }
+        if (input === "Name" || input === "name") {
+            window.alert('Cant have extra name column');
+            return;
+        }
         let item = {
-            name: input,
+            name: input.toLowerCase(),
             type: type,
             required: require
         };
@@ -73,35 +105,26 @@ function CreateTopCategory () {
             </button>
             </div>
             <div className="col-8 mt-5 w-75">
+                <div className="container-fluid d-flex justify-content-center">
+                    <h1 className="fw-bold">Create Top-Category</h1>
+                </div>
 
-                <Form method="POST">
+                <Form onSubmit={saveTopCategory}>
                     <fieldset>
-                        <legend className="fw-bold h1">Create Top-Category</legend>
+                        <label htmlFor="name" className="form-label"><h1>Name</h1></label>
+                        <input type="text" className="form-control" name="name" required onChange={(e) => updateNameInput(e)}/>
+                        <div className="container-fluid d-flex justify-content-center">
+                            <h1 className="fw-bold">Additional Attributes</h1>
+                        </div>
                         {
                             category.map(item => {
-                                    switch (item.type) {
-                                        case 'text':
-                                            return (
-                                                <div className="mb-3" key={item.name}>
-                                                    <label htmlFor={item.name} className="form-label">{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</label>
-                                                    <input type="text" className="form-control" name={item.name} required={item.required === "required"}/>
-                                                </div>
-                                            );
-                                        case 'number':
-                                            return (
-                                                <div className="mb-3" key={item.name}>
-                                                    <label htmlFor={item.name} className="form-label">{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</label>
-                                                    <input type="number" className="form-control" name={item.name} required={item.required === "required"}/>
-                                                </div>
-                                        );
-                                        default:
-                                            return (
-                                                <div className="mb-3" key={item.name}>
-                                                    <label htmlFor={item.name} className="form-label">{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</label>
-                                                    <input type="text" className="form-control" name={item.name} required={item.required === "required"}/>
-                                                </div>
-                                            );
-                                    }
+                                    return (
+                                        <div className="container mt-5 border border-primary border-5">
+                                            <div><h4><strong>Field: </strong>{item.name}</h4></div>
+                                            <div><h4><strong>Type: </strong>{item.type}</h4></div>
+                                            <div><h4><strong>Require: </strong>{item.required}</h4></div>
+                                        </div>
+                                    );
                                 }
                             )
                         }
@@ -117,15 +140,15 @@ function CreateTopCategory () {
                     <legend className="fw-bold">Add Field</legend>
                     <div className="mb-3">
                         <label htmlFor="input" className="form-label fw-bold">Input</label>
-                        <input type="text" id="fieldInput" className="form-control" name="input" onChange={(e) => logInput(e,setInput, input)}/>
+                        <input type="text" id="fieldInput" className="form-control" name="input" onChange={(e) => logInput(e)}/>
                     </div>
 
                     <div className="mb-3">
                         <h6 className="fw-bold">Required</h6>
-                        <input type="radio" id="required" name="required" value="required" checked={require === "required"} onChange={(e) => updateRequireInput(e)}/>
+                        <input type="radio" id="required" name="required" value="required" checked={require === "true"} onChange={(e) => updateRequireInput(e)}/>
                         <label htmlFor="required">Required</label>
                         <br/>
-                        <input type="radio" id="not-required" name="required" value="not-required" checked={require === "not-required"} onChange={(e) => updateRequireInput(e)}/>
+                        <input type="radio" id="not-required" name="required" value="not-required" checked={require === "false"} onChange={(e) => updateRequireInput(e)}/>
                         <label htmlFor="required">Not Required</label>
                     </div>
                     <div className="mb-3">
@@ -144,27 +167,5 @@ function CreateTopCategory () {
     );
 }
 
-export async function saveTopCategory({request, params}) {
-    const formData = await request.formData();
-    const data = Object.fromEntries(formData);
-    await fetch('http://localhost:3001/admin/category/create', 
-    {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data);
-    })
-    .catch(e => {
-        console.log(e);
-        return null;
-    })
-    return redirect('/admin/category');
-
-}
 
 export default CreateTopCategory;

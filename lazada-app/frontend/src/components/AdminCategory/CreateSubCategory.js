@@ -1,27 +1,40 @@
-import { Form, useLocation, useNavigate, redirect, useLoaderData} from "react-router-dom";
+import { Form, useLocation, useNavigate, redirect, useLoaderData, useParams} from "react-router-dom";
 import { useRef, useState } from "react";
 
 function CreateSubCategory () {
-    const data = useLoaderData();
-    delete data['sub_category'];
-    delete data['name'];
+    const params = useParams();
+    var topCategory = params.categoryName;
+    const loadData = useLoaderData();
+    delete loadData['sub_category'];
+    delete loadData['name'];
+
+    var entries = Object.entries(loadData);
+    var newEntries = entries.map(entry => {
+        var newEntry = {};
+        var key = entry[0];
+        var value = entry[1];
+        newEntry[key] = value;
+        return newEntry;
+    });
+    // console.log(entries);
     
-    // console.log(data);
-    var initialState = [
-        {
-            name: 'name',
-            type: 'text',
-            required: "required"
-        }
-    ];
 
     const navigate = useNavigate();
-    const [defaultCategory, setDefaultCategory] = useState([data]);
-    const [category, setCategory] = useState(initialState);
+    const [category, setCategory] = useState([]);
+    const [nameInput, setNameInput] = useState({categoryName: ""});
     const [input, setInput] = useState('');
-    const [require, setRequire] = useState("required");
+    const [require, setRequire] = useState("true");
     const [type, setType] = useState('text');
     const [fieldFormVisibility, setFieldFormVisibility] = useState('none');
+
+
+    function updateNameInput(event) {
+        var object = {
+            categoryName : event.target.value,
+        }
+        setNameInput(object);
+    }
+
     function addFieldForm() {
         setFieldFormVisibility('block');
     }
@@ -43,23 +56,53 @@ function CreateSubCategory () {
         setFieldFormVisibility('none');
     }
     
-    
+    async function saveSubCategory(event) {
+        nameInput.categoryName = nameInput.categoryName.toLowerCase().replace(' ','').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+        let data = [
+            {
+                category: `${topCategory}`
+            },
+            nameInput,
+            ...category,
+            ...newEntries
+        ];
+        await fetch(`http://localhost:3001/admin/category/${topCategory}/create`, 
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(e => {
+            console.log(e);
+            return null;
+        })
+        navigate(`/admin/category/${topCategory}`);
+    }
+
     function addField() {
         if (input === '') {
             window.alert('Input must not be blanked');
             return;
         }
+        if (input === "Name" || input === "name") {
+            window.alert('Cant have extra name column');
+            return;
+        }
         let item = {
-            name: input,
+            name: input.toLowerCase(),
             type: type,
             required: require
         };
-        console.log(require);
         let newItem = [
             ...category,
             item
         ]
-        console.log(newItem);
         setCategory(newItem);
         closeFieldForm();
     }
@@ -69,65 +112,48 @@ function CreateSubCategory () {
         closeFieldForm();
     }
 
-
     return (
         <div className="row">
             <div className='col-2 left-panel mt-5'>
-                <button className="btn btn-primary w-100 m-1" onClick={() => navigate(-1)}>
-                    Go Back
-                </button>
+            <button className="btn btn-primary w-100 m-1" onClick={() => navigate(-1)}>
+                Go Back
+            </button>
             </div>
-            <div className="col-8 container mt-5 w-75">
-                <Form method="POST">
+            <div className="col-8 mt-5 w-75">
+                <div className="container-fluid d-flex justify-content-center">
+                    <h1 className="fw-bold">Create Sub-Category</h1>
+                </div>
+
+                <Form onSubmit={saveSubCategory}>
                     <fieldset>
-                        <legend className="fw-bold h1 mb-5">Create Sub-Category</legend>
-                        <div className="d-flex container mt-5 justify-content-center">
-                            <h2 className="text fw-bold">Top Category Fields <span className="text text-danger">*</span></h2>
-                        </div>
+                        <label htmlFor="name" className="form-label"><h1>Name</h1></label>
+                        <input type="text" className="form-control" name="name" required onChange={(e) => updateNameInput(e)}/>
                         {
-                            defaultCategory.map(item => {
-                                var entries = Object.entries(item);
-                                var data = entries.map(data => {
-                                    var key = data[0];
-                                    var value = data[1];
-                                    return (
-                                        <div className="mb-3" key={key}>
-                                            <label htmlFor={key} className="form-label">{key.charAt(0).toUpperCase()}{key.slice(1)}</label>
-                                            <input type="text" className="form-control" name={key} defaultValue={value} required/>
-                                        </div>
-                                    );
-                                })
-                                return data;
+                            entries.map(entry => {
+                                var field = entry[0];
+                                var type = entry[1].type;
+                                var required = entry[1].required;
+                                return (
+                                    <div className="mt-5 border border-primary border-5" key={field}>
+                                        <div><h4><strong>Field: </strong>{field}</h4></div>
+                                        <div><h4><strong>Type: </strong>{type}</h4></div>
+                                        <div><h4><strong>Require: </strong>{required}</h4></div>
+                                    </div>
+                                );
                             })
                         }
-                        <div className="d-flex container mt-5 justify-content-center">
-                            <h2 className="text fw-bold">Sub Category Fields <span className="text text-danger">*</span></h2>
+                        <div className="container-fluid d-flex justify-content-center">
+                            <h1 className="fw-bold">Additional Attributes</h1>
                         </div>
                         {
                             category.map(item => {
-                                    switch (item.type) {
-                                        case 'text':
-                                            return (
-                                                <div className="mb-3" key={item.name}>
-                                                    <label htmlFor={item.name} className="form-label">{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</label>
-                                                    <input type="text" className="form-control" name={item.name} required={item.required === "required"}/>
-                                                </div>
-                                            );
-                                        case 'number':
-                                            return (
-                                                <div className="mb-3" key={item.name}>
-                                                    <label htmlFor={item.name} className="form-label">{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</label>
-                                                    <input type="number" className="form-control" name={item.name} required={item.required === "required"}/>
-                                                </div>
-                                        );
-                                        default:
-                                            return (
-                                                <div className="mb-3" key={item.name}>
-                                                    <label htmlFor={item.name} className="form-label">{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</label>
-                                                    <input type="text" className="form-control" name={item.name} required={item.required === "required"}/>
-                                                </div>
-                                            );
-                                    }
+                                    return (
+                                        <div className="container mt-5 border border-primary border-5">
+                                            <div><h4><strong>Field: </strong>{item.name}</h4></div>
+                                            <div><h4><strong>Type: </strong>{item.type}</h4></div>
+                                            <div><h4><strong>Require: </strong>{item.required}</h4></div>
+                                        </div>
+                                    );
                                 }
                             )
                         }
@@ -143,15 +169,15 @@ function CreateSubCategory () {
                     <legend className="fw-bold">Add Field</legend>
                     <div className="mb-3">
                         <label htmlFor="input" className="form-label fw-bold">Input</label>
-                        <input type="text" id="fieldInput" className="form-control" name="input" onChange={(e) => logInput(e,setInput, input)}/>
+                        <input type="text" id="fieldInput" className="form-control" name="input" onChange={(e) => logInput(e)}/>
                     </div>
 
                     <div className="mb-3">
                         <h6 className="fw-bold">Required</h6>
-                        <input type="radio" id="required" name="required" value="required" checked={require === "required"} onChange={(e) => updateRequireInput(e)}/>
+                        <input type="radio" id="required" name="required" value="required" checked={require === "true"} onChange={(e) => updateRequireInput(e)}/>
                         <label htmlFor="required">Required</label>
                         <br/>
-                        <input type="radio" id="not-required" name="required" value="not-required" checked={require === "not-required"} onChange={(e) => updateRequireInput(e)}/>
+                        <input type="radio" id="not-required" name="required" value="not-required" checked={require === "false"} onChange={(e) => updateRequireInput(e)}/>
                         <label htmlFor="required">Not Required</label>
                     </div>
                     <div className="mb-3">
@@ -168,36 +194,6 @@ function CreateSubCategory () {
             </div>
         </div>
     );
-}
-
-export async function saveSubCategory({request, params}) {
-    const formData = await request.formData();
-    const data = Object.fromEntries(formData);
-    const category = params.categoryName;
-    const json = {
-        category: `${category}`,
-        ...data
-    };
-    // console.log(data);
-    // console.log(category);
-    await fetch(`http://localhost:3001/admin/category/${category}/create`, 
-    {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(json)
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log(data);
-    })
-    .catch(e => {
-        console.log(e);
-        return null;
-    })
-    return redirect(`/admin/category/${category}`);
-    // return null;
 }
 
 

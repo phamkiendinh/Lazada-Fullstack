@@ -2,32 +2,12 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function SubCategory() {
-    const data = useLoaderData();
+    const loadData = useLoaderData();
     const navigate = useNavigate();
     var url = window.location.href;
     const topCategory = url.slice(url.lastIndexOf('/') + 1);
 
-    console.log(data);
-    async function updateSubCategory(category) {
-        navigate(`/admin/category/${topCategory}/${category}/update`);
-    }
-
-    async function deleteSubCategory(category) {
-        await fetch(`http://localhost:3001/admin/category/${topCategory}/${category}/delete`, {
-            method: 'DELETE'
-        })
-        .then(res => res.json())
-        .then(data => {
-            return data;
-        })
-        .catch(e => {
-            console.log(e);
-            return null;
-        })
-        navigate(0);
-    }
-
-    if (data === null || data.length === 0) {
+    if (loadData === null || loadData.length === 0) {
         return (
             <div>
                 <div className='row'>
@@ -53,32 +33,63 @@ function SubCategory() {
         );
     }
 
+    async function updateSubCategory(category) {
+        navigate(`/admin/category/${topCategory}/${category}/update`);
+    }
+
+    async function deleteSubCategory(category) {
+        console.log(category);
+        await fetch(`http://localhost:3001/admin/category/${topCategory}/${category}/delete`, {
+            method: 'DELETE'
+        })
+        .then(res => res.json())
+        .then(data => {
+            return data;
+        })
+        .catch(e => {
+            console.log(e);
+            return null;
+        })
+        navigate(0);
+    }
+
+
+    var data = Object.entries(loadData);
     var result = data.map(category => {
-        const entries = Object.entries(category);
+        var key = category[0];
+        var values = category[1];
+        var newEntries = Object.entries(values);
+        var name = "";
         return (
             <div className='d-flex container-fluid'>
-                <div className="container-fluid border border-2 border-primary w-100 mt-2">
+                <div className="container-fluid border border-2 border-primary w-100 mt-2 d-flex">
                     {
                         <h3> 
-                            {entries.map(entry => {
-                                return (
-                                    <>
-                                        <span className='text-danger'>
-                                            {entry[0].charAt(0).toUpperCase()}{entry[0].slice(1)}
-                                        </span>
-                                        <span className='text-dark'>
-                                            : {entry[1]}
-                                        </span>
-                                        <br/>
-                                    </>
-                                );
+                            {newEntries.map(entry => {
+                                console.log(entry);
+                                var k = entry[0];
+                                var v = entry[1];
+                                if (k === "name") {
+                                    name = v;
+                                    return (
+                                        <>
+                                            <span className='text-danger'>
+                                                {v.charAt(0).toUpperCase()}{v.slice(1)}
+                                            </span>
+                                            <br/>
+                                        </>
+                                    );
+                                }
                             })}
                         </h3>
                     }
                 </div>
                 <div className='d-flex w-25'>
-                    <button className='btn btn-primary mx-1 mt-2' onClick={() => updateSubCategory(`${category['name']}`)}>Update</button>
-                    <button className='btn btn-danger mx-1 mt-2' onClick={() => deleteSubCategory(`${category['name']}`)}>Delete</button>
+                    <button className='btn btn-primary mx-1 mt-2'>
+                        <Link to={`${name}/detail`} className='text text-white' state={category}>Details</Link>
+                    </button>
+                    <button className='btn btn-primary mx-1 mt-2' onClick={() => updateSubCategory(name)}>Update</button>
+                    <button className='btn btn-danger mx-1 mt-2' onClick={() => deleteSubCategory(name)}>Delete</button>
                 </div>
             </div>
             );

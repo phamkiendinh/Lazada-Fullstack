@@ -86,7 +86,7 @@ function CreateTopCategory () {
             ...category,
             item
         ]
-        console.log(newItem);
+        // console.log(newItem);
         setCategory(newItem);
         closeFieldForm();
     }

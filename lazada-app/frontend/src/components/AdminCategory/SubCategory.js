@@ -38,7 +38,6 @@ function SubCategory() {
     }
 
     async function deleteSubCategory(category) {
-        console.log(category);
         await fetch(`http://localhost:3001/admin/category/${topCategory}/${category}/delete`, {
             method: 'DELETE'
         })
@@ -52,7 +51,6 @@ function SubCategory() {
         })
         navigate(0);
     }
-
 
     var data = Object.entries(loadData);
     var result = data.map(category => {

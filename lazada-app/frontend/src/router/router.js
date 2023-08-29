@@ -20,9 +20,8 @@ import SubCategory from "../components/AdminCategory/SubCategory";
 import SubCategoryDetail from "../components/AdminCategory/SubCategoryDetail";
 import CreateSubCategory, { loadTopCategoryField } from "../components/AdminCategory/CreateSubCategory";
 
-
 //Action Function
-import UpdateTopCategory, { updateTopCategory } from "../components/AdminCategory/UpdateTopCategory";
+import UpdateTopCategory from "../components/AdminCategory/UpdateTopCategory";
 import UpdateSubCategory, {loadSubCategory, updateSubCategory} from "../components/AdminCategory/UpdateSubCategory";
 export const routes = createBrowserRouter([
     {
@@ -31,6 +30,7 @@ export const routes = createBrowserRouter([
         loader : loadAdmin,
         error : <Error />
     },
+    //Category Management
     {
         path : '/admin/category',
         element : <TopCategory />,
@@ -45,7 +45,6 @@ export const routes = createBrowserRouter([
     {
         path : '/admin/category/:categoryName/update',
         element : <UpdateTopCategory />,
-        action : updateTopCategory,
         loader : loadTopCategory,
         error : <Error />
     },
@@ -69,7 +68,6 @@ export const routes = createBrowserRouter([
     {
         path : '/admin/category/:categoryName/:subCategoryName/update',
         element : <UpdateSubCategory />,
-        action: updateSubCategory,
         loader: loadSubCategory,
         error : <Error />
     },
@@ -82,5 +80,5 @@ export const routes = createBrowserRouter([
         path : '/admin/seller',
         element : <SellerApproval />,
         error : <Error />
-    }
+    },
 ]);

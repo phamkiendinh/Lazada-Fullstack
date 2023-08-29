@@ -48,7 +48,6 @@ function TopCategory() {
             </div>
         );
     }
-    
     var counter = 0;
     var result = categories.map(category => {
         counter += 1

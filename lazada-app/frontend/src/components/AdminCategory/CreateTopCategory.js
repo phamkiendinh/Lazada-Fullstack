@@ -29,6 +29,7 @@ function CreateTopCategory () {
     
     function updateRequireInput(event) {
         setRequire(event.target.value);
+        console.log(event.target.value);
     }
     
     function logInput(e) {
@@ -145,10 +146,10 @@ function CreateTopCategory () {
 
                     <div className="mb-3">
                         <h6 className="fw-bold">Required</h6>
-                        <input type="radio" id="required" name="required" value="required" checked={require === "true"} onChange={(e) => updateRequireInput(e)}/>
+                        <input type="radio" id="required" name="required" value="true" checked={require === "true"} onChange={(e) => updateRequireInput(e)}/>
                         <label htmlFor="required">Required</label>
                         <br/>
-                        <input type="radio" id="not-required" name="required" value="not-required" checked={require === "false"} onChange={(e) => updateRequireInput(e)}/>
+                        <input type="radio" id="not-required" name="required" value="false" checked={require === "false"} onChange={(e) => updateRequireInput(e)}/>
                         <label htmlFor="required">Not Required</label>
                     </div>
                     <div className="mb-3">

@@ -101,10 +101,11 @@ async function updateTopCategory(req, res) {
             data[key] = value;
         })
         const subCategories = await collection.find({name : categoryName}, {projection: {_id: 0, sub_category : 1}}).toArray();
+
         if (subCategories.length !== 0) {
-            data['sub_category'] = subCategories;
+            data['sub_category'] = subCategories[0].sub_category;
         }
-        // console.log(data);
+        console.log(data);
 
         await collection.deleteOne({name : categoryName});
         await collection.insertOne(data);

@@ -1,9 +1,8 @@
 import { Outlet, useLoaderData, Link} from 'react-router-dom';
 
 function Admin() {
-    const data = useLoaderData();
+    var data = useLoaderData();
     const keys = Object.keys(data);
-
     return (
         <div className='row'>
             <div className='col-2 left-panel bg-dark mt-5'>

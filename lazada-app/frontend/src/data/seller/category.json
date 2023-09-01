@@ -1,0 +1,44 @@
+[
+  {
+    "id": "c1",
+    "name": "Furniture",
+    "description": "Furniture for your home and office spaces.",
+    "featured": true
+  },
+  {
+    "id": "c2",
+    "name": "Apparel",
+    "description": "Clothing and fashion accessories for all occasions.",
+    "featured": false
+  },
+  {
+    "id": "c3",
+    "name": "Electronics",
+    "description": "Cutting-edge gadgets and electronic devices.",
+    "featured": true
+  },
+  {
+    "id": "c4",
+    "name": "Kitchen & Dining",
+    "description": "Cookware, utensils, and dining essentials for your kitchen.",
+    "featured": true
+  },
+  {
+    "id": "c5",
+    "name": "Accessories",
+    "description": "Stylish accessories to complement your look.",
+    "featured": false
+  },
+  {
+    "id": "c6",
+    "name": "Home & Living",
+    "description": "Decor, furniture, and essentials for a comfortable living space.",
+    "featured": true
+  },
+  {
+    "id": "c7",
+    "name": "Outdoor & Recreation",
+    "description": "Gear and equipment for outdoor adventures and recreation.",
+    "featured": true
+  }
+]

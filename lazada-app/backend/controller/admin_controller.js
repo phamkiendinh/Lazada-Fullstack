@@ -15,7 +15,7 @@ async function getOneAdmin(req, res) {
 async function getAllTopCategory(req, res) {
     try {
         var db = client.db('lazada');
-        var collection = db.collection('category');
+        var collection = db.collection('categories');
         const data = await collection.find({}, {projection: {_id:0, sub_category: 0}}).toArray();
         // console.log(data);
         if (data.length == 0) {
@@ -33,7 +33,7 @@ async function addTopCategory(req, res) {
     console.log(json);
     try {
         var db = client.db('lazada');
-        var collection = db.collection('category');
+        var collection = db.collection('categories');
         var object = {
             name: ""
         };
@@ -76,7 +76,7 @@ async function deleteTopCategory(req, res) {
     // console.log(json);
     try {
         var db = client.db('lazada');
-        var collection = db.collection('category');
+        var collection = db.collection('categories');
         const data = await collection.deleteOne({name : categoryName});
         // console.log(json);
         res.send({status: 200});
@@ -91,7 +91,7 @@ async function updateTopCategory(req, res) {
     const categoryName = req.params.categoryName;
     try {
         var db = client.db('lazada');
-        var collection = db.collection('category');
+        var collection = db.collection('categories');
         const data = {};
         json.map(item => {
             var entry = Object.entries(item);
@@ -119,7 +119,7 @@ async function getTopCategory(req,res) {
     const categoryName = req.params.categoryName;
     try {
         var db = client.db('lazada');
-        var collection = db.collection('category');
+        var collection = db.collection('categories');
         const data = await collection.findOne({name : categoryName}, {projection: {_id: 0}});
         // console.log(json);
         res.send(data);
@@ -133,7 +133,7 @@ async function getAllSubCategory(req, res) {
     const category = req.body.category;
     try {
         var db = client.db('lazada');
-        var collection = db.collection('category');
+        var collection = db.collection('categories');
         const json = await collection.find({"name" : category}, {projection: {_id:0, sub_category: 1}}).toArray();
         // console.log(json);
         if (json.length > 0) {
@@ -154,7 +154,7 @@ async function addSubCategory(req, res) {
     console.log(json);
     try {
         var db = client.db('lazada');
-        var collection = db.collection('category');
+        var collection = db.collection('categories');
         var topCategory = "";
         var object = {
             name: ""
@@ -217,7 +217,7 @@ async function deleteSubCategory(req, res) {
     console.log("Called");
     try {
         var db = client.db('lazada');
-        var collection = db.collection('category');
+        var collection = db.collection('categories');
         const data = await collection.updateOne({name : categoryName}, {$pull: {"sub_category" : {name : subCategoryName}}});
         // console.log(json);
         res.send({status: 200});
@@ -235,7 +235,7 @@ async function getSubCategory(req, res) {
     // console.log("Called");
     try {
         var db = client.db('lazada');
-        var collection = db.collection('category');
+        var collection = db.collection('categories');
         const data = await collection.findOne({name : categoryName, "sub_category.name" : subCategoryName}, {projection: {_id:0, sub_category: 1}});
         // console.log(json);
         // res.send({status: 200});
@@ -251,7 +251,7 @@ async function updateSubCategory(req, res) {
     const subCategoryName = req.params.subCategoryName;
     try {
         var db = client.db('lazada');
-        var collection = db.collection('category');
+        var collection = db.collection('categories');
         var topCategory = "";
         var object = {
             name: ""

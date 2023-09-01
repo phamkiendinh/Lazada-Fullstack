@@ -13,7 +13,7 @@ var bodyParser = require("body-parser"); // const cookieParser = require("cookie
 
 dotenv.config();
 
-var connectDB = require("./configs/db.js");
+var connectDB = require("./components/configs/db.js");
 
 connectDB();
 var port = process.env.PORT || 5000;

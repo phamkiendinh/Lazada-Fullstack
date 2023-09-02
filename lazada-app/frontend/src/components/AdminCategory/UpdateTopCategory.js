@@ -93,7 +93,7 @@ function UpdateTopCategory() {
             return null;
         })
         navigate('/admin/category');
-        // return null;
+        return null;
     }
     
     
@@ -194,7 +194,7 @@ function UpdateTopCategory() {
     return (
         <div className="row">
             <div className='col-2 left-panel mt-5'>
-            <button className="btn btn-primary w-100 m-1" onClick={() => navigate(-1)}>
+            <button className="btn btn-primary w-100 m-1" onClick={() => navigate(`/admin/category`)}>
                 Go Back
             </button>
             </div>
@@ -215,9 +215,6 @@ function UpdateTopCategory() {
                                         <input type="text" className="form-control" name="name" defaultValue={value} required onChange={(e) => updateNameInput(e)}/>
                                     </div>
                                 )
-                            }
-                            else if (key === 'sub_category') {
-                                return (<></>);
                             }
                             else {
                                 return (

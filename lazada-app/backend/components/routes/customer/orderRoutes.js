@@ -7,7 +7,7 @@ const OrderController = require("../../controllers/customer/orderController.js")
 // } = require("../../middlewares/customer/authMiddleware.js");
 
 router.post(
-  "/create/:id",
+  "/create",
   // authUserMiddleWare,
   OrderController.createOrder
 );

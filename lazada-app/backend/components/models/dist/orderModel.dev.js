@@ -2,85 +2,37 @@
 
 var mongoose = require("mongoose");
 
-var orderSchema = new mongoose.Schema({
-  orderItems: [{
-    name: {
-      type: String,
-      required: true
-    },
-    amount: {
-      type: Number,
-      required: true
-    },
-    image: {
-      type: String,
-      required: true
-    },
-    price: {
-      type: Number,
-      required: true
-    },
-    discount: {
-      type: Number
-    },
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-      required: true
-    }
-  }],
-  shippingAddress: {
-    fullName: {
-      type: String,
-      required: true
-    },
-    address: {
-      type: String,
-      required: true
-    },
-    city: {
-      type: String,
-      required: true
-    },
-    phone: {
-      type: Number,
-      required: true
-    }
-  },
-  paymentMethod: {
+var itemSchema = new mongoose.Schema({
+  name: {
     type: String,
     required: true
   },
-  itemsPrice: {
+  quantity: {
     type: Number,
     required: true
   },
-  shippingPrice: {
+  price: {
+    type: Number,
+    required: true
+  }
+});
+var orderSchema = new mongoose.Schema({
+  customerName: {
+    type: String,
+    required: true
+  },
+  items: [itemSchema],
+  shippingFee: {
     type: Number,
     required: true
   },
-  totalPrice: {
+  total: {
     type: Number,
     required: true
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  status: {
+    type: String,
     required: true
-  },
-  isPaid: {
-    type: Boolean,
-    "default": false
-  },
-  paidAt: {
-    type: Date
-  },
-  isDelivered: {
-    type: Boolean,
-    "default": false
-  },
-  deliveredAt: {
-    type: Date
   }
 }, {
   timestamps: true

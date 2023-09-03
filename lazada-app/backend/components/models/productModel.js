@@ -15,6 +15,11 @@ const productSchema = new mongoose.Schema(
     // sold: { type: Number, required: true },
     // view: { type: Number, required: true },
     name: { type: String, required: true, unique: true },
+    // category: {
+    //   _id: { type: String, required: true },
+    //   name: { type: String, required: true },
+    //   __v: { type: Number, required: true },
+    // },
     category: {type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true},
     image: { type: String, required: true },
     // vendor: {

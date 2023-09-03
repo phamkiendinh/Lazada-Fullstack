@@ -38,6 +38,11 @@ var productSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  // category: {
+  //   _id: { type: String, required: true },
+  //   name: { type: String, required: true },
+  //   __v: { type: Number, required: true },
+  // },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Category",

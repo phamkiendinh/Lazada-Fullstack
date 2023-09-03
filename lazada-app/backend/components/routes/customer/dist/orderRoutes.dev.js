@@ -10,7 +10,7 @@ var OrderController = require("../../controllers/customer/orderController.js"); 
 // } = require("../../middlewares/customer/authMiddleware.js");
 
 
-router.post("/create/:id", // authUserMiddleWare,
+router.post("/create", // authUserMiddleWare,
 OrderController.createOrder);
 router.get("/get-all-order/:id", // authUserMiddleWare,
 OrderController.getAllOrderDetails);

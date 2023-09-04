@@ -1,29 +1,39 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from "axios";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children, initialAuthData }) => {
-    const [isAuthenticated, setIsAuthenticated] =useState(initialAuthData.isAuthenticated || false);
-    const [user, setUser] = useState(initialAuthData.user|| null);
 
-    const login = (userData) => {
-        setIsAuthenticated(true);
-        setUser(userData);
-        localStorage.setItem('authData', JSON.stringify({ isAuthenticated: true, user: userData }));
-    };
+ const AuthProvider = ({ children }) => {
+    const [auth, setAuth] = useState({
+        user: null,
+        token: ""
+    });
 
-    const logout = () => {
-        setIsAuthenticated(false);
-        setUser(null);
-    };
+    // DEFAULT AXIOS
+    axios.defaults.headers.common["Authorization"] = auth?.token;
+
+    useEffect(() => {                   // REMEMBER TOKEN TO LOCAL STORAGE
+        const data = localStorage.getItem('auth');
+        if(data) {
+            const parseData = JSON.parse(data);
+            setAuth({
+                ...auth,
+                user:parseData.user,
+                token:parseData.token                
+            })
+        }
+        //eslint-disable-next-line 
+    },[]);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+        <AuthContext.Provider value={[ auth,setAuth ]}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-export const useAuth = () => useContext(AuthContext);
 
-export default AuthContext;
+ const useAuth = () => useContext(AuthContext);
+
+export {useAuth, AuthProvider};

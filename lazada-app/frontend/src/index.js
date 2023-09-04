@@ -11,9 +11,7 @@ const authData = JSON.parse(localStorage.getItem('authData')) || {}
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(
-  <React.StrictMode>
-    <AuthProvider initialAuthData={authData}>
-      <App />
-    </AuthProvider>
-  </React.StrictMode>
+  <AuthProvider initialAuthData={authData}>
+    <App />
+  </AuthProvider>
 )

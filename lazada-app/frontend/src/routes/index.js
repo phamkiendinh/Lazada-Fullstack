@@ -5,8 +5,12 @@ import SignUpPage from './../pages/SignUpPage/index'
 import SignInPage from './../pages/SingInPage/index'
 import NotFoundPage from './../pages/NotFoundPage/NotFoundPage'
 import ProductDetailPage from './../pages/ProductDetail/index'
-import TypeProductPage from './../pages/TypeProduct/TypeProductPage';
-import OrderManagement from './../pages/OrderManagement/index';
+import TypeProductPage from './../pages/TypeProduct/TypeProductPage'
+import OrderManagement from './../pages/OrderManagement/index'
+import Dashboard from './../pages/DashboardPage/Dashboard'
+import PrivateRoute from './Private';
+import AdminRoute from './AdminRoute';
+import AdminDashboard from './../pages/Admin/AdminDashboard';
 
 
 export const routes = [
@@ -48,6 +52,28 @@ export const routes = [
   {
     path: '/track-order',
     page: OrderManagement,
+    isShowHeader: true
+  },
+  {
+    path: '/dashboard/user',
+    page: PrivateRoute, // Use PrivateRoute as middleware
+    nestedRoutes: [
+      {
+        path: '',
+        page: Dashboard
+      }
+    ],
+    isShowHeader: true 
+  },
+  {
+    path: '/dashboard/admin',
+    page: AdminRoute, 
+    nestedRoutes: [
+      {
+        path: '',
+        page: AdminDashboard
+      }
+    ],
     isShowHeader: true
   },
   {

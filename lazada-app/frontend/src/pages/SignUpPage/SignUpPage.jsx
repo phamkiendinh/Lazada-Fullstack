@@ -3,131 +3,55 @@ import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { routes } from './../../routes/index'
 import { useState } from 'react'
-import AuthContext from './../../context/AuthContext'
+import ToastContainer from 'react-bootstrap/ToastContainer'
+import Toast from 'react-bootstrap/Toast'
+import axios from 'axios'
+import { useAuth } from '../../context/AuthContext'
+
+
 
 const SignUpPage = () => {
   const signInPath = routes.find(route => route.path === '/sign-in')
-  const { user, setUser } = useContext(AuthContext)
-  const [formValidation, setFormValidation] = useState({
-    email: '',
-    phone: '',
-    password: '',
-    confirm_password: ''
-  })
-
+  const [show, setShow] = useState(false)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [phone, setPhone] = useState('')
+  const [auth, setAuth] = useAuth();
   const navigate = useNavigate()
-  const [errors, setError] = useState({})
+  const [errorMessage, setErrorMessage] = useState('')
+  const [showError, setShowError] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
 
-  const isValidEmail = email => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
-
-  const isValidPhoneNumber = phone => {
-    const phoneRegex = /^\d{10}$/
-    return phoneRegex.test(phone)
-  }
-
-  const validateEmail = () => {
-    if (!formValidation.email) {
-      setError(prevErrors => ({
-        ...prevErrors,
-        email: 'Email is required'
-      }))
-    } else if (!isValidEmail(formValidation.email)) {
-      setError(prevErrors => ({
-        ...prevErrors,
-        email: 'Invalid email'
-      }))
-    } else {
-      setError(prevErrors => ({
-        ...prevErrors,
-        email: ''
-      }))
-    }
-  }
-
-  const validatePhone = () => {
-    if (!formValidation.phone) {
-      setError(prevErrors => ({
-        ...prevErrors,
-        phone: 'Phone is required'
-      }))
-    } else if (!isValidPhoneNumber(formValidation.phone)) {
-      setError(prevErrors => ({
-        ...prevErrors,
-        phone: 'Phone must be a valid number'
-      }))
-    } else {
-      setError(prevErrors => ({
-        ...prevErrors,
-        phone: ''
-      }))
-    }
-  }
-
-  const validatePassword = () => {
-    if (!formValidation.password) {
-      setError(prevErrors => ({
-        ...prevErrors,
-        password: 'Password is required'
-      }))
-    } else if (formValidation.lenght < 8) {
-      setError(prevErrors => ({
-        ...prevErrors,
-        password: 'Password must be at least 8 characters'
-      }))
-    } else {
-      setError(prevErrors => ({
-        ...prevErrors,
-        password: ''
-      }))
-    }
-  }
-
-  const validateConfirmPassword = () => {
-    if (!formValidation.confirm_password) {
-      setError(prevErrors => ({
-        ...prevErrors,
-        confirm_password: 'Confirm password is required'
-      }))
-    } else if (formValidation.password !== formValidation.confirm_password) {
-      setError(prevErrors => ({
-        ...prevErrors,
-        confirm_password: 'Passoword do not match '
-      }))
-    } else {
-      setError(prevErrors => ({
-        ...prevErrors,
-        confirm_password: ''
-      }))
-    }
-  }
-
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    validateEmail()
-    validatePhone()
-    validatePassword()
-    validateConfirmPassword()
+    try {
+      const res = await axios.post('/api/v1/auth/register', {
+        name,
+        email,
+        phone,
+        password
+      })
 
-    const noErrors = Object.values(errors).every(error => error === '')
-    if (noErrors) {
-      // Form submission logic (API call, etc.)
-      setSuccessMessage('Account created successfully!')
-      setUser({ email: formValidation.email })
-      navigate('/')
-    } else {
-      setSuccessMessage('')
+      if (res && res.data.success) {
+        setSuccessMessage('Account created successfully!')
+        setShow(true)
+        navigate('/sign-up')
+        setName('')
+        setEmail('')
+        setPhone('')
+        setPassword('')
+      } else {
+        handleRegistrationError('Registration failed, Please try again!!')
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
-  const handleChange = (field, value) => {
-    setFormValidation(preFormValidation => ({
-      ...preFormValidation,
-      [field]: value
-    }))
+  const handleRegistrationError = error => {
+    setErrorMessage(error)
+    setShowError(true)
   }
 
   return (
@@ -156,31 +80,32 @@ const SignUpPage = () => {
                         <Form.Control
                           type='email'
                           placeholder='Nhập email của bạn vào đây'
-                          onChange={e => handleChange('email', e.target.value)}
-                          onBlur={validateEmail}
-                          isInvalid={!!errors.email}
+                          value={email}
+                          onChange={e => setEmail(e.target.value)}
+                          required
                         />
+                      </Form.Group>
 
-                        {/* Show error */}
-                        <Form.Control.Feedback type='invalid'>
-                          {errors.email}
-                        </Form.Control.Feedback>
+                      <Form.Group className='mb-3' controlId='Name'>
+                        <Form.Label className='text-center'>Name</Form.Label>
+                        <Form.Control
+                          type='text'
+                          placeholder='Nhập tên của bạn vào đây'
+                          value={name}
+                          onChange={e => setName(e.target.value)}
+                          required
+                        />
                       </Form.Group>
 
                       <Form.Group className='mb-3' controlId='Phone'>
                         <Form.Label className='text-center'>Phone</Form.Label>
                         <Form.Control
-                          type='text'
+                          type='number'
                           placeholder='Nhập số điện thoại của bận vào đây'
-                          onChange={e => handleChange('phone', e.target.value)}
-                          onBlur={validatePhone}
-                          isInvalid={!!errors.phone}
+                          value={phone}
+                          onChange={e => setPhone(e.target.value)}
+                          required
                         />
-
-                        {/* Show error */}
-                        <Form.Control.Feedback type='invalid'>
-                          {errors.phone}
-                        </Form.Control.Feedback>
                       </Form.Group>
 
                       <Form.Group
@@ -191,35 +116,11 @@ const SignUpPage = () => {
                         <Form.Control
                           type='password'
                           placeholder='Vui lòng nhập password của bạn'
-                          onChange={e =>
-                            handleChange('password', e.target.value)}
-                          onBlur={validatePassword}
-                          isInvalid={!!errors.password}
+                          onChange={e => setPassword(e.target.value)}
+                          value={password}
+                          autoComplete='current-password'
+                          required
                         />
-
-                        {/* Show error */}
-                        <Form.Control.Feedback type='invalid'>
-                          {errors.password}
-                        </Form.Control.Feedback>
-                      </Form.Group>
-
-                      <Form.Group
-                        className='mb-3'
-                        controlId='formBasicPassword'
-                      >
-                        <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control
-                          type='password'
-                          placeholder='Nhập lại password của bạn '
-                          onChange={e =>
-                            handleChange('confirm_password', e.target.value)}
-                          onBlur={validateConfirmPassword}
-                          isInvalid={!!errors.confirm_password}
-                        />
-                        {/* Show error */}
-                        <Form.Control.Feedback type='invalid'>
-                          {errors.confirm_password}
-                        </Form.Control.Feedback>
                       </Form.Group>
 
                       <Form.Group
@@ -247,6 +148,69 @@ const SignUpPage = () => {
                 </div>
               </Card.Body>
             </Card>
+            {/* Toast Notification */}
+            <ToastContainer
+              position='top-end'
+              className='p-3 rounded-2'
+              style={{ zIndex: 1, marginTop: '50px' }}
+            >
+              <Toast
+                onClose={() => setShow(false)}
+                show={show}
+                delay={3000}
+                autohide
+              >
+                <Toast.Header>
+                  <img
+                    src='holder.js/20x20?text=%20'
+                    className='rounded'
+                    alt=''
+                  />
+                  <strong className='mx-auto'>Notification</strong>
+                </Toast.Header>
+                <Toast.Body
+                  style={{
+                    backgroundColor: 'green',
+                    color: 'white',
+                    textAlign: 'center'
+                  }}
+                >
+                  {successMessage}
+                </Toast.Body>
+              </Toast>
+            </ToastContainer>
+
+            {/* Error Toast Notification */}
+            <ToastContainer
+              position='top-end'
+              className='p-3 rounded-2'
+              style={{ zIndex: 1, marginTop: '50px' }}
+            >
+              <Toast
+                onClose={() => setShowError(false)}
+                show={showError}
+                delay={3000}
+                autohide
+              >
+                <Toast.Header>
+                  <img
+                    src='holder.js/20x20?text=%20'
+                    className='rounded'
+                    alt=''
+                  />
+                  <strong className='mx-auto'>Error</strong>
+                </Toast.Header>
+                <Toast.Body
+                  style={{
+                    backgroundColor: 'red',
+                    color: 'white',
+                    textAlign: 'center'
+                  }}
+                >
+                  {errorMessage}
+                </Toast.Body>
+              </Toast>
+            </ToastContainer>
           </Col>
         </Row>
       </Container>

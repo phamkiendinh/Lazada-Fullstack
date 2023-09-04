@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import TypeProduct from '../../components/TypeProduct'
 import SliderComponent from '../../components/SliderComponent'
 import CardComponent from '../../components/CardComponent'
+import { useAuth } from "../../context/AuthContext"
 
 
 const Home = () => {
-  const arr = ['TV', 'Tu Lanh', 'Laptop']
+  const arr = ['TV', 'Tu Lanh', 'Laptop'];
+  const [auth, setAuth] = useAuth();
   return (
     <div
       style={{ height: '100%', padding: '25px 110px', backgroundColor: '#eff0f5'}}

@@ -1,56 +1,59 @@
 import React, { useState, useContext } from 'react'
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { routes } from './../../routes/index'
-import Alert from 'react-bootstrap/Alert'
-import AuthContext from './../../context/AuthContext';
+import axios from 'axios'
+import ToastContainer from 'react-bootstrap/ToastContainer'
+import Toast from 'react-bootstrap/Toast'
+import { useAuth } from '../../context/AuthContext'
+
 
 const SignInPage = () => {
   const signUpPath = routes.find(route => route.path === '/sign-up')
-  const { login } = useContext(AuthContext)
-  const navigate = useNavigate()
+  const [auth, setAuth] = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
-  const [loginError, setLoginError] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [showError, setShowError] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
+  const [show, setShow] = useState(false)
 
 
+  const handleSubmit = async e => {
+    e.preventDefault();
+    
+    try {
+      const res = await axios.post('/api/v1/auth/login', {
+        email,
+        password
+      })
 
-  const validateEmail = () => {
-    if (!email) {
-      setEmailError('Email is required')
-    } else {
-      setEmailError('')
-    }
-  }
-
-  const validatePassword = () => {
-    if (!password) {
-      setPasswordError('Password is required')
-    } else {
-      setPasswordError('')
-    }
-  }
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    validateEmail()
-    validatePassword()
-
-    if (!emailError && !passwordError) {
-      if (email === 'huysanti@gmail.com' && password === '123456') {
-        console.log('Login successful')
-        console.log('Email', email)
-        console.log('Password', password)
-        login({email})
-        navigate('/')
+      if (res && res.data.success) {
+        setSuccessMessage('Login successfully!')
+        setShow(true);
+        setAuth({             // SET AUTH TOKEN
+          ...auth,
+          user: res.data.user,
+          token: res.data.token
+        });
+        localStorage.setItem("auth", JSON.stringify(res.data));
+        setTimeout(() => {
+          setShow(false); // Hide the login success Toast after a delay
+          navigate( location.state || '/');
+        }, 1000);
       } else {
-        setLoginError('Incorrect password or email')
+        handleRegistrationError('Login failed, Please try again!!')
       }
-    } else {
-      console.log('Form submitted failed ')
+    } catch (error) {
+      console.log(error)
     }
+  }
+
+  const handleRegistrationError = error => {
+    setErrorMessage(error)
+    setShowError(true)
   }
 
   return (
@@ -73,10 +76,6 @@ const SignInPage = () => {
                     <h3> Đăng Nhập Tài Khoản </h3>
                   </div>
 
-                  {loginError &&
-                    <Alert variant='danger'>
-                      {loginError}
-                    </Alert>}
                   <div className='mb-3'>
                     <Form onSubmit={handleSubmit}>
                       <Form.Group className='mb-3' controlId='formBasicEmail'>
@@ -88,13 +87,7 @@ const SignInPage = () => {
                           placeholder='Nhập email của bạn vào đây'
                           value={email}
                           onChange={e => setEmail(e.target.value)}
-                          onBlur={validateEmail}
                         />
-
-                        {emailError &&
-                          <div className='text-danger'>
-                            {emailError}
-                          </div>}
                       </Form.Group>
 
                       <Form.Group
@@ -107,12 +100,7 @@ const SignInPage = () => {
                           placeholder='Vui lòng nhập password của bạn'
                           value={password}
                           onChange={e => setPassword(e.target.value)}
-                          onBlur={validatePassword}
                         />
-                        {passwordError &&
-                          <div className='text-danger'>
-                            {passwordError}
-                          </div>}
                       </Form.Group>
 
                       <div className='d-grid'>
@@ -136,6 +124,69 @@ const SignInPage = () => {
                 </div>
               </Card.Body>
             </Card>
+            {/* Toast Notification */}
+            <ToastContainer
+              position='top-end'
+              className='p-3 rounded-2'
+              style={{ zIndex: 1, marginTop: '50px' }}
+            >
+              <Toast
+                onClose={() => setShow(false)}
+                show={show}
+                delay={3000}
+                autohide
+              >
+                <Toast.Header>
+                  <img
+                    src='holder.js/20x20?text=%20'
+                    className='rounded'
+                    alt=''
+                  />
+                  <strong className='mx-auto'>Notification</strong>
+                </Toast.Header>
+                <Toast.Body
+                  style={{
+                    backgroundColor: 'green',
+                    color: 'white',
+                    textAlign: 'center'
+                  }}
+                >
+                  {successMessage}
+                </Toast.Body>
+              </Toast>
+            </ToastContainer>
+
+            {/* Error Toast Notification */}
+            <ToastContainer
+              position='top-end'
+              className='p-3 rounded-2'
+              style={{ zIndex: 1, marginTop: '50px' }}
+            >
+              <Toast
+                onClose={() => setShowError(false)}
+                show={showError}
+                delay={3000}
+                autohide
+              >
+                <Toast.Header>
+                  <img
+                    src='holder.js/20x20?text=%20'
+                    className='rounded'
+                    alt=''
+                  />
+                  <strong className='mx-auto'>Error</strong>
+                </Toast.Header>
+                <Toast.Body
+                  style={{
+                    backgroundColor: 'red',
+                    color: 'white',
+                    textAlign: 'center'
+                  }}
+                >
+                  {errorMessage}
+                </Toast.Body>
+              </Toast>
+            </ToastContainer>
           </Col>
         </Row>
       </Container>

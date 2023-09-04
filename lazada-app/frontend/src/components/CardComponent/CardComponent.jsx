@@ -14,7 +14,7 @@ const CardComponent = () => {
         <Card className='card-item'>
             <Card.Img
             variant='top'
-            src='https://www.cheaperthandirt.com/dw/image/v2/BDCK_PRD/on/demandware.static/-/Sites-ctd-master-catalog/default/dw764a8304/large/2-lwicdir5bb16com.jpg?sw=800&sh=800'
+            src='https://images.unsplash.com/photo-1682687220431-81a76ec65505?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxMXx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
             className='item-img' />
             <Card.Body className='item-body'>
                 <Card.Text className='item-desc'>

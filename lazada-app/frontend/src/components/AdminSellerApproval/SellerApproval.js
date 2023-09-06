@@ -89,7 +89,8 @@ export async function loadSeller() {
         console.log(e);
         return null;
     })
-    return data;
+return data;
+    
 }
 
 export default SellerApproval;

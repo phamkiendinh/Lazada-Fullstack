@@ -12,7 +12,7 @@ dotenv.config();
 const connectDB = require("./components/configs/db.js");
 connectDB();
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3001;
 const app = express();
 
 app.use(cors());

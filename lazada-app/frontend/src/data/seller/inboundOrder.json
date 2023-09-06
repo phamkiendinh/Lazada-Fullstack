@@ -1,0 +1,12 @@
+[
+  {
+    "orderId": "io1",
+    "productId": "p1",
+    "status": "completed"
+  },
+  {
+    "orderId": "io2",
+    "productId": "p2",
+    "status": "pending"
+  }
+]

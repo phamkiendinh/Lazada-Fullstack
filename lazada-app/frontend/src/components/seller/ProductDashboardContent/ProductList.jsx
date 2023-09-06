@@ -86,9 +86,9 @@ const ProductList = ({ products, onDelete, onEdit, onSave }) => {
                     />
                 </div>
             )}
-            <ul>
+            <ul className='form-control' >
                 {currentProducts.map(product => (
-                    <li key={product.id}>
+                    <li className='form-control' key={product.id}>
                         <h3>{product.title}</h3>
                         <p>Description: {product.description}</p>
                         <p>Price: ${product.price}</p>

@@ -3,7 +3,7 @@ import ProductPage from "./pages/seller/ProductPage";
 import OrderPage from "./pages/seller/OrderPage";
 import StatsPage from "./pages/seller/StatsPage";
 
-function App() {
+function SellerPage() {
     return (
         <div>
             <Navigation></Navigation>
@@ -14,4 +14,4 @@ function App() {
     );
 }
 
-export default App;
+export default SellerPage;

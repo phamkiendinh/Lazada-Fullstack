@@ -5,13 +5,14 @@ import Error from "../components/Error/Error";
 
 //Seller and Admin
 import Admin from "../pages/Admin";
-import SellerApproval from "../components/AdminSellerApproval/SellerApproval";
+import SellerApproval, { loadSeller } from "../components/AdminSellerApproval/SellerApproval";
 
 //Loader 
 import { loadAdmin } from "../pages/Admin";
 import { loadAllSubCategory } from "../components/AdminCategory/SubCategory";
 import { loadAllTopCategory } from "../components/AdminCategory/TopCategory";
 import { loadTopCategory } from "../components/AdminCategory/UpdateTopCategory";
+import SellerPage from "../SellerPage";
 //Component
 import TopCategory from "../components/AdminCategory/TopCategory";
 import TopCategoryDetail from "../components/AdminCategory/TopCategoryDetail";
@@ -79,6 +80,11 @@ export const routes = createBrowserRouter([
     {
         path : '/admin/seller',
         element : <SellerApproval />,
+        loader: loadSeller,
         error : <Error />
     },
+    {
+        path: 'seller',
+        element : <SellerPage/>
+    }
 ]);

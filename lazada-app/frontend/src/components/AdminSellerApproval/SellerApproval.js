@@ -89,7 +89,8 @@ export async function loadSeller() {
         console.log(e);
         return null;
     })
-return data;
+    console.log(data);
+    return data;
     
 }
 

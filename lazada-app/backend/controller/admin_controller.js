@@ -319,9 +319,29 @@ async function getAllSeller(req, res) {
     }
 }
 
+async function updateSeller(req, res) {
+    const phone = req.body.phone;
+    const email = req.body.email;
+    const verified = req.body.verified;
+    const newState = (verified) ? false : true;
+
+    console.log(req.body);
+
+    try {
+        var db = client.db('lazada');
+        var collection = db.collection('seller');
+        const data = await collection.updateOne({email : email, phone: phone, verified: verified}, {$set : {"verified" : newState}});
+        console.log(data);
+        res.send({status: 200});
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
     getOneAdmin,
     getAllSeller,
+    updateSeller,
     getAllTopCategory,
     getTopCategory,
     addTopCategory,

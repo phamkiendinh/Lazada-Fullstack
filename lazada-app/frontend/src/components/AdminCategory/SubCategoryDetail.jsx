@@ -1,12 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
-
-
-function TopCategoryDetail() {
+function SubCategoryDetail() {
     const navigate = useNavigate();
     const data = useLocation().state;
-    console.log(data);
-    var entries = Object.entries(data);
+    var entries = Object.entries(data[1]);
     var items = entries.map(item => {
         const key = item[0];
         const value = item[1];
@@ -43,7 +40,7 @@ function TopCategoryDetail() {
     return (
         <div>
             <div className="container d-flex justify-content-center">
-                <button className="btn btn-primary" onClick={() => navigate('/admin/category')}>Go Back</button>
+                <button className="btn btn-primary" onClick={() => navigate(-1)}>Go Back</button>
             </div>
             {items}
         </div>
@@ -52,4 +49,4 @@ function TopCategoryDetail() {
 
 
 
-export default TopCategoryDetail;
+export default SubCategoryDetail;

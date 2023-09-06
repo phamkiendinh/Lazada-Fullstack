@@ -1,10 +1,9 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import {routes} from './routes'
 import { useState, Fragment } from 'react'
 import Loading from './components/LoadingComponent/Loading'
 import DefaultComponent from './components/DefaultComponent/DefaultComponent'
-
+import { routes } from './routes/index'
 
 function App () {
   const [isLoading, setIsLoading] = useState(false)

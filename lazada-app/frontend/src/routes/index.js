@@ -8,11 +8,17 @@ import TypeProductPage from './../pages/TypeProduct/TypeProductPage'
 import OrderManagement from './../pages/OrderManagement/index'
 import Dashboard from './../pages/DashboardPage/Dashboard'
 import PrivateRoute from './Private'
-import AdminRoute from './AdminRoute'
-import AdminDashboard from './../pages/Admin/AdminDashboard'
-import CreateCategory from './../pages/Admin/CreateCategory'
-import CreateProduct from './../pages/Admin/CreateProduct'
-import Users from './../pages/Admin/Users'
+import Admin from '../pages/Admin'
+import TopCategory from '../components/AdminCategory/TopCategory'
+import CreateTopCategory from '../components/AdminCategory/CreateTopCategory'
+import UpdateTopCategory from '../components/AdminCategory/UpdateTopCategory'
+import TopCategoryDetail from '../components/AdminCategory/TopCategoryDetail'
+import SubCategoryDetail from './../components/AdminCategory/SubCategoryDetail'
+import SubCategory from '../components/AdminCategory/SubCategory'
+import CreateSubCategory from '../components/AdminCategory/CreateSubCategory'
+import UpdateSubCategory from '../components/AdminCategory/UpdateSubCategory'
+import SellerApproval from '../components/AdminSellerApproval/SellerApproval'
+import SellerPage from './../SellerPage'
 
 export const routes = [
   {
@@ -66,34 +72,74 @@ export const routes = [
     page: OrderManagement,
     isShowHeader: true
   },
+
+
+  /* ADMIN ROUTES */
   {
-    path: '/dashboard/admin',
-    page: AdminRoute,
-    nestedRoutes: [
-      {
-        path: '',
-        page: AdminDashboard
-      }
-    ],
-    isShowHeader: true
+    path: '/admin',
+    page: Admin,
+    error: <NotFoundPage />
+  },
+
+  {
+    path: '/admin/category',
+    page: TopCategory,
+    // loader: loadAllTopCategory,
+    error: <NotFoundPage />
   },
   {
-    path: '/dashboard/admin/create-category',
-    page: CreateCategory,
-    isShowHeader: true
+    path: '/admin/category/create',
+    page: CreateTopCategory,
+    error: <NotFoundPage />
   },
   {
-    path: '/dashboard/admin/create-product',
-    page: CreateProduct,
-    isShowHeader: true
+    path: '/admin/category/:categoryName/update',
+    page: UpdateTopCategory,
+    // loader: loadTopCategory,
+    error: <NotFoundPage />
   },
   {
-    path: '/dashboard/admin/users',
-    page: Users,
-    isShowHeader: true
+    path: '/admin/category/:categoryName/detail',
+    page: TopCategoryDetail,
+    error: <NotFoundPage />
   },
+  {
+    path: '/admin/category/:categoryName',
+    page: SubCategory,
+    error: <NotFoundPage />
+  },
+  {
+    path: '/admin/category/:categoryName/create',
+    page: CreateSubCategory,
+    error: <NotFoundPage />
+  },
+  {
+    path: '/admin/category/:categoryName/:subCategoryName/update',
+    page:  UpdateSubCategory,
+    error: <NotFoundPage />
+  },
+  {
+    path: '/admin/category/:categoryName/:subCategoryName/detail',
+    page: SubCategoryDetail,
+    error: <NotFoundPage />
+  },
+  {
+    path: '/admin/seller',
+    page: SellerApproval,
+    error: <NotFoundPage />
+  },
+  {
+    path: '/seller',
+    page: SellerPage
+  },
+  
   {
     path: '*',
     page: NotFoundPage
   }
 ]
+
+
+
+
+export default routes;

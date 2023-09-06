@@ -55,7 +55,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
                               <NavDropdown style={{ fontSize: "15px" }} title={auth?.user?.name} id="basic-nav-dropdown">
                                 <NavDropdown.Item as={NavLink} to={`/dashboard/${auth?.user?.role === 1 ? 'admin' : 'user' }`} style={{ fontSize: "15px" }}>
                                 Dasboard</NavDropdown.Item>
-                                <NavDropdown.Item  as={NavLink} to="/sign-in" style={{ fontSize: "15px" }}>
+                                <NavDropdown.Item  as={NavLink} to="/sign-in" style={{ fontSize: "15px" }} onClick={handleLogout}>
                                 Logout
                                 </NavDropdown.Item>
                               </NavDropdown>

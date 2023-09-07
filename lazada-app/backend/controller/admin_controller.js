@@ -308,7 +308,7 @@ async function getAllSeller(req, res) {
     console.log("Called");
     try {
         var db = client.db('lazada');
-        var collection = db.collection('seller');
+        var collection = db.collection('sellers');
         const data = await collection.find({}, {projection: {_id:0}}).toArray();
         // console.log(json);
         // res.send({status: 200});

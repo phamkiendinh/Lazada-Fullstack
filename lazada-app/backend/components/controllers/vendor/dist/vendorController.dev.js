@@ -4,18 +4,18 @@ var VendorService = require("../../services/vendor/vendorService.js"); // const 
 
 
 var createVendor = function createVendor(req, res) {
-  var _req$body, name, email, password, confirmPassword, phone, reg, isCheckEmail, _response;
+  var _req$body, name, email, password, phone, reg, isCheckEmail, _response;
 
   return regeneratorRuntime.async(function createVendor$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _req$body = req.body, name = _req$body.name, email = _req$body.email, password = _req$body.password, confirmPassword = _req$body.confirmPassword, phone = _req$body.phone;
+          _req$body = req.body, name = _req$body.name, email = _req$body.email, password = _req$body.password, phone = _req$body.phone;
           reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
           isCheckEmail = reg.test(email);
 
-          if (!(!email || !password || !confirmPassword)) {
+          if (!(!email || !password)) {
             _context.next = 8;
             break;
           }
@@ -27,7 +27,7 @@ var createVendor = function createVendor(req, res) {
 
         case 8:
           if (isCheckEmail) {
-            _context.next = 12;
+            _context.next = 10;
             break;
           }
 
@@ -36,38 +36,27 @@ var createVendor = function createVendor(req, res) {
             message: "The input is email"
           }));
 
-        case 12:
-          if (!(password !== confirmPassword)) {
-            _context.next = 14;
-            break;
-          }
-
-          return _context.abrupt("return", res.status(200).json({
-            status: "ERR",
-            message: "The password is equal confirmPassword"
-          }));
-
-        case 14:
-          _context.next = 16;
+        case 10:
+          _context.next = 12;
           return regeneratorRuntime.awrap(VendorService.createVendor(req.body));
 
-        case 16:
+        case 12:
           _response = _context.sent;
           return _context.abrupt("return", res.status(200).json(_response));
 
-        case 20:
-          _context.prev = 20;
+        case 16:
+          _context.prev = 16;
           _context.t0 = _context["catch"](0);
           return _context.abrupt("return", res.status(404).json({
             message: _context.t0
           }));
 
-        case 23:
+        case 19:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 20]]);
+  }, null, null, [[0, 16]]);
 };
 
 var loginVendor = function loginVendor(req, res) {

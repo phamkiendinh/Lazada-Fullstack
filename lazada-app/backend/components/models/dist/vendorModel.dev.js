@@ -16,19 +16,11 @@ var userSchema = new mongoose.Schema({
     required: true
   },
   phone: {
-    type: Number
-  },
-  address: {
-    type: String
-  },
-  avatar: {
-    type: String
-  },
-  city: {
-    type: String
+    type: Number,
+    unique: true
   }
 }, {
   timestamps: true
 });
-var Vendor = mongoose.model("Vendor", userSchema);
+var Vendor = mongoose.model("Seller", userSchema);
 module.exports = Vendor;

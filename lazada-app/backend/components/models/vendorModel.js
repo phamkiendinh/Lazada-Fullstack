@@ -5,16 +5,13 @@ const userSchema = new mongoose.Schema(
     name: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    phone: { type: Number },
-    address: { type: String },
-    avatar: { type: String },
-    city: { type: String },
+    phone: { type: Number, unique: true },
   },
   {
     timestamps: true,
   }
 );
 
-const Vendor = mongoose.model("Vendor", userSchema);
+const Vendor = mongoose.model("Seller", userSchema);
 
 module.exports = Vendor;

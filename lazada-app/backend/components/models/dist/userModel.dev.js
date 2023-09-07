@@ -15,21 +15,12 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  // isAdmin: { type: Boolean, default: false, required: true },
   phone: {
-    type: Number
-  },
-  address: {
-    type: String
-  },
-  avatar: {
-    type: String
-  },
-  city: {
-    type: String
+    type: Number,
+    unique: true
   }
 }, {
   timestamps: true
 });
-var User = mongoose.model("User", userSchema);
+var User = mongoose.model("Customer", userSchema);
 module.exports = User;

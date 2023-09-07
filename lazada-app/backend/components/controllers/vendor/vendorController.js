@@ -3,10 +3,10 @@ const VendorService = require("../../services/vendor/vendorService.js");
 
 const createVendor = async (req, res) => {
   try {
-    const { name, email, password, confirmPassword, phone } = req.body;
+    const { name, email, password, phone } = req.body;
     const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     const isCheckEmail = reg.test(email);
-    if (!email || !password || !confirmPassword) {
+    if (!email || !password ) {
       return res.status(200).json({
         status: "ERR",
         message: "The input is required",
@@ -15,11 +15,6 @@ const createVendor = async (req, res) => {
       return res.status(200).json({
         status: "ERR",
         message: "The input is email",
-      });
-    } else if (password !== confirmPassword) {
-      return res.status(200).json({
-        status: "ERR",
-        message: "The password is equal confirmPassword",
       });
     }
     const response = await VendorService.createVendor(req.body);

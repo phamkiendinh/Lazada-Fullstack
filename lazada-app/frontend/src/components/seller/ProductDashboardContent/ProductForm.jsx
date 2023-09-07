@@ -14,7 +14,7 @@ const ProductForm = ({ product, onSave, onCancel, onEdit }) => {
         ...product,
         dimensions: product.dimensions || defaultDimensions,
         date: product.date || "",
-        category: initialCategory || "",
+        category: initialCategory ? initialCategory.id : "", 
     });
 
     const handleFieldChange = (fieldName, value) => {
@@ -57,8 +57,13 @@ const ProductForm = ({ product, onSave, onCancel, onEdit }) => {
                 <input className='form-control'  type="number" name="height" step="1" value={updatedFields.dimensions.height} onChange={(e) => handleFieldChange("dimensions", { ...updatedFields.dimensions, height: parseFloat(e.target.value) })} />
 
                 <label className='form-control'  htmlFor="category">Category:</label>
-                <select className='form-control'  name="category" value={updatedFields.category.id} onChange={(e) => handleFieldChange("category", { id: e.target.value, name: categoryData.find(category => category.id === parseInt(e.target.value, 10)).name })}>
-                    <option value=""> className='form-control'  a category</option>
+                <select
+                    className='form-control'
+                    name="category"
+                    value={updatedFields.category}
+                    onChange={(e) => handleFieldChange("category", e.target.value)}
+                >
+                    <option value="" className='form-control'>Select a category</option>
                     {categoryData.map(category => (
                         <option key={category.id} value={category.id}>
                             {category.name}

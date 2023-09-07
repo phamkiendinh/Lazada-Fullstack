@@ -92,7 +92,7 @@ const ProductList = ({ products, onDelete, onEdit, onSave }) => {
                         <h3>{product.title}</h3>
                         <p>Description: {product.description}</p>
                         <p>Price: ${product.price}</p>
-                        <p>Category: {typeof product.category === 'object' ? product.category.name : product.category.name}</p>
+                        <p>Category: {product.category && typeof product.category === 'object' ? product.category.name : product.category}</p>
                         <p>Quantity: {product.quantity}</p>
                         <p>Date: {product.date}</p>
                         {product.dimensions && (

@@ -3,7 +3,7 @@ const client = require('../database/admin_database.js');
 async function getOneAdmin(req, res) {
     try {
         var db = client.db('lazada');
-        var collection = db.collection('admin');
+        var collection = db.collection('admins');
         var query = {"username" : "admin"};
         const data = await collection.findOne(query, {projection: {_id: 0}});
         res.send(data);
@@ -347,7 +347,7 @@ async function getAllSeller(req, res) {
     console.log("Called");
     try {
         var db = client.db('lazada');
-        var collection = db.collection('seller');
+        var collection = db.collection('sellers');
         const data = await collection.find({}, {projection: {_id:0}}).toArray();
         // console.log(json);
         // res.send({status: 200});
@@ -368,7 +368,7 @@ async function updateSeller(req, res) {
 
     try {
         var db = client.db('lazada');
-        var collection = db.collection('seller');
+        var collection = db.collection('sellers');
         const data = await collection.updateOne({email : email, phone: phone, verified: verified}, {$set : {"verified" : newState}});
         console.log(data);
         res.send({status: 200});

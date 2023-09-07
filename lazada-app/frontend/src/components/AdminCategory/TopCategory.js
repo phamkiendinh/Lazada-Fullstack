@@ -5,7 +5,7 @@ function TopCategory() {
     const categories = useLoaderData();
 
     async function deleteTopCategory(category) {
-        await fetch(`http://localhost:3001/admin/category/${category}/delete`, {
+        const response = await fetch(`http://localhost:3001/admin/category/${category}/delete`, {
             method: 'DELETE'
         })
         .then(res => res.json())
@@ -16,7 +16,12 @@ function TopCategory() {
             console.log(e);
             return null;
         })
-        navigate(0);
+        if (response.status === 444) {
+            window.alert("This category still have products~ Operation failed.");
+        }
+        else {
+            navigate(0);
+        }
     }
 
     async function updateTopCategory(category) {

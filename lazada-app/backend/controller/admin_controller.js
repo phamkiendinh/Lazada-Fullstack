@@ -235,13 +235,12 @@ async function deleteSubCategory(req, res) {
     const categoryName = req.params.categoryName;
     const subCategoryName = req.params.subCategoryName;
     // console.log(json);
-    console.log("Called");
     try {
         var db = client.db('lazada');
         var productCollection = db.collection('products');
-        const quantity = await productCollection.find({category : categoryName}).count();
+        const quantity = await productCollection.find({category : subCategoryName}).count();
         if (quantity > 0) {
-            console.log("Called");
+            console.log("More than 0");
             res.send({status: 444});
             return;
         }
@@ -261,14 +260,12 @@ async function getSubCategory(req, res) {
     // let json = req.body;
     const categoryName = req.params.categoryName;
     const subCategoryName = req.params.subCategoryName;
+    console.log(subCategoryName);
     // console.log(json);
-    // console.log("Called");
     try {
         var db = client.db('lazada');
         var collection = db.collection('categories');
         const data = await collection.findOne({name : categoryName, "sub_category.name" : subCategoryName}, {projection: {_id:0, sub_category: 1}});
-        // console.log(json);
-        // res.send({status: 200});
         res.send(data);
     } catch (error) {
         console.log(error);
@@ -282,10 +279,10 @@ async function updateSubCategory(req, res) {
     try {
         var db = client.db('lazada');
         var productCollection = db.collection('products');
-        const quantity = await productCollection.find({category : categoryName}).count();
+        const quantity = await productCollection.find({category : subCategoryName}).count();
         if (quantity > 0) {
             console.log("Called");
-            res.send({status: 500});
+            res.send({status: 444});
             return;
         }
         else {

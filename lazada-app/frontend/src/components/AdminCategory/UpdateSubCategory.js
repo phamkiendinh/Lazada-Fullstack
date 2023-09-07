@@ -6,10 +6,18 @@ function UpdateSubCategory() {
     var topCategory = params.categoryName;
     var subCategory = params.subCategoryName;
     const loadData = useLoaderData();
-    var data = loadData.sub_category[0];
+    var data = loadData.sub_category;
+    var object = null;
+    data.map(item => {
+        if (item.name === subCategory) {
+            object = item;
+        }
+    })
+    console.log(object);
+    
     // console.log(data);
     const navigate = useNavigate();
-    const entries = Object.entries(data);
+    const entries = Object.entries(object);
 
     //Additional Attribute Form
     const [defaultCategory, setDefaultCategory] = useState([]);
@@ -81,7 +89,7 @@ function UpdateSubCategory() {
             ...newData
         ];
         // console.log(data);
-        await fetch(`http://localhost:3001/admin/category/${topCategory}/${subCategory}/update`, 
+        const response = await fetch(`http://localhost:3001/admin/category/${topCategory}/${subCategory}/update`, 
         {
             method: 'POST',
             headers: {
@@ -92,13 +100,17 @@ function UpdateSubCategory() {
         .then(res => res.json())
         .then(data => {
             console.log(data);
+            return data;
         })
         .catch(e => {
             console.log(e);
             return null;
         })
+        if (response.status === 444) {
+            window.alert("This category still have products~ Operation failed.");
+        }
         navigate(`/admin/category/${topCategory}`);
-        // return null;
+        return null;
     }
     
     

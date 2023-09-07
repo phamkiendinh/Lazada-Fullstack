@@ -1,8 +1,8 @@
 import { Outlet, useLoaderData, Link} from 'react-router-dom';
 
 function Admin() {
-    var data = useLoaderData();
-    const keys = Object.keys(data);
+    // var data = useLoaderData();
+    // const keys = Object.keys(data);
     return (
         <div className='row'>
             <div className='col-2 left-panel bg-dark mt-5'>
@@ -15,13 +15,7 @@ function Admin() {
             </div>
             <div className='col-8 d-inline-block mt-5'>
                 <div>
-                    {
-                        keys.map(key => {
-                            return (
-                                <h1 key={key}>{key} : {data[key]}</h1>
-                            );
-                        })
-                    }
+                    <h1>Welcome To Admin Page</h1>
                 </div>
             </div>
         </div>

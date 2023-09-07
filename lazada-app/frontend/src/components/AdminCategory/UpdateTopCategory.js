@@ -76,7 +76,7 @@ function UpdateTopCategory() {
             ...newData
         ];
         // console.log(data);
-        await fetch(`http://localhost:3001/admin/category/${topCategory}/update`, 
+        const response = await fetch(`http://localhost:3001/admin/category/${topCategory}/update`, 
         {
             method: 'POST',
             headers: {
@@ -87,11 +87,15 @@ function UpdateTopCategory() {
         .then(res => res.json())
         .then(data => {
             console.log(data);
+            return data;
         })
         .catch(e => {
             console.log(e);
             return null;
         })
+        if (response.status === 444) {
+            window.alert("This category still have products~ Operation failed.");
+        }
         navigate('/admin/category');
         return null;
     }
@@ -215,6 +219,9 @@ function UpdateTopCategory() {
                                         <input type="text" className="form-control" name="name" defaultValue={value} required onChange={(e) => updateNameInput(e)}/>
                                     </div>
                                 )
+                            }
+                            else if (key === "sub_category") {
+                                
                             }
                             else {
                                 return (

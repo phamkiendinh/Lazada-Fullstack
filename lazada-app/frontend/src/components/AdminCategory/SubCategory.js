@@ -12,7 +12,7 @@ function SubCategory() {
             <div>
                 <div className='row'>
                     <div className='col-2 left-panel mt-5'>
-                        <button className="btn btn-primary w-100 m-1" onClick={() => navigate(`/admin/category/${topCategory}`)}>
+                        <button className="btn btn-primary w-100 m-1" onClick={() => navigate(`/admin/category`)}>
                             Go Back
                         </button>
                     </div>
@@ -38,7 +38,7 @@ function SubCategory() {
     }
 
     async function deleteSubCategory(category) {
-        await fetch(`http://localhost:3001/admin/category/${topCategory}/${category}/delete`, {
+        const response = await fetch(`http://localhost:3001/admin/category/${topCategory}/${category}/delete`, {
             method: 'DELETE'
         })
         .then(res => res.json())
@@ -46,10 +46,15 @@ function SubCategory() {
             return data;
         })
         .catch(e => {
-            console.log(e);
+            // console.log(e);
             return null;
         })
-        navigate(0);
+        if (response.status === 444) {
+            window.alert("This category still have products~ Operation failed.");
+        }
+        else {
+            navigate(0);
+        }
     }
 
     var data = Object.entries(loadData);
@@ -64,7 +69,7 @@ function SubCategory() {
                     {
                         <h3> 
                             {newEntries.map(entry => {
-                                console.log(entry);
+                                // console.log(entry);
                                 var k = entry[0];
                                 var v = entry[1];
                                 if (k === "name") {

@@ -1,0 +1,235 @@
+[
+  {
+    "id": "p1",
+    "seller_id": "s1",
+    "title": "Modern Coffee Table",
+    "description": "A sleek and stylish coffee table for your living room.",
+    "price": 149.99,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 1,
+      "name": "Furniture"
+    },
+    "dimensions": {
+      "length": 40,
+      "width": 80,
+      "height": 30
+    }
+  },
+  {
+    "id": "p2",
+    "seller_id": "s1",
+    "title": "Classic White T-Shirt",
+    "description": "A comfortable and versatile white t-shirt for everyday wear.",
+    "price": 19.99,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 2,
+      "name": "Apparel"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "p3",
+    "seller_id": "s1",
+    "title": "Wireless Bluetooth Headphones",
+    "description": "Enjoy high-quality sound with these wireless headphones.",
+    "price": 79.99,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 3,
+      "name": "Electronics"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "p4",
+    "seller_id": "s1",
+    "title": "Wooden Bookshelf",
+    "description": "A sturdy bookshelf with multiple shelves for organizing your books and decor.",
+    "price": 249.95,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 1,
+      "name": "Furniture"
+    },
+    "dimensions": {
+      "length": 120,
+      "width": 60,
+      "height": 180
+    }
+  },
+  {
+    "id": "p5",
+    "seller_id": "s1",
+    "title": "Floral Print Dress",
+    "description": "A charming floral dress for special occasions.",
+    "price": 59.95,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 2,
+      "name": "Apparel"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "p6",
+    "seller_id": "s1",
+    "title": "Smartphone Stand",
+    "description": "A versatile stand for holding your smartphone at the perfect angle.",
+    "price": 9.99,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 3,
+      "name": "Electronics"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "p7",
+    "seller_id": "s1",
+    "title": "Stainless Steel Water Bottle",
+    "description": "Stay hydrated on the go with this durable stainless steel water bottle.",
+    "price": 24.99,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 4,
+      "name": "Kitchen & Dining"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "p8",
+    "seller_id": "s1",
+    "title": "Leather Wallet",
+    "description": "A stylish leather wallet with multiple card slots and a coin pocket.",
+    "price": 39.95,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 5,
+      "name": "Accessories"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "p9",
+    "seller_id": "s1",
+    "title": "Cotton Bath Towel Set",
+    "description": "A set of soft and absorbent cotton bath towels for your bathroom.",
+    "price": 34.99,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 6,
+      "name": "Home & Living"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "1p0",
+    "seller_id": "s1",
+    "title": "Sculptural Desk Lamp",
+    "description": "Add a touch of artistry to your workspace with this unique desk lamp.",
+    "price": 89.99,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 6,
+      "name": "Home & Living"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "1p1",
+    "seller_id": "s1",
+    "title": "Outdoor Picnic Blanket",
+    "description": "Enjoy outdoor picnics with this foldable and water-resistant picnic blanket.",
+    "price": 29.95,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 7,
+      "name": "Outdoor & Recreation"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "1p2",
+    "seller_id": "s1",
+    "title": "Stainless Steel Cooking Utensil Set",
+    "description": "A set of durable stainless steel cooking utensils for your kitchen.",
+    "price": 49.99,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 4,
+      "name": "Kitchen & Dining"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "1p3",
+    "seller_id": "s1",
+    "title": "Wireless Charging Pad",
+    "description": "Charge your devices wirelessly with this sleek and compact charging pad.",
+    "price": 19.99,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 3,
+      "name": "Electronics"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "1p4",
+    "seller_id": "s1",
+    "title": "Rustic Wall Clock",
+    "description": "Add a rustic touch to your home decor with this elegant wall clock.",
+    "price": 42.95,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 6,
+      "name": "Home & Living"
+    },
+    "dimensions": null
+  },
+  {
+    "id": "1p5",
+    "seller_id": "s1",
+    "title": "Indoor Plant Set",
+    "description": "Bring the outdoors in with this set of easy-to-care-for indoor plants.",
+    "price": 59.99,
+    "image": "image_url_here",
+    "quantity": 100,
+    "date": "2023-08-19",
+    "category": {
+      "id": 6,
+      "name": "Home & Living"
+    },
+    "dimensions": null
+  }
+]

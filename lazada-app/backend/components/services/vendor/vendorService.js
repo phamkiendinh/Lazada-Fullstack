@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 //   genneralAccessToken,
 //   genneralRefreshToken,
 // } = require("./jwtService.js");
+const JWT = require("jsonwebtoken");
 
 const createVendor = (newVendor) => {
   return new Promise(async (resolve, reject) => {
@@ -52,7 +53,10 @@ const loginVendor = (vendorLogin) => {
           message: "The vendor is not defined",
         });
       }
-      const comparePassword = bcrypt.compareSync(password, checkVendor.password);
+      const comparePassword = bcrypt.compareSync(
+        password,
+        checkVendor.password
+      );
 
       if (!comparePassword) {
         resolve({
@@ -61,9 +65,15 @@ const loginVendor = (vendorLogin) => {
         });
       }
 
+      const token = await JWT.sign({ _id: checkVendor._id }, "123", {
+        expiresIn: "2d",
+      });
+
       resolve({
         status: "OK",
-        message: "SUCCESS"
+        message: "SUCCESS",
+        name: checkVendor.name,
+        token,
       });
     } catch (e) {
       reject(e);
@@ -84,7 +94,9 @@ const updateVendor = (id, data) => {
         });
       }
 
-      const updatedVendor = await Vendor.findByIdAndUpdate(id, data, { new: true });
+      const updatedVendor = await Vendor.findByIdAndUpdate(id, data, {
+        new: true,
+      });
       resolve({
         status: "OK",
         message: "SUCCESS",
@@ -137,7 +149,10 @@ const deleteManyVendor = (ids) => {
 const getAllVendor = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      const allVendor = await Vendor.find().sort({ createdAt: -1, updatedAt: -1 });
+      const allVendor = await Vendor.find().sort({
+        createdAt: -1,
+        updatedAt: -1,
+      });
       resolve({
         status: "OK",
         message: "Success",

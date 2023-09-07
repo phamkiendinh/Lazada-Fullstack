@@ -33,9 +33,14 @@ const SellerSignInPage = () => {
       if (res) {
         setSuccessMessage('Login successfully!')
         setShow(true);
+        setAuth({
+          ...auth,
+          name: res.data.name,
+          token: res.data.token
+        });
         localStorage.setItem("auth", JSON.stringify(res.data));
         setTimeout(() => {
-          setShow(false); // Hide the login success Toast after a delay
+          setShow(false);
           navigate( location.state || '/seller');
         }, 1000);
       } else {

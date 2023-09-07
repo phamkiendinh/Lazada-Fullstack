@@ -8,6 +8,8 @@ var bcrypt = require("bcrypt"); // const {
 // } = require("./jwtService.js");
 
 
+var JWT = require("jsonwebtoken");
+
 var createVendor = function createVendor(newVendor) {
   return new Promise(function _callee(resolve, reject) {
     var name, email, password, confirmPassword, phone, checkVendor, hash, createdVendor;
@@ -71,7 +73,7 @@ var createVendor = function createVendor(newVendor) {
 
 var loginVendor = function loginVendor(vendorLogin) {
   return new Promise(function _callee2(resolve, reject) {
-    var email, password, checkVendor, comparePassword;
+    var email, password, checkVendor, comparePassword, token;
     return regeneratorRuntime.async(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -102,24 +104,35 @@ var loginVendor = function loginVendor(vendorLogin) {
               });
             }
 
+            _context2.next = 10;
+            return regeneratorRuntime.awrap(JWT.sign({
+              _id: checkVendor._id
+            }, "123", {
+              expiresIn: "2d"
+            }));
+
+          case 10:
+            token = _context2.sent;
             resolve({
               status: "OK",
-              message: "SUCCESS"
+              message: "SUCCESS",
+              name: checkVendor.name,
+              token: token
             });
-            _context2.next = 14;
+            _context2.next = 17;
             break;
 
-          case 11:
-            _context2.prev = 11;
+          case 14:
+            _context2.prev = 14;
             _context2.t0 = _context2["catch"](1);
             reject(_context2.t0);
 
-          case 14:
+          case 17:
           case "end":
             return _context2.stop();
         }
       }
-    }, null, null, [[1, 11]]);
+    }, null, null, [[1, 14]]);
   });
 };
 

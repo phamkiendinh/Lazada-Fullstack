@@ -5,10 +5,7 @@ import { routes } from './../../routes/index'
 import { useState } from 'react'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 import Toast from 'react-bootstrap/Toast'
-import axios from 'axios'
 import { useAuth } from '../../context/AuthContext'
-
-
 
 const SellerSignUpPage = () => {
   const signInPath = routes.find(route => route.path === '/seller/sign-in')

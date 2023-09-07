@@ -1,10 +1,11 @@
-import Navigation from './pages/seller/Navigation'
-import ProductPage from './pages/seller/ProductPage'
-import OrderPage from './pages/seller/OrderPage'
-import StatsPage from './pages/seller/StatsPage'
-import React from 'react'
+import Navigation from './pages/seller/Navigation';
+import ProductPage from './pages/seller/ProductPage';
+import OrderPage from './pages/seller/OrderPage';
+import StatsPage from './pages/seller/StatsPage';
+import React from 'react';
 
 const SellerPage = () => {
+
   return (
     <div>
       <Navigation />
@@ -12,7 +13,7 @@ const SellerPage = () => {
       <OrderPage />
       <StatsPage />
     </div>
-  )
-}
+  );
+};
 
-export default SellerPage
+export default SellerPage;

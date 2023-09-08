@@ -49,10 +49,11 @@ const ProductApp = () => {
                 setError(error);
             });
     }, []);
-    const handleDelete = productId => {
-        const updatedProducts = products.filter(product => product._id !== productId);
-        setProducts(updatedProducts);
-    };
+
+    // const handleDelete = productId => {
+    //     const updatedProducts = products.filter(product => product._id !== productId);
+    //     setProducts(updatedProducts);
+    // };
 
     const handleEdit = (productId, updatedFields) => {
         const updatedProducts = products.map(product => {
@@ -96,6 +97,31 @@ const ProductApp = () => {
             setError(error);
         });
     };
+
+    const handleDelete = (productId) => {
+        // Send a DELETE request to the API endpoint
+        fetch(`http://localhost:3001/api/vendor/product/delete/${productId}`, {
+            method: 'DELETE',
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.status === 'OK') {
+                // Remove the deleted product from the state
+                const updatedProducts = products.filter((product) => product._id !== productId);
+                setProducts(updatedProducts);
+            } else {
+                throw new Error(data.message || 'Failed to delete product');
+            }
+        })
+        .catch((error) => {
+            setError(error);
+        });
+    };    
     
 
     if (loading) {

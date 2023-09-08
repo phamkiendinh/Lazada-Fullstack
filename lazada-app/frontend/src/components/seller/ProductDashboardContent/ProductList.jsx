@@ -24,7 +24,7 @@ const ProductList = ({ products, onDelete, onEdit, onSave, categories }) => {
         (searchMinPrice === '' || product.price >= parseFloat(searchMinPrice)) &&
         (searchMaxPrice === '' || product.price <= parseFloat(searchMaxPrice))
     );
-    
+
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;

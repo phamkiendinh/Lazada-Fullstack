@@ -1,3 +1,4 @@
+const { log } = require('console');
 const client = require('../database/admin_database.js');
 
 async function getOneAdmin(req, res) {
@@ -341,14 +342,13 @@ async function getAllSeller(req, res) {
     // console.log(req.body);
     // let json = req.body;
     // console.log(json);
-    console.log("Called");
     try {
         var db = client.db('lazada');
         var collection = db.collection('sellers');
         const data = await collection.find({}, {projection: {_id:0}}).toArray();
         // console.log(json);
         // res.send({status: 200});
-        console.log(data);
+        // console.log(data);
         res.send(data);
     } catch (error) {
         console.log(error);
@@ -364,6 +364,7 @@ async function updateSeller(req, res) {
     console.log(req.body);
 
     try {
+        console.log("called");
         var db = client.db('lazada');
         var collection = db.collection('sellers');
         const data = await collection.updateOne({email : email, phone: phone, verified: verified}, {$set : {"verified" : newState}});

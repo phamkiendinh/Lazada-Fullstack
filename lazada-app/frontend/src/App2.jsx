@@ -5,7 +5,7 @@ import { useState, Fragment } from 'react'
 import Loading from './components/LoadingComponent/Loading'
 import DefaultComponent from './components/DefaultComponent/DefaultComponent'
 
-function App () {
+function App2 () {
   const [isLoading, setIsLoading] = useState(false)
 
   return (
@@ -38,4 +38,4 @@ function App () {
   )
 }
 
-export default App
+export default App2;

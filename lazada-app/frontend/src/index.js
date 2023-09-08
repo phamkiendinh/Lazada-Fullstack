@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
+import App from './App'
 import { AuthProvider } from './context/AuthContext'
 
 // CONFIG REACT-BOOTSTRAP
@@ -11,7 +11,11 @@ const authData = JSON.parse(localStorage.getItem('authData')) || {}
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 root.render(
-  <AuthProvider initialAuthData={authData}>
+  <React.StrictMode>
     <App />
-  </AuthProvider>
+  </React.StrictMode>
+  // <AuthProvider initialAuthData={authData}>
+
+  //   <App />
+  // </AuthProvider>
 )

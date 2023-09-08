@@ -3,17 +3,18 @@
 var ProductService = require("../../services/vendor/productService.js");
 
 var createProduct = function createProduct(req, res) {
-  var _req$body, name, image, price, description, response;
+  var _req$body, name, image, price, category, description, vendor, response;
 
   return regeneratorRuntime.async(function createProduct$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _req$body = req.body, name = _req$body.name, image = _req$body.image, price = _req$body.price, description = _req$body.description;
+          _req$body = req.body, name = _req$body.name, image = _req$body.image, price = _req$body.price, category = _req$body.category, description = _req$body.description, vendor = _req$body.vendor;
+          console.log(req.body);
 
-          if (!(!name || !price)) {
-            _context.next = 4;
+          if (!(!name || !price || !category || !vendor)) {
+            _context.next = 5;
             break;
           }
 
@@ -22,27 +23,27 @@ var createProduct = function createProduct(req, res) {
             message: "The input is required"
           }));
 
-        case 4:
-          _context.next = 6;
+        case 5:
+          _context.next = 7;
           return regeneratorRuntime.awrap(ProductService.createProduct(req.body));
 
-        case 6:
+        case 7:
           response = _context.sent;
           return _context.abrupt("return", res.status(200).json(response));
 
-        case 10:
-          _context.prev = 10;
+        case 11:
+          _context.prev = 11;
           _context.t0 = _context["catch"](0);
           return _context.abrupt("return", res.status(404).json({
             message: _context.t0
           }));
 
-        case 13:
+        case 14:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 10]]);
+  }, null, null, [[0, 11]]);
 };
 
 var updateProduct = function updateProduct(req, res) {

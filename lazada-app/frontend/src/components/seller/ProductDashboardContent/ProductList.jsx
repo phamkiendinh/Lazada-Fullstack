@@ -1,8 +1,7 @@
 import { useState } from 'react';
-// import PropTypes from 'prop-types';
 import ProductForm from './ProductForm';
 
-const ProductList = ({ products, onDelete, onEdit, onSave }) => {
+const ProductList = ({ products, onDelete, onEdit, onSave, categories }) => {
     const [editingProduct, setEditingProduct] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
@@ -82,6 +81,7 @@ const ProductList = ({ products, onDelete, onEdit, onSave }) => {
                             dimensions: { length: 0, width: 0, height: 0 },
                         }}
                         onSave={onSave}
+                        categories={categories}
                         onCancel={handleCancelEdit}
                         onEdit={false}
                     />
@@ -92,7 +92,7 @@ const ProductList = ({ products, onDelete, onEdit, onSave }) => {
             ) : (
                 <ul className='form-control' >
                     {currentProducts.map(product => (
-                        <li className='form-control' key={product.id}>
+                        <li className='form-control' key={product._id}>
                             <h3>{product.name}</h3>
                             <p>Description: {product.description}</p>
                             <p>Price: ${product.price}</p>
@@ -104,22 +104,22 @@ const ProductList = ({ products, onDelete, onEdit, onSave }) => {
                                     Dimensions: {product.dimensions.length} x {product.dimensions.width} x {product.dimensions.height}
                                 </p>
                             )}
-                            {editingProduct === product.id ? (
+                            {editingProduct === product._id ? (
                                 <div>
                                     <ProductForm
                                         product={product}
                                         onSave={(updatedFields) => {
-                                            onEdit(product.id, updatedFields);
+                                            onEdit(product._id, updatedFields);
                                             setEditingProduct(null);
                                         }}
                                         onCancel={handleCancelEdit}
-                                        onEdit={editingProduct === product.id}
+                                        onEdit={editingProduct === product._id}
                                     />
                                 </div>
                             ) : (
                                 <div>
-                                    <button onClick={() => onDelete(product.id)}>Delete</button>
-                                    <button onClick={() => handleEditClick(product.id)}>Edit</button>
+                                    <button onClick={() => onDelete(product._id)}>Delete</button>
+                                    <button onClick={() => handleEditClick(product._id)}>Edit</button>
                                 </div>
                             )}
                         </li>
@@ -144,34 +144,5 @@ const ProductList = ({ products, onDelete, onEdit, onSave }) => {
         </div>
     );
 };
-
-// ProductList.propTypes = {
-//     products: PropTypes.arrayOf(
-//         PropTypes.shape({
-//             id: PropTypes.string.isRequired,
-//             name: PropTypes.string.isRequired,
-//             price: PropTypes.number.isRequired,
-//             quantity: PropTypes.number.isRequired,
-//             date: PropTypes.string.isRequired,
-//             description: PropTypes.string.isRequired,
-//             category: PropTypes.oneOfType([
-//                 PropTypes.string,
-//                 PropTypes.shape({
-//                     id: PropTypes.string.isRequired,
-//                     name: PropTypes.string.isRequired,
-//                 }),
-//             ]).isRequired,
-//             dimensions: PropTypes.shape({
-//                 length: PropTypes.number.isRequired,
-//                 width: PropTypes.number.isRequired,
-//                 height: PropTypes.number.isRequired,
-//             }),
-//         })
-//     ).isRequired,
-//     onEdit: PropTypes.func.isRequired,
-//     onCancel: PropTypes.func.isRequired,
-//     onSave: PropTypes.func.isRequired,
-//     onDelete: PropTypes.func.isRequired
-// };
 
 export default ProductList;

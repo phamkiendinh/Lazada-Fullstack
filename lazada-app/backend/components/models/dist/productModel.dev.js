@@ -3,17 +3,23 @@
 var mongoose = require("mongoose");
 
 var productSchema = new mongoose.Schema({
-  countInStock: {
-    type: Number
-  },
   description: {
     type: String
   },
-  discount: {
-    type: Number
-  },
   selled: {
     type: Number
+  },
+  category: {
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true
+    },
+    name: {
+      type: String,
+      ref: "Category",
+      required: true
+    }
   },
   // images: [{ type: String, required: true }],
   price: {
@@ -32,12 +38,19 @@ var productSchema = new mongoose.Schema({
   // category: {type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true},
   image: {
     type: String
-  } // vendor: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "Vendor",
-  //   required: true,
-  // },
-
+  },
+  vendor: {
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Vendor",
+      required: true
+    },
+    name: {
+      type: String,
+      ref: "Vendor",
+      required: true
+    }
+  }
 }, {
   timestamps: true
 });

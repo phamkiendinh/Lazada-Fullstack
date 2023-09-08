@@ -1,20 +1,17 @@
 import { useState } from 'react';
-import categoryData from '../../../data/seller/category.json';
 
-const ProductForm = ({ product, onSave, onCancel, onEdit }) => {
+const ProductForm = ({ product, onSave, onCancel, onEdit, categories }) => {
     const defaultDimensions = {
         length: 0,
         width: 0,
         height: 0,
     };
 
-    const initialCategory = categoryData.find(category => category.name === product.category);
-
     const [updatedFields, setUpdatedFields] = useState({
         ...product,
         dimensions: product.dimensions || defaultDimensions,
         date: product.date || "",
-        category: initialCategory ? initialCategory.id : "", 
+        category: "",
     });
 
     const handleFieldChange = (fieldName, value) => {
@@ -24,39 +21,52 @@ const ProductForm = ({ product, onSave, onCancel, onEdit }) => {
         }));
     };
 
+    const userData = JSON.parse(localStorage.getItem('auth'));
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSave(updatedFields); 
+        const productData = {
+            ...updatedFields,
+            category: {
+                _id: updatedFields.category,
+                name: categories.find(category => category._id === updatedFields.category)?.name || '',
+            },
+            vendor: {
+                _id: userData._id,
+                name: userData.name
+            }
+        };
+        onSave(productData);
     };
 
     return (
         <div>
             <form className='form-control' onSubmit={handleSubmit}>
-                <label className='form-control'  htmlFor="name">Title:</label>
-                <input className='form-control'  type="text" id="name" name="name" value={updatedFields.name} onChange={(e) => handleFieldChange("name", e.target.value)} />
+                <label className='form-control' htmlFor="name">Title:</label>
+                <input className='form-control' type="text" id="name" name="name" value={updatedFields.name} onChange={(e) => handleFieldChange("name", e.target.value)} />
 
-                <label className='form-control'  htmlFor="price">Price:</label>
-                <input className='form-control'  type="number" id="price" name="price" step="0.01" value={updatedFields.price} onChange={(e) => handleFieldChange("price", parseFloat(e.target.value))} />
+                <label className='form-control' htmlFor="price">Price:</label>
+                <input className='form-control' type="number" id="price" name="price" step="0.01" value={updatedFields.price} onChange={(e) => handleFieldChange("price", parseFloat(e.target.value))} />
 
-                <label className='form-control'  htmlFor="description">Description:</label>
-                <input className='form-control'  type="text" id="description" name="description" value={updatedFields.description} onChange={(e) => handleFieldChange("description", e.target.value)} />
+                <label className='form-control' htmlFor="description">Description:</label>
+                <input className='form-control' type="text" id="description" name="description" value={updatedFields.description} onChange={(e) => handleFieldChange("description", e.target.value)} />
 
-                <label className='form-control'  htmlFor="quantity">Quantity:</label>
-                <input className='form-control'  type="number" id="quantity" name="quantity" step="1" value={updatedFields.quantity} onChange={e => handleFieldChange("quantity", e.target.value)} />
+                <label className='form-control' htmlFor="quantity">Quantity:</label>
+                <input className='form-control' type="number" id="quantity" name="quantity" step="1" value={updatedFields.quantity} onChange={e => handleFieldChange("quantity", e.target.value)} />
 
-                <label className='form-control'  htmlFor="date">Date:</label>
-                <input className='form-control'  type="date" id="date" name="date" value={updatedFields.date} onChange={e => handleFieldChange("date", e.target.value)} />
+                <label className='form-control' htmlFor="date">Date:</label>
+                <input className='form-control' type="date" id="date" name="date" value={updatedFields.date} onChange={e => handleFieldChange("date", e.target.value)} />
 
-                <label className='form-control'  htmlFor="length">Length:</label>
-                <input className='form-control'  type="number" name="length" step="1" value={updatedFields.dimensions.length} onChange={(e) => handleFieldChange("dimensions", { ...updatedFields.dimensions, length: parseFloat(e.target.value) })} />
+                <label className='form-control' htmlFor="length">Length:</label>
+                <input className='form-control' type="number" name="length" step="1" value={updatedFields.dimensions.length} onChange={(e) => handleFieldChange("dimensions", { ...updatedFields.dimensions, length: parseFloat(e.target.value) })} />
 
-                <label className='form-control'  htmlFor="width">Width:</label>
-                <input className='form-control'  type="number" name="width" step="1" value={updatedFields.dimensions.width} onChange={(e) => handleFieldChange("dimensions", { ...updatedFields.dimensions, width: parseFloat(e.target.value) })} />
+                <label className='form-control' htmlFor="width">Width:</label>
+                <input className='form-control' type="number" name="width" step="1" value={updatedFields.dimensions.width} onChange={(e) => handleFieldChange("dimensions", { ...updatedFields.dimensions, width: parseFloat(e.target.value) })} />
 
-                <label className='form-control'  htmlFor="height">Height:</label>
-                <input className='form-control'  type="number" name="height" step="1" value={updatedFields.dimensions.height} onChange={(e) => handleFieldChange("dimensions", { ...updatedFields.dimensions, height: parseFloat(e.target.value) })} />
+                <label className='form-control' htmlFor="height">Height:</label>
+                <input className='form-control' type="number" name="height" step="1" value={updatedFields.dimensions.height} onChange={(e) => handleFieldChange("dimensions", { ...updatedFields.dimensions, height: parseFloat(e.target.value) })} />
 
-                <label className='form-control'  htmlFor="category">Category:</label>
+                <label className='form-control' htmlFor="category">Category:</label>
                 <select
                     className='form-control'
                     name="category"
@@ -64,15 +74,15 @@ const ProductForm = ({ product, onSave, onCancel, onEdit }) => {
                     onChange={(e) => handleFieldChange("category", e.target.value)}
                 >
                     <option value="" className='form-control'>Select a category</option>
-                    {categoryData.map(category => (
-                        <option key={category.id} value={category.id}>
+                    {categories.map(category => (
+                        <option key={category._id} value={category._id}>
                             {category.name}
                         </option>
                     ))}
                 </select>
 
-                <button className='form-control'  type="submit">{onEdit ? "Save Changes" : "Add Product"}</button>
-                {onEdit && <button className='form-control'  type="button" onClick={onCancel}>Cancel</button>}
+                <button className='form-control' type="submit">{onEdit ? "Save Changes" : "Add Product"}</button>
+                {onEdit && <button className='form-control' type="button" onClick={onCancel}>Cancel</button>}
             </form>
         </div>
     );

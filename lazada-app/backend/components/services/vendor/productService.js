@@ -2,33 +2,34 @@ const Product = require("../../models/productModel.js");
 
 const createProduct = (newProduct) => {
   return new Promise(async (resolve, reject) => {
-    const {
-      name,
-      image,
-      price,
-      description,
-    } = newProduct;
+    const { name, image, price, description, category, vendor } = newProduct;
+
     try {
-      const checkProduct = await Product.findOne({
-        name: name,
-      });
+      const checkProduct = await Product.findOne({ name });
+
       if (checkProduct !== null) {
         resolve({
           status: "ERR",
-          message: "The name of product is already",
+          message: "The product name already exists",
         });
+        return;
       }
-      const newProduct = await Product.create({
+
+      // Create the product with the category and vendor as ObjectId references
+      const createdProduct = await Product.create({
         name,
         image,
         price,
         description,
+        category,
+        vendor,
       });
-      if (newProduct) {
+
+      if (createdProduct) {
         resolve({
           status: "OK",
           message: "SUCCESS",
-          data: newProduct,
+          data: createdProduct,
         });
       }
     } catch (e) {

@@ -2,10 +2,16 @@ const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema(
   {
-    countInStock: { type: Number },
     description: { type: String },
-    discount: { type: Number },
     selled: { type: Number },
+    category: {
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category",
+        required: true,
+      },
+      name: { type: String, ref: "Category", required: true },
+    },
     // images: [{ type: String, required: true }],
     price: { type: Number, required: true },
     // price_before_discount: { type: Number, required: true },
@@ -15,11 +21,14 @@ const productSchema = new mongoose.Schema(
     name: { type: String, required: true, unique: true },
     // category: {type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true},
     image: { type: String },
-    // vendor: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Vendor",
-    //   required: true,
-    // },
+    vendor: {
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Vendor",
+        required: true,
+      },
+      name: { type: String, ref: "Vendor", required: true },
+    },
   },
   {
     timestamps: true,

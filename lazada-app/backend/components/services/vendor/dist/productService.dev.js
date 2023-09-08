@@ -6,13 +6,12 @@ var Product = require("../../models/productModel.js");
 
 var createProduct = function createProduct(newProduct) {
   return new Promise(function _callee(resolve, reject) {
-    var name, image, price, description, checkProduct, _newProduct;
-
+    var name, image, price, description, category, vendor, checkProduct, createdProduct;
     return regeneratorRuntime.async(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            name = newProduct.name, image = newProduct.image, price = newProduct.price, description = newProduct.description;
+            name = newProduct.name, image = newProduct.image, price = newProduct.price, description = newProduct.description, category = newProduct.category, vendor = newProduct.vendor;
             _context.prev = 1;
             _context.next = 4;
             return regeneratorRuntime.awrap(Product.findOne({
@@ -22,46 +21,53 @@ var createProduct = function createProduct(newProduct) {
           case 4:
             checkProduct = _context.sent;
 
-            if (checkProduct !== null) {
-              resolve({
-                status: "ERR",
-                message: "The name of product is already"
-              });
+            if (!(checkProduct !== null)) {
+              _context.next = 8;
+              break;
             }
 
-            _context.next = 8;
+            resolve({
+              status: "ERR",
+              message: "The product name already exists"
+            });
+            return _context.abrupt("return");
+
+          case 8:
+            _context.next = 10;
             return regeneratorRuntime.awrap(Product.create({
               name: name,
               image: image,
               price: price,
-              description: description
+              description: description,
+              category: category,
+              vendor: vendor
             }));
 
-          case 8:
-            _newProduct = _context.sent;
+          case 10:
+            createdProduct = _context.sent;
 
-            if (_newProduct) {
+            if (createdProduct) {
               resolve({
                 status: "OK",
                 message: "SUCCESS",
-                data: _newProduct
+                data: createdProduct
               });
             }
 
-            _context.next = 15;
+            _context.next = 17;
             break;
 
-          case 12:
-            _context.prev = 12;
+          case 14:
+            _context.prev = 14;
             _context.t0 = _context["catch"](1);
             reject(_context.t0);
 
-          case 15:
+          case 17:
           case "end":
             return _context.stop();
         }
       }
-    }, null, null, [[1, 12]]);
+    }, null, null, [[1, 14]]);
   });
 };
 

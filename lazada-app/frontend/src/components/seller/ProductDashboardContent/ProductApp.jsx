@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
 import ProductList from './ProductList';
-// import productData from '../../../data/seller/product.json';
 
 const ProductApp = () => {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [nextProductId, setNextProductId] = useState(1);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        // Fetch products data
         fetch('http://localhost:3001/api/vendor/product/get-all')
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                // console.log(response)
                 return response.json();
             })
             .then((data) => {
@@ -29,16 +29,34 @@ const ProductApp = () => {
                 setError(error);
                 setLoading(false);
             });
-    }, []);
 
+        // Fetch category data
+        fetch('http://localhost:3001/api/vendor/category/get-all')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.status === 'OK') {
+                    setCategories(data.data);
+                } else {
+                    throw new Error(data.message || 'Failed to fetch categories');
+                }
+            })
+            .catch((error) => {
+                setError(error);
+            });
+    }, []);
     const handleDelete = productId => {
-        const updatedProducts = products.filter(product => product.id !== productId);
+        const updatedProducts = products.filter(product => product._id !== productId);
         setProducts(updatedProducts);
     };
 
     const handleEdit = (productId, updatedFields) => {
         const updatedProducts = products.map(product => {
-            if (product.id === productId) {
+            if (product._id === productId) {
                 return { ...product, ...updatedFields };
             }
             return product;
@@ -47,7 +65,7 @@ const ProductApp = () => {
     };
 
     const handleAddProduct = (newProduct) => {
-        const updatedProducts = [...products, { ...newProduct, id: nextProductId }];
+        const updatedProducts = [...products, { ...newProduct, _id: nextProductId }];
         setProducts(updatedProducts);
         setNextProductId(nextProductId + 1);
     };
@@ -61,6 +79,7 @@ const ProductApp = () => {
             body: JSON.stringify(newProductData),
         })
         .then((response) => {
+            console.log(response)
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -95,6 +114,7 @@ const ProductApp = () => {
                 onEdit={handleEdit}
                 onSave={createProduct}
                 onCancel={() => { }}
+                categories={categories}
             />
         </div>
     );

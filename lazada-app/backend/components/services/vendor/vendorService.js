@@ -73,6 +73,7 @@ const loginVendor = (vendorLogin) => {
         status: "OK",
         message: "SUCCESS",
         name: checkVendor.name,
+        _id: checkVendor._id,
         token,
       });
     } catch (e) {

@@ -95,7 +95,7 @@
 
     height: 16px;
 
-    margin-right: 6px;
+    margin-right: 16px;
 
 }
 
@@ -143,8 +143,6 @@
 
     font-size: 12px;
 
-    cursor: pointer;
-
 }
 
  
@@ -167,7 +165,13 @@
 
  
 
-.list-header-main .list-header-operations:hover{
+.list-header-operations .automation-btn-delete {
+
+    cursor: pointer;
+
+}
+
+.list-header-operations .automation-btn-delete:hover {
 
     color: #f57224;
 
@@ -319,6 +323,39 @@
 
 }
 
+
+
+.list-item-function .list-item-function-wrap {
+
+    margin-top: 8px;
+
+}
+
+
+
+.list-item-function .trash-icon {
+
+    color: #757575;
+
+    cursor: pointer;
+}
+
+
+
+.list-item-function .trash-icon:hover {
+
+    color: #f57224;
+
+}
+
+
+
+.list-item-price .item-price-details {
+
+    margin: 0;
+
+}
+
  
 
 .list-item-main .list-item-right {
@@ -369,7 +406,7 @@
 
  
 
-.list-item-rigth .quantity-btn:hover {
+.list-item-right .quantity-btn:hover {
 
     color: #ffffff;
 
@@ -409,11 +446,35 @@
 
 }
 
- 
 
-.list-item-status .quantity-input:hover {
 
-    border: 1px solid #dcdcdc;
+/* For Chrome, Safari, and Opera */
+
+.list-item-status .quantity-input::-webkit-inner-spin-button,
+.list-item-status .quantity-input::-webkit-outer-spin-button {
+
+    -webkit-appearance: none;
+
+    margin: 0;
+}
+
+
+
+/* For Firefox */
+
+.list-item-status .quantity-input {
+
+    -moz-appearance: textfield;
+
+}
+
+
+
+/* For Internet Explorer 11 */
+
+.list-item-status .quantity-input::-ms-clear {
+
+    display: none;
 
 }
 
@@ -428,8 +489,6 @@
     justify-content: flex-end;
 
     flex-direction: row;
-
-    margin-top: 8px;
 
 }
 
@@ -610,5 +669,14 @@
     border-radius: 3px;
 
     cursor: pointer;
+
+    border: none;
+
+}
+
+.checkout-btn-wrapper .checkout-btn:hover {
+
+    background-color: #D0611E;
+
 
 }

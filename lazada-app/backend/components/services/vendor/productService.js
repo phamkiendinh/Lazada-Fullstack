@@ -5,12 +5,8 @@ const createProduct = (newProduct) => {
     const {
       name,
       image,
-      type,
-      countInStock,
       price,
-      rating,
       description,
-      discount,
     } = newProduct;
     try {
       const checkProduct = await Product.findOne({
@@ -25,12 +21,8 @@ const createProduct = (newProduct) => {
       const newProduct = await Product.create({
         name,
         image,
-        type,
-        countInStock: Number(countInStock),
         price,
-        rating,
         description,
-        discount: Number(discount),
       });
       if (newProduct) {
         resolve({

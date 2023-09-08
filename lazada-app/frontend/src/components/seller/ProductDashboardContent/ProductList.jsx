@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import ProductForm from './ProductForm';
 
 const ProductList = ({ products, onDelete, onEdit, onSave }) => {
@@ -20,11 +20,12 @@ const ProductList = ({ products, onDelete, onEdit, onSave }) => {
     };
 
     const filteredProducts = products.filter(product =>
-        product.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        product.date.includes(searchDate) &&
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (searchDate === '' || (product.date && product.date.includes(searchDate))) &&
         (searchMinPrice === '' || product.price >= parseFloat(searchMinPrice)) &&
         (searchMaxPrice === '' || product.price <= parseFloat(searchMaxPrice))
     );
+    
 
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -75,7 +76,7 @@ const ProductList = ({ products, onDelete, onEdit, onSave }) => {
                     <h3>Add New Product</h3>
                     <ProductForm
                         product={{
-                            title: '',
+                            name: '',
                             price: 0,
                             description: '',
                             dimensions: { length: 0, width: 0, height: 0 },
@@ -86,41 +87,45 @@ const ProductList = ({ products, onDelete, onEdit, onSave }) => {
                     />
                 </div>
             )}
-            <ul className='form-control' >
-                {currentProducts.map(product => (
-                    <li className='form-control' key={product.id}>
-                        <h3>{product.title}</h3>
-                        <p>Description: {product.description}</p>
-                        <p>Price: ${product.price}</p>
-                        <p>Category: {product.category && typeof product.category === 'object' ? product.category.name : product.category}</p>
-                        <p>Quantity: {product.quantity}</p>
-                        <p>Date: {product.date}</p>
-                        {product.dimensions && (
-                            <p>
-                                Dimensions: {product.dimensions.length} x {product.dimensions.width} x {product.dimensions.height}
-                            </p>
-                        )}
-                        {editingProduct === product.id ? (
-                            <div>
-                                <ProductForm
-                                    product={product}
-                                    onSave={(updatedFields) => {
-                                        onEdit(product.id, updatedFields);
-                                        setEditingProduct(null);
-                                    }}
-                                    onCancel={handleCancelEdit}
-                                    onEdit={editingProduct === product.id}
-                                />
-                            </div>
-                        ) : (
-                            <div>
-                                <button onClick={() => onDelete(product.id)}>Delete</button>
-                                <button onClick={() => handleEditClick(product.id)}>Edit</button>
-                            </div>
-                        )}
-                    </li>
-                ))}
-            </ul>
+            {products.length === 0 ? (
+                <p>Please Add Your Product</p>
+            ) : (
+                <ul className='form-control' >
+                    {currentProducts.map(product => (
+                        <li className='form-control' key={product.id}>
+                            <h3>{product.name}</h3>
+                            <p>Description: {product.description}</p>
+                            <p>Price: ${product.price}</p>
+                            <p>Category: {product.category && typeof product.category === 'object' ? product.category.name : product.category}</p>
+                            <p>Quantity: {product.quantity}</p>
+                            <p>Date: {product.date}</p>
+                            {product.dimensions && (
+                                <p>
+                                    Dimensions: {product.dimensions.length} x {product.dimensions.width} x {product.dimensions.height}
+                                </p>
+                            )}
+                            {editingProduct === product.id ? (
+                                <div>
+                                    <ProductForm
+                                        product={product}
+                                        onSave={(updatedFields) => {
+                                            onEdit(product.id, updatedFields);
+                                            setEditingProduct(null);
+                                        }}
+                                        onCancel={handleCancelEdit}
+                                        onEdit={editingProduct === product.id}
+                                    />
+                                </div>
+                            ) : (
+                                <div>
+                                    <button onClick={() => onDelete(product.id)}>Delete</button>
+                                    <button onClick={() => handleEditClick(product.id)}>Edit</button>
+                                </div>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            )}
             <div className="pagination">
                 <button
                     onClick={() => setCurrentPage(currentPage - 1)}
@@ -140,33 +145,33 @@ const ProductList = ({ products, onDelete, onEdit, onSave }) => {
     );
 };
 
-ProductList.propTypes = {
-    products: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            price: PropTypes.number.isRequired,
-            quantity: PropTypes.number.isRequired,
-            date: PropTypes.string.isRequired,
-            description: PropTypes.string.isRequired,
-            category: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.shape({
-                    id: PropTypes.string.isRequired,
-                    name: PropTypes.string.isRequired,
-                }),
-            ]).isRequired,
-            dimensions: PropTypes.shape({
-                length: PropTypes.number.isRequired,
-                width: PropTypes.number.isRequired,
-                height: PropTypes.number.isRequired,
-            }),
-        })
-    ).isRequired,
-    onEdit: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired
-};
+// ProductList.propTypes = {
+//     products: PropTypes.arrayOf(
+//         PropTypes.shape({
+//             id: PropTypes.string.isRequired,
+//             name: PropTypes.string.isRequired,
+//             price: PropTypes.number.isRequired,
+//             quantity: PropTypes.number.isRequired,
+//             date: PropTypes.string.isRequired,
+//             description: PropTypes.string.isRequired,
+//             category: PropTypes.oneOfType([
+//                 PropTypes.string,
+//                 PropTypes.shape({
+//                     id: PropTypes.string.isRequired,
+//                     name: PropTypes.string.isRequired,
+//                 }),
+//             ]).isRequired,
+//             dimensions: PropTypes.shape({
+//                 length: PropTypes.number.isRequired,
+//                 width: PropTypes.number.isRequired,
+//                 height: PropTypes.number.isRequired,
+//             }),
+//         })
+//     ).isRequired,
+//     onEdit: PropTypes.func.isRequired,
+//     onCancel: PropTypes.func.isRequired,
+//     onSave: PropTypes.func.isRequired,
+//     onDelete: PropTypes.func.isRequired
+// };
 
 export default ProductList;

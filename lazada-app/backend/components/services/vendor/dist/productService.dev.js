@@ -6,13 +6,13 @@ var Product = require("../../models/productModel.js");
 
 var createProduct = function createProduct(newProduct) {
   return new Promise(function _callee(resolve, reject) {
-    var name, image, type, countInStock, price, rating, description, discount, checkProduct, _newProduct;
+    var name, image, price, description, checkProduct, _newProduct;
 
     return regeneratorRuntime.async(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            name = newProduct.name, image = newProduct.image, type = newProduct.type, countInStock = newProduct.countInStock, price = newProduct.price, rating = newProduct.rating, description = newProduct.description, discount = newProduct.discount;
+            name = newProduct.name, image = newProduct.image, price = newProduct.price, description = newProduct.description;
             _context.prev = 1;
             _context.next = 4;
             return regeneratorRuntime.awrap(Product.findOne({
@@ -33,12 +33,8 @@ var createProduct = function createProduct(newProduct) {
             return regeneratorRuntime.awrap(Product.create({
               name: name,
               image: image,
-              type: type,
-              countInStock: Number(countInStock),
               price: price,
-              rating: rating,
-              description: description,
-              discount: Number(discount)
+              description: description
             }));
 
           case 8:

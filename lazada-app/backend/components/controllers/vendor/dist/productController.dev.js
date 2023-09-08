@@ -3,16 +3,16 @@
 var ProductService = require("../../services/vendor/productService.js");
 
 var createProduct = function createProduct(req, res) {
-  var _req$body, name, image, type, countInStock, price, rating, description, discount, response;
+  var _req$body, name, image, price, description, response;
 
   return regeneratorRuntime.async(function createProduct$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _req$body = req.body, name = _req$body.name, image = _req$body.image, type = _req$body.type, countInStock = _req$body.countInStock, price = _req$body.price, rating = _req$body.rating, description = _req$body.description, discount = _req$body.discount;
+          _req$body = req.body, name = _req$body.name, image = _req$body.image, price = _req$body.price, description = _req$body.description;
 
-          if (!(!name || !image || !type || !countInStock || !price || !rating || !discount)) {
+          if (!(!name || !price)) {
             _context.next = 4;
             break;
           }

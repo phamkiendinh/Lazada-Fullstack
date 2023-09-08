@@ -1,13 +1,34 @@
 import { useState, useEffect } from 'react';
 import ProductList from './ProductList';
-import productData from '../../../data/seller/product.json';
+// import productData from '../../../data/seller/product.json';
 
 const ProductApp = () => {
     const [products, setProducts] = useState([]);
     const [nextProductId, setNextProductId] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        setProducts(productData);
+        fetch('http://localhost:3001/api/vendor/product/get-all')
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // console.log(response)
+                return response.json();
+            })
+            .then((data) => {
+                if (data.status === 'OK') {
+                    setProducts(data.data);
+                    setLoading(false);
+                } else {
+                    throw new Error(data.message || 'Failed to fetch data');
+                }
+            })
+            .catch((error) => {
+                setError(error);
+                setLoading(false);
+            });
     }, []);
 
     const handleDelete = productId => {
@@ -31,14 +52,49 @@ const ProductApp = () => {
         setNextProductId(nextProductId + 1);
     };
 
+    const createProduct = (newProductData) => {
+        fetch('http://localhost:3001/api/vendor/product/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newProductData),
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (data.status === 'OK') {
+                handleAddProduct(data.data);
+            } else {
+                throw new Error(data.message || 'Failed to create product');
+            }
+        })
+        .catch((error) => {
+            setError(error);
+        });
+    };
+    
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
     return (
         <div>
             <ProductList
                 products={products}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
-                onSave={handleAddProduct}
-                onCancel={() => {}}
+                onSave={createProduct}
+                onCancel={() => { }}
             />
         </div>
     );

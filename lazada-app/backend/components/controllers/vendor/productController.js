@@ -5,21 +5,12 @@ const createProduct = async (req, res) => {
     const {
       name,
       image,
-      type,
-      countInStock,
       price,
-      rating,
       description,
-      discount,
     } = req.body;
     if (
       !name ||
-      !image ||
-      !type ||
-      !countInStock ||
-      !price ||
-      !rating ||
-      !discount
+      !price
     ) {
       return res.status(200).json({
         status: "ERR",

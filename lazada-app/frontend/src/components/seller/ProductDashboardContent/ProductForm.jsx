@@ -26,14 +26,14 @@ const ProductForm = ({ product, onSave, onCancel, onEdit }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSave(updatedFields);
+        onSave(updatedFields); 
     };
 
     return (
         <div>
             <form className='form-control' onSubmit={handleSubmit}>
-                <label className='form-control'  htmlFor="title">Title:</label>
-                <input className='form-control'  type="text" id="title" name="title" value={updatedFields.title} onChange={(e) => handleFieldChange("title", e.target.value)} />
+                <label className='form-control'  htmlFor="name">Title:</label>
+                <input className='form-control'  type="text" id="name" name="name" value={updatedFields.name} onChange={(e) => handleFieldChange("name", e.target.value)} />
 
                 <label className='form-control'  htmlFor="price">Price:</label>
                 <input className='form-control'  type="number" id="price" name="price" step="0.01" value={updatedFields.price} onChange={(e) => handleFieldChange("price", parseFloat(e.target.value))} />

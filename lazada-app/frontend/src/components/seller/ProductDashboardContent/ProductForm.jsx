@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const ProductForm = ({ product, onSave, onCancel, onEdit, categories }) => {
+const ProductForm = ({ product, onSave, onCancel, onEdit, categories, onSaveChanges }) => {
     const defaultDimensions = {
         length: 0,
         width: 0,
@@ -29,15 +29,25 @@ const ProductForm = ({ product, onSave, onCancel, onEdit, categories }) => {
             ...updatedFields,
             category: {
                 _id: updatedFields.category,
-                name: categories.find(category => category._id === updatedFields.category)?.name || '',
+                name: (categories?.find((category) => category._id === updatedFields.category)?.name) || '',
             },
             vendor: {
                 _id: userData._id,
-                name: userData.name
-            }
+                name: userData.name,
+            },
         };
-        onSave(productData);
+
+        if (onEdit) {
+            // Editing an existing product
+            onSaveChanges(productData);
+        } else {
+            // Adding a new product
+            onSave(productData);
+        }
+
+        window.location.reload();
     };
+
 
     return (
         <div>
@@ -48,14 +58,17 @@ const ProductForm = ({ product, onSave, onCancel, onEdit, categories }) => {
                 <label className='form-control' htmlFor="price">Price:</label>
                 <input className='form-control' type="number" id="price" name="price" step="0.01" value={updatedFields.price} onChange={(e) => handleFieldChange("price", parseFloat(e.target.value))} />
 
+                <label className='form-control' htmlFor="old_price">Old Price:</label>
+                <input className='form-control' type="number" id="old_price" name="old_price" step="0.01" value={updatedFields.old_price} onChange={(e) => handleFieldChange("old_price", parseFloat(e.target.value))} />
+
                 <label className='form-control' htmlFor="description">Description:</label>
                 <input className='form-control' type="text" id="description" name="description" value={updatedFields.description} onChange={(e) => handleFieldChange("description", e.target.value)} />
 
-                <label className='form-control' htmlFor="quantity">Quantity:</label>
-                <input className='form-control' type="number" id="quantity" name="quantity" step="1" value={updatedFields.quantity} onChange={e => handleFieldChange("quantity", e.target.value)} />
-
                 <label className='form-control' htmlFor="date">Date:</label>
                 <input className='form-control' type="date" id="date" name="date" value={updatedFields.date} onChange={e => handleFieldChange("date", e.target.value)} />
+
+                <label className='form-control' htmlFor="img">Image:</label>
+                <input className='form-control' type="text" id="img" name="img" value={updatedFields.img} onChange={e => handleFieldChange("img", e.target.value)} />
 
                 <label className='form-control' htmlFor="length">Length:</label>
                 <input className='form-control' type="number" name="length" step="1" value={updatedFields.dimensions.length} onChange={(e) => handleFieldChange("dimensions", { ...updatedFields.dimensions, length: parseFloat(e.target.value) })} />
@@ -74,7 +87,7 @@ const ProductForm = ({ product, onSave, onCancel, onEdit, categories }) => {
                     onChange={(e) => handleFieldChange("category", e.target.value)}
                 >
                     <option value="" className='form-control'>Select a category</option>
-                    {categories.map(category => (
+                    {categories && categories.map(category => (
                         <option key={category._id} value={category._id}>
                             {category.name}
                         </option>

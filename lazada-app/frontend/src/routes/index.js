@@ -21,6 +21,7 @@ import CreateSubCategory from "../components/AdminCategory/CreateSubCategory";
 import UpdateSubCategory from "../components/AdminCategory/UpdateSubCategory";
 import SellerApproval from "../components/AdminSellerApproval/SellerApproval";
 import SellerPage from "./../SellerPage";
+import UnverifiedAccount from "../pages/SingInPage/UnverifiedAccount";
 
 export const routes = [
   {
@@ -141,6 +142,11 @@ export const routes = [
   {
     path: "/seller/sign-in",
     page: SellerSignInPage,
+    isShowHeader: false,
+  },
+  {
+    path: "/seller/unverified",
+    page: UnverifiedAccount,
     isShowHeader: false,
   },
   {

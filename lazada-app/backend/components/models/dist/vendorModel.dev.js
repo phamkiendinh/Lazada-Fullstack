@@ -18,6 +18,10 @@ var userSchema = new mongoose.Schema({
   phone: {
     type: Number,
     unique: true
+  },
+  verified: {
+    type: Boolean,
+    required: true
   }
 }, {
   timestamps: true

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import ProductForm from './ProductForm';
+import styles from './Product.module.css';
 
-const ProductList = ({ products, onDelete, onEdit, onSave, categories }) => {
+const ProductList = ({ products, onDelete, onEdit, onSave, categories, onSaveChanges }) => {
     const [editingProduct, setEditingProduct] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
@@ -18,14 +19,14 @@ const ProductList = ({ products, onDelete, onEdit, onSave, categories }) => {
         setEditingProduct(null);
     };
 
+    console.log("Products:", products);
     const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (product.name?.toLowerCase()?.includes(searchQuery?.toLowerCase()) || false) &&
         (searchDate === '' || (product.date && product.date.includes(searchDate))) &&
         (searchMinPrice === '' || product.price >= parseFloat(searchMinPrice)) &&
         (searchMaxPrice === '' || product.price <= parseFloat(searchMaxPrice))
     );
-
-
+    
     const indexOfLastProduct = currentPage * productsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
     const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -77,8 +78,10 @@ const ProductList = ({ products, onDelete, onEdit, onSave, categories }) => {
                         product={{
                             name: '',
                             price: 0,
+                            old_price: 0,
                             description: '',
                             dimensions: { length: 0, width: 0, height: 0 },
+                            img: '',
                         }}
                         onSave={onSave}
                         categories={categories}
@@ -96,9 +99,10 @@ const ProductList = ({ products, onDelete, onEdit, onSave, categories }) => {
                             <h3>{product.name}</h3>
                             <p>Description: {product.description}</p>
                             <p>Price: ${product.price}</p>
+                            <p>Old Price: ${product.old_price}</p>
                             <p>Category: {product.category && typeof product.category === 'object' ? product.category.name : product.category}</p>
-                            <p>Quantity: {product.quantity}</p>
                             <p>Date: {product.date}</p>
+                            <img className={`${styles.maxwidth}`} src={product.img} alt="" />
                             {product.dimensions && (
                                 <p>
                                     Dimensions: {product.dimensions.length} x {product.dimensions.width} x {product.dimensions.height}
@@ -113,7 +117,9 @@ const ProductList = ({ products, onDelete, onEdit, onSave, categories }) => {
                                             setEditingProduct(null);
                                         }}
                                         onCancel={handleCancelEdit}
+                                        categories={categories}
                                         onEdit={editingProduct === product._id}
+                                        onSaveChanges={onSaveChanges}
                                     />
                                 </div>
                             ) : (

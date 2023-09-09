@@ -33,16 +33,24 @@ const SellerSignInPage = () => {
       if (res) {
         setSuccessMessage('Login successfully!')
         setShow(true);
-        setAuth({
-          ...auth,
-          name: res.data.name,
-          token: res.data.token
-        });
-        localStorage.setItem("auth", JSON.stringify(res.data));
-        setTimeout(() => {
+
+        if (res.data.verified) {
+          setAuth({
+            ...auth,
+            name: res.data.name,
+            verified: res.data.verified,
+            token: res.data.token
+          });
+          localStorage.setItem("auth", JSON.stringify(res.data));
+          setTimeout(() => {
+            setShow(false);
+            navigate( location.state || '/seller');
+          }, 2000);
+        } else {
           setShow(false);
-          navigate( location.state || '/seller');
-        }, 1000);
+          navigate( location.state || '/seller/unverified');
+        }
+
       } else {
         handleRegistrationError('Login failed, Please try again!!')
       }

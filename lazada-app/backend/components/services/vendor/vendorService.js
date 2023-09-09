@@ -8,7 +8,8 @@ const JWT = require("jsonwebtoken");
 
 const createVendor = (newVendor) => {
   return new Promise(async (resolve, reject) => {
-    const { name, email, password, confirmPassword, phone } = newVendor;
+    const { name, email, password, phone } = newVendor;
+    const verified = "false";
     try {
       const checkVendor = await Vendor.findOne({
         email: email,
@@ -25,6 +26,7 @@ const createVendor = (newVendor) => {
         email,
         password: hash,
         phone,
+        verified,
       });
       if (createdVendor) {
         resolve({
@@ -69,10 +71,13 @@ const loginVendor = (vendorLogin) => {
         expiresIn: "2d",
       });
 
+      console.log(checkVendor);
+
       resolve({
         status: "OK",
         message: "SUCCESS",
         name: checkVendor.name,
+        verified: checkVendor.verified,
         _id: checkVendor._id,
         token,
       });

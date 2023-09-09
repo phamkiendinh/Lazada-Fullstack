@@ -3,18 +3,17 @@
 var ProductService = require("../../services/vendor/productService.js");
 
 var createProduct = function createProduct(req, res) {
-  var _req$body, name, image, price, category, description, vendor, response;
+  var _req$body, name, img, price, category, date, old_price, description, vendor, response;
 
   return regeneratorRuntime.async(function createProduct$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _req$body = req.body, name = _req$body.name, image = _req$body.image, price = _req$body.price, category = _req$body.category, description = _req$body.description, vendor = _req$body.vendor;
-          console.log(req.body);
+          _req$body = req.body, name = _req$body.name, img = _req$body.img, price = _req$body.price, category = _req$body.category, date = _req$body.date, old_price = _req$body.old_price, description = _req$body.description, vendor = _req$body.vendor;
 
-          if (!(!name || !price || !category || !vendor)) {
-            _context.next = 5;
+          if (!(!name || !price || !category || !vendor || !old_price || !date)) {
+            _context.next = 4;
             break;
           }
 
@@ -23,27 +22,27 @@ var createProduct = function createProduct(req, res) {
             message: "The input is required"
           }));
 
-        case 5:
-          _context.next = 7;
+        case 4:
+          _context.next = 6;
           return regeneratorRuntime.awrap(ProductService.createProduct(req.body));
 
-        case 7:
+        case 6:
           response = _context.sent;
           return _context.abrupt("return", res.status(200).json(response));
 
-        case 11:
-          _context.prev = 11;
+        case 10:
+          _context.prev = 10;
           _context.t0 = _context["catch"](0);
           return _context.abrupt("return", res.status(404).json({
             message: _context.t0
           }));
 
-        case 14:
+        case 13:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 11]]);
+  }, null, null, [[0, 10]]);
 };
 
 var updateProduct = function updateProduct(req, res) {
@@ -55,9 +54,10 @@ var updateProduct = function updateProduct(req, res) {
           _context2.prev = 0;
           productId = req.params.id;
           data = req.body;
+          console.log(data);
 
           if (productId) {
-            _context2.next = 5;
+            _context2.next = 6;
             break;
           }
 
@@ -66,27 +66,27 @@ var updateProduct = function updateProduct(req, res) {
             message: "The productId is required"
           }));
 
-        case 5:
-          _context2.next = 7;
+        case 6:
+          _context2.next = 8;
           return regeneratorRuntime.awrap(ProductService.updateProduct(productId, data));
 
-        case 7:
+        case 8:
           response = _context2.sent;
           return _context2.abrupt("return", res.status(200).json(response));
 
-        case 11:
-          _context2.prev = 11;
+        case 12:
+          _context2.prev = 12;
           _context2.t0 = _context2["catch"](0);
           return _context2.abrupt("return", res.status(404).json({
             message: _context2.t0
           }));
 
-        case 14:
+        case 15:
         case "end":
           return _context2.stop();
       }
     }
-  }, null, null, [[0, 11]]);
+  }, null, null, [[0, 12]]);
 };
 
 var getDetailsProduct = function getDetailsProduct(req, res) {

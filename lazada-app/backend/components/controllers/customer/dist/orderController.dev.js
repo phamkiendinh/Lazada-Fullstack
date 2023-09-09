@@ -3,23 +3,23 @@
 var OrderService = require("../../services/customer/orderService.js");
 
 var createOrder = function createOrder(req, res) {
-  var _req$body, paymentMethod, itemsPrice, shippingPrice, totalPrice, fullName, address, city, phone, response;
+  var _req$body, items, subTotal, shippingFee, total, customer, response;
 
   return regeneratorRuntime.async(function createOrder$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _req$body = req.body, paymentMethod = _req$body.paymentMethod, itemsPrice = _req$body.itemsPrice, shippingPrice = _req$body.shippingPrice, totalPrice = _req$body.totalPrice, fullName = _req$body.fullName, address = _req$body.address, city = _req$body.city, phone = _req$body.phone;
+          _req$body = req.body, items = _req$body.items, subTotal = _req$body.subTotal, shippingFee = _req$body.shippingFee, total = _req$body.total, customer = _req$body.customer;
 
-          if (!(!paymentMethod || !itemsPrice || !shippingPrice || !totalPrice || !fullName || !address || !city || !phone)) {
+          if (!(!items || !subTotal || !shippingFee || !total || !customer)) {
             _context.next = 4;
             break;
           }
 
-          return _context.abrupt("return", res.status(200).json({
+          return _context.abrupt("return", res.status(400).json({
             status: "ERR",
-            message: "The input is required"
+            message: "Invalid input data"
           }));
 
         case 4:
@@ -28,13 +28,13 @@ var createOrder = function createOrder(req, res) {
 
         case 6:
           response = _context.sent;
-          return _context.abrupt("return", res.status(200).json(response));
+          return _context.abrupt("return", res.status(201).json(response));
 
         case 10:
           _context.prev = 10;
           _context.t0 = _context["catch"](0);
-          return _context.abrupt("return", res.status(404).json({
-            message: _context.t0
+          return _context.abrupt("return", res.status(500).json({
+            message: _context.t0.message
           }));
 
         case 13:
@@ -45,16 +45,16 @@ var createOrder = function createOrder(req, res) {
   }, null, null, [[0, 10]]);
 };
 
-var getAllOrderDetails = function getAllOrderDetails(req, res) {
-  var userId, response;
-  return regeneratorRuntime.async(function getAllOrderDetails$(_context2) {
+var getDetailsOrder = function getDetailsOrder(req, res) {
+  var orderId, response;
+  return regeneratorRuntime.async(function getDetailsOrder$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
           _context2.prev = 0;
-          userId = req.params.id;
+          orderId = req.params.id;
 
-          if (userId) {
+          if (orderId) {
             _context2.next = 4;
             break;
           }
@@ -66,7 +66,7 @@ var getAllOrderDetails = function getAllOrderDetails(req, res) {
 
         case 4:
           _context2.next = 6;
-          return regeneratorRuntime.awrap(OrderService.getAllOrderDetails(userId));
+          return regeneratorRuntime.awrap(OrderService.getOrderDetails(orderId));
 
         case 6:
           response = _context2.sent;
@@ -87,86 +87,44 @@ var getAllOrderDetails = function getAllOrderDetails(req, res) {
   }, null, null, [[0, 10]]);
 };
 
-var getDetailsOrder = function getDetailsOrder(req, res) {
-  var orderId, response;
-  return regeneratorRuntime.async(function getDetailsOrder$(_context3) {
+var cancelOrderDetails = function cancelOrderDetails(req, res) {
+  var data, orderId, response;
+  return regeneratorRuntime.async(function cancelOrderDetails$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.prev = 0;
-          orderId = req.params.id;
+          data = req.body.orderItems;
+          orderId = req.body.orderId;
 
           if (orderId) {
-            _context3.next = 4;
+            _context3.next = 5;
             break;
           }
 
           return _context3.abrupt("return", res.status(200).json({
             status: "ERR",
-            message: "The userId is required"
+            message: "The orderId is required"
           }));
 
-        case 4:
-          _context3.next = 6;
-          return regeneratorRuntime.awrap(OrderService.getOrderDetails(orderId));
+        case 5:
+          _context3.next = 7;
+          return regeneratorRuntime.awrap(OrderService.cancelOrderDetails(orderId, data));
 
-        case 6:
+        case 7:
           response = _context3.sent;
           return _context3.abrupt("return", res.status(200).json(response));
 
-        case 10:
-          _context3.prev = 10;
+        case 11:
+          _context3.prev = 11;
           _context3.t0 = _context3["catch"](0);
           return _context3.abrupt("return", res.status(404).json({
             message: _context3.t0
           }));
 
-        case 13:
-        case "end":
-          return _context3.stop();
-      }
-    }
-  }, null, null, [[0, 10]]);
-};
-
-var cancelOrderDetails = function cancelOrderDetails(req, res) {
-  var data, orderId, response;
-  return regeneratorRuntime.async(function cancelOrderDetails$(_context4) {
-    while (1) {
-      switch (_context4.prev = _context4.next) {
-        case 0:
-          _context4.prev = 0;
-          data = req.body.orderItems;
-          orderId = req.body.orderId;
-
-          if (orderId) {
-            _context4.next = 5;
-            break;
-          }
-
-          return _context4.abrupt("return", res.status(200).json({
-            status: "ERR",
-            message: "The orderId is required"
-          }));
-
-        case 5:
-          _context4.next = 7;
-          return regeneratorRuntime.awrap(OrderService.cancelOrderDetails(orderId, data));
-
-        case 7:
-          response = _context4.sent;
-          return _context4.abrupt("return", res.status(200).json(response));
-
-        case 11:
-          _context4.prev = 11;
-          _context4.t0 = _context4["catch"](0);
-          return _context4.abrupt("return", res.status(404).json({
-            message: _context4.t0
-          }));
-
         case 14:
         case "end":
-          return _context4.stop();
+          return _context3.stop();
       }
     }
   }, null, null, [[0, 11]]);
@@ -174,28 +132,28 @@ var cancelOrderDetails = function cancelOrderDetails(req, res) {
 
 var getAllOrder = function getAllOrder(req, res) {
   var data;
-  return regeneratorRuntime.async(function getAllOrder$(_context5) {
+  return regeneratorRuntime.async(function getAllOrder$(_context4) {
     while (1) {
-      switch (_context5.prev = _context5.next) {
+      switch (_context4.prev = _context4.next) {
         case 0:
-          _context5.prev = 0;
-          _context5.next = 3;
+          _context4.prev = 0;
+          _context4.next = 3;
           return regeneratorRuntime.awrap(OrderService.getAllOrder());
 
         case 3:
-          data = _context5.sent;
-          return _context5.abrupt("return", res.status(200).json(data));
+          data = _context4.sent;
+          return _context4.abrupt("return", res.status(200).json(data));
 
         case 7:
-          _context5.prev = 7;
-          _context5.t0 = _context5["catch"](0);
-          return _context5.abrupt("return", res.status(404).json({
-            message: _context5.t0
+          _context4.prev = 7;
+          _context4.t0 = _context4["catch"](0);
+          return _context4.abrupt("return", res.status(404).json({
+            message: _context4.t0
           }));
 
         case 10:
         case "end":
-          return _context5.stop();
+          return _context4.stop();
       }
     }
   }, null, null, [[0, 7]]);
@@ -203,7 +161,6 @@ var getAllOrder = function getAllOrder(req, res) {
 
 module.exports = {
   createOrder: createOrder,
-  getAllOrderDetails: getAllOrderDetails,
   getDetailsOrder: getDetailsOrder,
   cancelOrderDetails: cancelOrderDetails,
   getAllOrder: getAllOrder

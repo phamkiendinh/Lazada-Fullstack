@@ -2,9 +2,9 @@ const ProductService = require("../../services/vendor/productService.js");
 
 const createProduct = async (req, res) => {
   try {
-    const { name, image, price, category, description, vendor } = req.body;
-    console.log(req.body);
-    if (!name || !price || !category || !vendor) {
+    const { name, img, price, category, date, old_price, description, vendor } =
+      req.body;
+    if (!name || !price || !category || !vendor || !old_price || !date) {
       return res.status(200).json({
         status: "ERR",
         message: "The input is required",
@@ -23,6 +23,7 @@ const updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
     const data = req.body;
+    console.log(data);
     if (!productId) {
       return res.status(200).json({
         status: "ERR",

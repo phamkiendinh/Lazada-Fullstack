@@ -50,18 +50,13 @@ const ProductApp = () => {
             });
     }, []);
 
-    // const handleDelete = productId => {
-    //     const updatedProducts = products.filter(product => product._id !== productId);
-    //     setProducts(updatedProducts);
-    // };
-
-    const handleEdit = (productId, updatedFields) => {
-        const updatedProducts = products.map(product => {
-            if (product._id === productId) {
-                return { ...product, ...updatedFields };
-            }
-            return product;
-        });
+    const handleEdit = (updatedProducts) => {
+        // const updatedProducts = products.map(product => {
+        //     if (product._id === productId) {
+        //         return { ...product, ...updatedFields };
+        //     }
+        //     return product;
+        // });
         setProducts(updatedProducts);
     };
 
@@ -79,23 +74,22 @@ const ProductApp = () => {
             },
             body: JSON.stringify(newProductData),
         })
-        .then((response) => {
-            console.log(response)
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            if (data.status === 'OK') {
-                handleAddProduct(data.data);
-            } else {
-                throw new Error(data.message || 'Failed to create product');
-            }
-        })
-        .catch((error) => {
-            setError(error);
-        });
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.status === 'OK') {
+                    handleAddProduct(data.data);
+                } else {
+                    throw new Error(data.message || 'Failed to create product');
+                }
+            })
+            .catch((error) => {
+                setError(error);
+            });
     };
 
     const handleDelete = (productId) => {
@@ -103,26 +97,52 @@ const ProductApp = () => {
         fetch(`http://localhost:3001/api/vendor/product/delete/${productId}`, {
             method: 'DELETE',
         })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.status === 'OK') {
+                    // Remove the deleted product from the state
+                    const updatedProducts = products.filter((product) => product._id !== productId);
+                    setProducts(updatedProducts);
+                } else {
+                    throw new Error(data.message || 'Failed to delete product');
+                }
+            })
+            .catch((error) => {
+                setError(error);
+            });
+    };
+
+    const updateProduct = (updatedProductData) => {
+        fetch(`http://localhost:3001/api/vendor/product/update/${updatedProductData._id}`, {
+            method: 'PUT', // Use PUT method for updating
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedProductData),
         })
-        .then((data) => {
-            if (data.status === 'OK') {
-                // Remove the deleted product from the state
-                const updatedProducts = products.filter((product) => product._id !== productId);
-                setProducts(updatedProducts);
-            } else {
-                throw new Error(data.message || 'Failed to delete product');
-            }
-        })
-        .catch((error) => {
-            setError(error);
-        });
-    };    
-    
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.status === 'OK') {
+                    handleEdit(data.data);
+                } else {
+                    throw new Error(data.message || 'Failed to update product');
+                }
+            })
+            .catch((error) => {
+                setError(error); // Handle and display any errors
+            });
+    };
+
 
     if (loading) {
         return <div>Loading...</div>;
@@ -138,6 +158,7 @@ const ProductApp = () => {
                 products={products}
                 onDelete={handleDelete}
                 onEdit={handleEdit}
+                onSaveChanges={updateProduct}
                 onSave={createProduct}
                 onCancel={() => { }}
                 categories={categories}

@@ -2,8 +2,8 @@ const Product = require("../../models/productModel.js");
 
 const createProduct = (newProduct) => {
   return new Promise(async (resolve, reject) => {
-    const { name, image, price, description, category, vendor } = newProduct;
-
+    const { name, img, price, old_price, description, category, vendor, date } =
+      newProduct;
     try {
       const checkProduct = await Product.findOne({ name });
 
@@ -18,11 +18,13 @@ const createProduct = (newProduct) => {
       // Create the product with the category and vendor as ObjectId references
       const createdProduct = await Product.create({
         name,
-        image,
+        img,
         price,
+        old_price,
         description,
         category,
         vendor,
+        date,
       });
 
       if (createdProduct) {
@@ -39,6 +41,7 @@ const createProduct = (newProduct) => {
 };
 
 const updateProduct = (id, data) => {
+  console.log(data);
   return new Promise(async (resolve, reject) => {
     try {
       const checkProduct = await Product.findOne({

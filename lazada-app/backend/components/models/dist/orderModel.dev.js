@@ -2,85 +2,75 @@
 
 var mongoose = require("mongoose");
 
-var orderSchema = new mongoose.Schema({
-  orderItems: [{
+var productSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product",
+    required: true
+  },
+  description: {
+    type: String
+  },
+  date: {
+    type: String
+  },
+  category: {
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true
+    },
     name: {
       type: String,
-      required: true
-    },
-    amount: {
-      type: Number,
-      required: true
-    },
-    image: {
-      type: String,
-      required: true
-    },
-    price: {
-      type: Number,
-      required: true
-    },
-    discount: {
-      type: Number
-    },
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-      required: true
+      ref: "Category"
     }
-  }],
-  shippingAddress: {
-    fullName: {
-      type: String,
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  old_price: {
+    type: Number,
+    required: true
+  },
+  img: {
+    type: String
+  },
+  vendor: {
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Vendor",
       required: true
     },
-    address: {
+    name: {
       type: String,
-      required: true
-    },
-    city: {
-      type: String,
-      required: true
-    },
-    phone: {
-      type: Number,
+      ref: "Vendor",
       required: true
     }
   },
-  paymentMethod: {
+  name: {
     type: String,
     required: true
-  },
-  itemsPrice: {
-    type: Number,
-    required: true
-  },
-  shippingPrice: {
-    type: Number,
-    required: true
-  },
-  totalPrice: {
-    type: Number,
-    required: true
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
-  },
-  isPaid: {
-    type: Boolean,
-    "default": false
-  },
-  paidAt: {
-    type: Date
-  },
-  isDelivered: {
-    type: Boolean,
-    "default": false
-  },
-  deliveredAt: {
-    type: Date
+  }
+}, {
+  timestamps: true
+});
+var orderSchema = new mongoose.Schema({
+  items: [productSchema],
+  subTotal: Number,
+  shippingFee: Number,
+  total: Number,
+  customer: {
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customer",
+      required: true
+    },
+    name: {
+      type: String,
+      ref: "Customer",
+      required: true
+    }
   }
 }, {
   timestamps: true

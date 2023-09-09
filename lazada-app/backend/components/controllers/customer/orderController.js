@@ -2,55 +2,19 @@ const OrderService = require("../../services/customer/orderService.js");
 
 const createOrder = async (req, res) => {
   try {
-    const {
-      paymentMethod,
-      itemsPrice,
-      shippingPrice,
-      totalPrice,
-      fullName,
-      address,
-      city,
-      phone,
-    } = req.body;
-    if (
-      !paymentMethod ||
-      !itemsPrice ||
-      !shippingPrice ||
-      !totalPrice ||
-      !fullName ||
-      !address ||
-      !city ||
-      !phone
-    ) {
-      return res.status(200).json({
+    const { items, subTotal, shippingFee, total, customer } = req.body;
+
+    if (!items || !subTotal || !shippingFee || !total || !customer) {
+      return res.status(400).json({
         status: "ERR",
-        message: "The input is required",
+        message: "Invalid input data",
       });
     }
     const response = await OrderService.createOrder(req.body);
-    return res.status(200).json(response);
-  } catch (e) {
-    return res.status(404).json({
-      message: e,
-    });
-  }
-};
-
-const getAllOrderDetails = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    if (!userId) {
-      return res.status(200).json({
-        status: "ERR",
-        message: "The userId is required",
-      });
-    }
-    const response = await OrderService.getAllOrderDetails(userId);
-    return res.status(200).json(response);
-  } catch (e) {
-    // console.log(e)
-    return res.status(404).json({
-      message: e,
+    return res.status(201).json(response);
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
     });
   }
 };
@@ -87,7 +51,6 @@ const cancelOrderDetails = async (req, res) => {
     const response = await OrderService.cancelOrderDetails(orderId, data);
     return res.status(200).json(response);
   } catch (e) {
-    // console.log(e)
     return res.status(404).json({
       message: e,
     });
@@ -99,7 +62,6 @@ const getAllOrder = async (req, res) => {
     const data = await OrderService.getAllOrder();
     return res.status(200).json(data);
   } catch (e) {
-    // console.log(e)
     return res.status(404).json({
       message: e,
     });
@@ -108,7 +70,6 @@ const getAllOrder = async (req, res) => {
 
 module.exports = {
   createOrder,
-  getAllOrderDetails,
   getDetailsOrder,
   cancelOrderDetails,
   getAllOrder,

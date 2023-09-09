@@ -6,8 +6,8 @@ var productSchema = new mongoose.Schema({
   description: {
     type: String
   },
-  selled: {
-    type: Number
+  date: {
+    type: String
   },
   category: {
     _id: {
@@ -17,26 +17,18 @@ var productSchema = new mongoose.Schema({
     },
     name: {
       type: String,
-      ref: "Category",
-      required: true
+      ref: "Category"
     }
   },
-  // images: [{ type: String, required: true }],
   price: {
     type: Number,
     required: true
   },
-  // price_before_discount: { type: Number, required: true },
-  // quantity: { type: Number, required: true },
-  // sold: { type: Number, required: true },
-  // view: { type: Number, required: true },
-  name: {
-    type: String,
-    required: true,
-    unique: true
+  old_price: {
+    type: Number,
+    required: true
   },
-  // category: {type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true},
-  image: {
+  img: {
     type: String
   },
   vendor: {
@@ -50,6 +42,11 @@ var productSchema = new mongoose.Schema({
       ref: "Vendor",
       required: true
     }
+  },
+  name: {
+    type: String,
+    required: true,
+    unique: true
   }
 }, {
   timestamps: true

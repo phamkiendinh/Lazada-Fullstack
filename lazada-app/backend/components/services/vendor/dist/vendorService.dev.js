@@ -12,19 +12,20 @@ var JWT = require("jsonwebtoken");
 
 var createVendor = function createVendor(newVendor) {
   return new Promise(function _callee(resolve, reject) {
-    var name, email, password, confirmPassword, phone, checkVendor, hash, createdVendor;
+    var name, email, password, phone, verified, checkVendor, hash, createdVendor;
     return regeneratorRuntime.async(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            name = newVendor.name, email = newVendor.email, password = newVendor.password, confirmPassword = newVendor.confirmPassword, phone = newVendor.phone;
-            _context.prev = 1;
-            _context.next = 4;
+            name = newVendor.name, email = newVendor.email, password = newVendor.password, phone = newVendor.phone;
+            verified = "false";
+            _context.prev = 2;
+            _context.next = 5;
             return regeneratorRuntime.awrap(Vendor.findOne({
               email: email
             }));
 
-          case 4:
+          case 5:
             checkVendor = _context.sent;
 
             if (checkVendor !== null) {
@@ -35,15 +36,16 @@ var createVendor = function createVendor(newVendor) {
             }
 
             hash = bcrypt.hashSync(password, 10);
-            _context.next = 9;
+            _context.next = 10;
             return regeneratorRuntime.awrap(Vendor.create({
               name: name,
               email: email,
               password: hash,
-              phone: phone
+              phone: phone,
+              verified: verified
             }));
 
-          case 9:
+          case 10:
             createdVendor = _context.sent;
 
             if (createdVendor) {
@@ -54,20 +56,20 @@ var createVendor = function createVendor(newVendor) {
               });
             }
 
-            _context.next = 16;
+            _context.next = 17;
             break;
 
-          case 13:
-            _context.prev = 13;
-            _context.t0 = _context["catch"](1);
+          case 14:
+            _context.prev = 14;
+            _context.t0 = _context["catch"](2);
             reject(_context.t0);
 
-          case 16:
+          case 17:
           case "end":
             return _context.stop();
         }
       }
-    }, null, null, [[1, 13]]);
+    }, null, null, [[2, 14]]);
   });
 };
 
@@ -113,27 +115,29 @@ var loginVendor = function loginVendor(vendorLogin) {
 
           case 10:
             token = _context2.sent;
+            console.log(checkVendor);
             resolve({
               status: "OK",
               message: "SUCCESS",
               name: checkVendor.name,
+              verified: checkVendor.verified,
               _id: checkVendor._id,
               token: token
             });
-            _context2.next = 17;
+            _context2.next = 18;
             break;
 
-          case 14:
-            _context2.prev = 14;
+          case 15:
+            _context2.prev = 15;
             _context2.t0 = _context2["catch"](1);
             reject(_context2.t0);
 
-          case 17:
+          case 18:
           case "end":
             return _context2.stop();
         }
       }
-    }, null, null, [[1, 14]]);
+    }, null, null, [[1, 15]]);
   });
 };
 

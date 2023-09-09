@@ -6,12 +6,12 @@ var Product = require("../../models/productModel.js");
 
 var createProduct = function createProduct(newProduct) {
   return new Promise(function _callee(resolve, reject) {
-    var name, image, price, description, category, vendor, checkProduct, createdProduct;
+    var name, img, price, old_price, description, category, vendor, date, checkProduct, createdProduct;
     return regeneratorRuntime.async(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            name = newProduct.name, image = newProduct.image, price = newProduct.price, description = newProduct.description, category = newProduct.category, vendor = newProduct.vendor;
+            name = newProduct.name, img = newProduct.img, price = newProduct.price, old_price = newProduct.old_price, description = newProduct.description, category = newProduct.category, vendor = newProduct.vendor, date = newProduct.date;
             _context.prev = 1;
             _context.next = 4;
             return regeneratorRuntime.awrap(Product.findOne({
@@ -36,11 +36,13 @@ var createProduct = function createProduct(newProduct) {
             _context.next = 10;
             return regeneratorRuntime.awrap(Product.create({
               name: name,
-              image: image,
+              img: img,
               price: price,
+              old_price: old_price,
               description: description,
               category: category,
-              vendor: vendor
+              vendor: vendor,
+              date: date
             }));
 
           case 10:
@@ -72,6 +74,7 @@ var createProduct = function createProduct(newProduct) {
 };
 
 var updateProduct = function updateProduct(id, data) {
+  console.log(data);
   return new Promise(function _callee2(resolve, reject) {
     var checkProduct, updatedProduct;
     return regeneratorRuntime.async(function _callee2$(_context2) {

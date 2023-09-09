@@ -5,6 +5,7 @@ import StatsPage from './pages/seller/StatsPage';
 import React from 'react';
 
 const SellerPage = () => {
+  
 
   return (
     <div>

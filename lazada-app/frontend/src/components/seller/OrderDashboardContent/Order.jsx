@@ -16,17 +16,27 @@ const Order = ({ order, onProductStatusChange }) => {
                 {items.map((product) => {
                     const { _id: productId, description, price, status, name } = product;
 
+                    // Disable the buttons when the status is 'Shipped' or 'Cancelled'
+                    const isShipped = status === 'Shipped';
+                    const isCancelled = status === 'Cancelled';
+
                     return (
                         <li key={productId}>
                             <p>Product Name: {name}</p>
                             <p>Product Description: {description}</p>
                             <p>Price: {price}</p>
                             <p>Status: {status}</p>
-                            <button onClick={() => handleStatusChange(productId, 'Shipped')}>
+                            <button
+                                onClick={() => handleStatusChange(productId, 'Shipped')}
+                                disabled={isShipped || isCancelled}
+                            >
                                 Mark Shipped
                             </button>
-                            <button onClick={() => handleStatusChange(productId, 'Canceled')}>
-                                Mark Canceled
+                            <button
+                                onClick={() => handleStatusChange(productId, 'Cancelled')}
+                                disabled={isShipped || isCancelled}
+                            >
+                                Mark Cancelled
                             </button>
                         </li>
                     );

@@ -15,6 +15,41 @@ const getAllOrder = () => {
   });
 };
 
+const getAllOrderByVendor = (vendor_id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Find orders with products that have the same vendor_id
+      const orders = await Order.find({
+        "items.vendor._id": vendor_id,
+      });
+
+      // Extract and return products within each order that match the vendor_id
+      const filteredOrders = orders.map((order) => {
+        const filteredItems = order.items.filter(
+          (item) => item.vendor._id.toString() === vendor_id.toString()
+        );
+        return {
+          _id: order._id,
+          customer: order.customer,
+          items: filteredItems,
+          subTotal: order.subTotal,
+          shippingFee: order.shippingFee,
+          total: order.total,
+        };
+      });
+
+      resolve({
+        status: "OK",
+        message: "Success",
+        data: filteredOrders,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+
 const updateOrder = (product_id, order_id, status) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -61,4 +96,5 @@ const updateOrder = (product_id, order_id, status) => {
 module.exports = {
   getAllOrder,
   updateOrder,
+  getAllOrderByVendor,
 };

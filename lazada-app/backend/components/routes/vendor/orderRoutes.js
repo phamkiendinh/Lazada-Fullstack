@@ -15,5 +15,6 @@ const OrderController = require("../../controllers/vendor/orderController.js");
 // );
 router.get("/get-all-order", OrderController.getAllOrder);
 router.put("/update-order", OrderController.updateOrder);
+router.post("/get-order-by-vendor", OrderController.getAllOrderByVendor);
 
 module.exports = router;

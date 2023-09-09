@@ -7,8 +7,17 @@ const OrderManagement = () => {
     const ordersPerPage = 5;
 
     useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('auth'));
+        const vendor_id = { vendor_id: userData._id };
+
         // Fetch data from the API
-        fetch('http://localhost:3001/api/vendor/order/get-all-order')
+        fetch('http://localhost:3001/api/vendor/order/get-order-by-vendor', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(vendor_id),
+        })
             .then((response) => response.json())
             .then((data) => {
                 if (data.status === 'OK') {
@@ -67,21 +76,15 @@ const OrderManagement = () => {
         setOrders(updatedOrders);
     };
 
-    // const handleProductStatusChange = (orderId, productId, newStatus) => {
-    //     const updatedOrders = orders.map((order) => {
-    //         if (order.orderId === orderId) {
-    //             const updatedProducts = order.products.map((product) => {
-    //                 if (product.productId === productId) {
-    //                     return { ...product, status: newStatus };
-    //                 }
-    //                 return product;
-    //             });
-    //             return { ...order, products: updatedProducts };
-    //         }
-    //         return order;
-    //     });
-    //     setOrders(updatedOrders);
-    // };
+    // Function to filter orders with "Pending" status only
+    const filterPendingOrders = () => {
+        return orders.filter((order) => {
+            return order.products && order.products.some((product) => product.status === 'Pending');
+        });
+    };
+
+    // Apply the filter to get orders with "Pending" status only
+    const filteredOrders = filterPendingOrders();
 
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -118,7 +121,7 @@ const OrderManagement = () => {
                 {paginationControls}
                 <button
                     onClick={() => setCurrentPage(currentPage + 1)}
-                    disabled={indexOfLastOrder >= orders.length}
+                    disabled={indexOfLastOrder >= filteredOrders.length}
                 >
                     Next
                 </button>

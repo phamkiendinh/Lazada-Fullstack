@@ -4,12 +4,12 @@ var Product = require("../../models/productModel.js");
 
 var createProduct = function createProduct(newProduct) {
   return new Promise(function _callee(resolve, reject) {
-    var name, img, price, old_price, description, category, vendor, date, checkProduct, createdProduct;
+    var name, img, price, old_price, description, category, vendor, date, quantity, checkProduct, createdProduct;
     return regeneratorRuntime.async(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            name = newProduct.name, img = newProduct.img, price = newProduct.price, old_price = newProduct.old_price, description = newProduct.description, category = newProduct.category, vendor = newProduct.vendor, date = newProduct.date;
+            name = newProduct.name, img = newProduct.img, price = newProduct.price, old_price = newProduct.old_price, description = newProduct.description, category = newProduct.category, vendor = newProduct.vendor, date = newProduct.date, quantity = newProduct.quantity;
             _context.prev = 1;
             _context.next = 4;
             return regeneratorRuntime.awrap(Product.findOne({
@@ -37,6 +37,7 @@ var createProduct = function createProduct(newProduct) {
               img: img,
               price: price,
               old_price: old_price,
+              quantity: quantity,
               description: description,
               category: category,
               vendor: vendor,

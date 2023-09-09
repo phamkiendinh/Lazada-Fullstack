@@ -79,6 +79,7 @@ const ProductList = ({ products, onDelete, onEdit, onSave, categories, onSaveCha
                             name: '',
                             price: 0,
                             old_price: 0,
+                            quantity: 0,
                             description: '',
                             dimensions: { length: 0, width: 0, height: 0 },
                             img: '',
@@ -100,6 +101,7 @@ const ProductList = ({ products, onDelete, onEdit, onSave, categories, onSaveCha
                             <p>Description: {product.description}</p>
                             <p>Price: ${product.price}</p>
                             <p>Old Price: ${product.old_price}</p>
+                            <p>Quantity: {product.quantity}</p>
                             <p>Category: {product.category && typeof product.category === 'object' ? product.category.name : product.category}</p>
                             <p>Date: {product.date}</p>
                             <img className={`${styles.maxwidth}`} src={product.img} alt="" />

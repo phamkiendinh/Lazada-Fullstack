@@ -61,6 +61,9 @@ const ProductForm = ({ product, onSave, onCancel, onEdit, categories, onSaveChan
                 <label className='form-control' htmlFor="old_price">Old Price:</label>
                 <input className='form-control' type="number" id="old_price" name="old_price" step="0.01" value={updatedFields.old_price} onChange={(e) => handleFieldChange("old_price", parseFloat(e.target.value))} />
 
+                <label className='form-control' htmlFor="quantity">Quantity:</label>
+                <input className='form-control' type="number" id="quantity" name="quantity" step="1" value={updatedFields.quantity} onChange={(e) => handleFieldChange("quantity", parseFloat(e.target.value))} />
+
                 <label className='form-control' htmlFor="description">Description:</label>
                 <input className='form-control' type="text" id="description" name="description" value={updatedFields.description} onChange={(e) => handleFieldChange("description", e.target.value)} />
 

@@ -1,5 +1,7 @@
 "use strict";
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var Product = require("../../models/productModel.js");
 
 var getDetailsProduct = function getDetailsProduct(id) {
@@ -47,41 +49,128 @@ var getDetailsProduct = function getDetailsProduct(id) {
   });
 };
 
-var getAllProduct = function getAllProduct() {
-  var products;
-  return regeneratorRuntime.async(function getAllProduct$(_context2) {
-    while (1) {
-      switch (_context2.prev = _context2.next) {
-        case 0:
-          _context2.prev = 0;
-          _context2.next = 3;
-          return regeneratorRuntime.awrap(Product.find());
+var getAllProduct = function getAllProduct(limit, page, sort, filter) {
+  return new Promise(function _callee2(resolve, reject) {
+    var totalProduct, allProduct, label, allObjectFilter, objectSort, allProductSort;
+    return regeneratorRuntime.async(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
+            return regeneratorRuntime.awrap(Product.count());
 
-        case 3:
-          products = _context2.sent;
-          return _context2.abrupt("return", {
-            status: "OK",
-            message: "Success",
-            data: products
-          });
+          case 3:
+            totalProduct = _context2.sent;
+            allProduct = [];
 
-        case 7:
-          _context2.prev = 7;
-          _context2.t0 = _context2["catch"](0);
-          throw _context2.t0;
+            if (!filter) {
+              _context2.next = 11;
+              break;
+            }
 
-        case 10:
-        case "end":
-          return _context2.stop();
+            label = filter[0];
+            _context2.next = 9;
+            return regeneratorRuntime.awrap(Product.find(_defineProperty({}, label, {
+              $regex: filter[1]
+            })).limit(limit).skip(page * limit).sort({
+              createdAt: -1,
+              updatedAt: -1
+            }));
+
+          case 9:
+            allObjectFilter = _context2.sent;
+            resolve({
+              status: "OK",
+              message: "Success",
+              data: allObjectFilter,
+              total: totalProduct,
+              pageCurrent: Number(page + 1),
+              totalPage: Math.ceil(totalProduct / limit)
+            });
+
+          case 11:
+            if (!sort) {
+              _context2.next = 18;
+              break;
+            }
+
+            objectSort = {};
+            objectSort[sort[1]] = sort[0];
+            _context2.next = 16;
+            return regeneratorRuntime.awrap(Product.find().limit(limit).skip(page * limit).sort(objectSort).sort({
+              createdAt: -1,
+              updatedAt: -1
+            }));
+
+          case 16:
+            allProductSort = _context2.sent;
+            resolve({
+              status: "OK",
+              message: "Success",
+              data: allProductSort,
+              total: totalProduct,
+              pageCurrent: Number(page + 1),
+              totalPage: Math.ceil(totalProduct / limit)
+            });
+
+          case 18:
+            if (limit) {
+              _context2.next = 24;
+              break;
+            }
+
+            _context2.next = 21;
+            return regeneratorRuntime.awrap(Product.find().sort({
+              createdAt: -1,
+              updatedAt: -1
+            }));
+
+          case 21:
+            allProduct = _context2.sent;
+            _context2.next = 27;
+            break;
+
+          case 24:
+            _context2.next = 26;
+            return regeneratorRuntime.awrap(Product.find().limit(limit).skip(page * limit).sort({
+              createdAt: -1,
+              updatedAt: -1
+            }));
+
+          case 26:
+            allProduct = _context2.sent;
+
+          case 27:
+            resolve({
+              status: "OK",
+              message: "Success",
+              data: allProduct,
+              total: totalProduct,
+              pageCurrent: Number(page + 1),
+              totalPage: Math.ceil(totalProduct / limit)
+            });
+            _context2.next = 33;
+            break;
+
+          case 30:
+            _context2.prev = 30;
+            _context2.t0 = _context2["catch"](0);
+            reject(_context2.t0);
+
+          case 33:
+          case "end":
+            return _context2.stop();
+        }
       }
-    }
-  }, null, null, [[0, 7]]);
+    }, null, null, [[0, 30]]);
+  });
 };
 
 var getAllType = function getAllType() {
-  return new Promise(function _callee2(resolve, reject) {
+  return new Promise(function _callee3(resolve, reject) {
     var allType;
-    return regeneratorRuntime.async(function _callee2$(_context3) {
+    return regeneratorRuntime.async(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:

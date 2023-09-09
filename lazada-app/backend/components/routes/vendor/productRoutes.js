@@ -15,12 +15,12 @@ router.delete(
   // authMiddleWare,
   ProductController.deleteProduct
 );
-router.get("/get-all", ProductController.getAllProduct);
-router.post(
-  "/delete-many",
-  // authMiddleWare,
-  ProductController.deleteMany
-);
-router.get("/get-all-type", ProductController.getAllType);
+router.post("/get-all", ProductController.getAllProduct);
+// router.post(
+//   "/delete-many",
+//   // authMiddleWare,
+//   ProductController.deleteMany
+// );
+// router.get("/get-all-type", ProductController.getAllType);
 
 module.exports = router;

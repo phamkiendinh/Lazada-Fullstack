@@ -8,9 +8,18 @@ const ProductApp = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const userData = JSON.parse(localStorage.getItem('auth'));
+
     useEffect(() => {
         // Fetch products data
-        fetch('http://localhost:3001/api/vendor/product/get-all')
+        fetch('http://localhost:3001/api/vendor/product/get-all', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({"vendor_name": userData.name}),
+
+        })
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

@@ -22,6 +22,7 @@ import UpdateSubCategory from "../components/AdminCategory/UpdateSubCategory";
 import SellerApproval from "../components/AdminSellerApproval/SellerApproval";
 import SellerPage from "./../SellerPage";
 import UnverifiedAccount from "../pages/SingInPage/UnverifiedAccount";
+import UnauthorizedAccount from "../pages/SingInPage/UnauthorizedAccount";
 
 export const routes = [
   {
@@ -147,6 +148,11 @@ export const routes = [
   {
     path: "/seller/unverified",
     page: UnverifiedAccount,
+    isShowHeader: false,
+  },
+  {
+    path: "/seller/404",
+    page: UnauthorizedAccount,
     isShowHeader: false,
   },
   {

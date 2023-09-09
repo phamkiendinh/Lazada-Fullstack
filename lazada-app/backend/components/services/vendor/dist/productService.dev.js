@@ -1,7 +1,5 @@
 "use strict";
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var Product = require("../../models/productModel.js");
 
 var createProduct = function createProduct(newProduct) {
@@ -253,128 +251,43 @@ var getDetailsProduct = function getDetailsProduct(id) {
   });
 };
 
-var getAllProduct = function getAllProduct(limit, page, sort, filter) {
-  return new Promise(function _callee6(resolve, reject) {
-    var totalProduct, allProduct, label, allObjectFilter, objectSort, allProductSort;
-    return regeneratorRuntime.async(function _callee6$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
-            return regeneratorRuntime.awrap(Product.count());
+var getAllProduct = function getAllProduct(vendor_name) {
+  var products;
+  return regeneratorRuntime.async(function getAllProduct$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.prev = 0;
+          _context6.next = 3;
+          return regeneratorRuntime.awrap(Product.find({
+            "vendor.name": vendor_name
+          }));
 
-          case 3:
-            totalProduct = _context6.sent;
-            allProduct = [];
+        case 3:
+          products = _context6.sent;
+          return _context6.abrupt("return", {
+            status: "OK",
+            message: "Success",
+            data: products
+          });
 
-            if (!filter) {
-              _context6.next = 11;
-              break;
-            }
+        case 7:
+          _context6.prev = 7;
+          _context6.t0 = _context6["catch"](0);
+          throw _context6.t0;
 
-            label = filter[0];
-            _context6.next = 9;
-            return regeneratorRuntime.awrap(Product.find(_defineProperty({}, label, {
-              $regex: filter[1]
-            })).limit(limit).skip(page * limit).sort({
-              createdAt: -1,
-              updatedAt: -1
-            }));
-
-          case 9:
-            allObjectFilter = _context6.sent;
-            resolve({
-              status: "OK",
-              message: "Success",
-              data: allObjectFilter,
-              total: totalProduct,
-              pageCurrent: Number(page + 1),
-              totalPage: Math.ceil(totalProduct / limit)
-            });
-
-          case 11:
-            if (!sort) {
-              _context6.next = 18;
-              break;
-            }
-
-            objectSort = {};
-            objectSort[sort[1]] = sort[0];
-            _context6.next = 16;
-            return regeneratorRuntime.awrap(Product.find().limit(limit).skip(page * limit).sort(objectSort).sort({
-              createdAt: -1,
-              updatedAt: -1
-            }));
-
-          case 16:
-            allProductSort = _context6.sent;
-            resolve({
-              status: "OK",
-              message: "Success",
-              data: allProductSort,
-              total: totalProduct,
-              pageCurrent: Number(page + 1),
-              totalPage: Math.ceil(totalProduct / limit)
-            });
-
-          case 18:
-            if (limit) {
-              _context6.next = 24;
-              break;
-            }
-
-            _context6.next = 21;
-            return regeneratorRuntime.awrap(Product.find().sort({
-              createdAt: -1,
-              updatedAt: -1
-            }));
-
-          case 21:
-            allProduct = _context6.sent;
-            _context6.next = 27;
-            break;
-
-          case 24:
-            _context6.next = 26;
-            return regeneratorRuntime.awrap(Product.find().limit(limit).skip(page * limit).sort({
-              createdAt: -1,
-              updatedAt: -1
-            }));
-
-          case 26:
-            allProduct = _context6.sent;
-
-          case 27:
-            resolve({
-              status: "OK",
-              message: "Success",
-              data: allProduct,
-              total: totalProduct,
-              pageCurrent: Number(page + 1),
-              totalPage: Math.ceil(totalProduct / limit)
-            });
-            _context6.next = 33;
-            break;
-
-          case 30:
-            _context6.prev = 30;
-            _context6.t0 = _context6["catch"](0);
-            reject(_context6.t0);
-
-          case 33:
-          case "end":
-            return _context6.stop();
-        }
+        case 10:
+        case "end":
+          return _context6.stop();
       }
-    }, null, null, [[0, 30]]);
-  });
+    }
+  }, null, null, [[0, 7]]);
 };
 
 var getAllType = function getAllType() {
-  return new Promise(function _callee7(resolve, reject) {
+  return new Promise(function _callee6(resolve, reject) {
     var allType;
-    return regeneratorRuntime.async(function _callee7$(_context7) {
+    return regeneratorRuntime.async(function _callee6$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:

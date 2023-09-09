@@ -2,9 +2,9 @@ const OrderService = require("../../services/customer/orderService.js");
 
 const createOrder = async (req, res) => {
   try {
-    const { items, subTotal, shippingFee, total, customer } = req.body;
+    const { items, subTotal, shippingFee, total, customer, status } = req.body;
 
-    if (!items || !subTotal || !shippingFee || !total || !customer) {
+    if (!items || !subTotal || !shippingFee || !total || !customer || !status) {
       return res.status(400).json({
         status: "ERR",
         message: "Invalid input data",

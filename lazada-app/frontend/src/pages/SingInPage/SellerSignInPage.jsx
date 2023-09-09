@@ -45,7 +45,7 @@ const SellerSignInPage = () => {
           setTimeout(() => {
             setShow(false);
             navigate( location.state || '/seller');
-          }, 2000);
+          }, 3000);
         } else {
           setShow(false);
           navigate( location.state || '/seller/unverified');

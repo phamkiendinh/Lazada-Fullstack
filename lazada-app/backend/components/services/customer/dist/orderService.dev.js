@@ -6,12 +6,12 @@ var Product = require("../../models/productModel.js");
 
 var createOrder = function createOrder(newOrder) {
   return new Promise(function _callee(resolve, reject) {
-    var items, subTotal, shippingFee, total, customer, createdOrder;
+    var items, subTotal, shippingFee, total, customer, status, createdOrder;
     return regeneratorRuntime.async(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            items = newOrder.items, subTotal = newOrder.subTotal, shippingFee = newOrder.shippingFee, total = newOrder.total, customer = newOrder.customer;
+            items = newOrder.items, subTotal = newOrder.subTotal, shippingFee = newOrder.shippingFee, total = newOrder.total, customer = newOrder.customer, status = newOrder.status;
             _context.prev = 1;
             _context.next = 4;
             return regeneratorRuntime.awrap(Order.create({
@@ -19,7 +19,8 @@ var createOrder = function createOrder(newOrder) {
               subTotal: subTotal,
               shippingFee: shippingFee,
               total: total,
-              customer: customer
+              customer: customer,
+              status: status
             }));
 
           case 4:

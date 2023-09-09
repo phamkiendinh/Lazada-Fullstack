@@ -216,34 +216,32 @@ var deleteMany = function deleteMany(req, res) {
 };
 
 var getAllProduct = function getAllProduct(req, res) {
-  var _req$query, limit, page, sort, filter, response;
-
+  var response;
   return regeneratorRuntime.async(function getAllProduct$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.prev = 0;
-          _req$query = req.query, limit = _req$query.limit, page = _req$query.page, sort = _req$query.sort, filter = _req$query.filter;
-          _context6.next = 4;
-          return regeneratorRuntime.awrap(ProductService.getAllProduct(Number(limit) || null, Number(page) || 0, sort, filter));
+          _context6.next = 3;
+          return regeneratorRuntime.awrap(ProductService.getAllProduct(req.body.vendor_name));
 
-        case 4:
+        case 3:
           response = _context6.sent;
           return _context6.abrupt("return", res.status(200).json(response));
 
-        case 8:
-          _context6.prev = 8;
+        case 7:
+          _context6.prev = 7;
           _context6.t0 = _context6["catch"](0);
           return _context6.abrupt("return", res.status(404).json({
             message: _context6.t0
           }));
 
-        case 11:
+        case 10:
         case "end":
           return _context6.stop();
       }
     }
-  }, null, null, [[0, 8]]);
+  }, null, null, [[0, 7]]);
 };
 
 var getAllType = function getAllType(req, res) {

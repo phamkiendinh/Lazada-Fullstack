@@ -1,11 +1,55 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import OrderList from './OrderList';
-import orderData from '../../../data/seller/order.json';
 
 const OrderManagement = () => {
-    const [orders, setOrders] = useState(orderData);
+    const [orders, setOrders] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const ordersPerPage = 5;
+
+    useEffect(() => {
+        // Fetch data from the API
+        fetch('http://localhost:3001/api/vendor/order/get-all-order')
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status === 'OK') {
+                    setOrders(data.data);
+                }
+            })
+            .catch((error) => {
+                console.error('Error fetching data from API:', error);
+            });
+    }, []);
+
+    // Function to update the product status via API
+    const updateProductStatus = (orderId, productId, newStatus) => {
+        const apiUrl = 'http://localhost:3001/api/vendor/order/update-order';
+        const requestData = {
+            productId: productId,
+            orderId: orderId,
+            status: newStatus,
+        };
+
+        fetch(apiUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.status === 'OK') {
+                    // If the API call is successful, update the state
+                    handleProductStatusChange(orderId, productId, newStatus);
+                    window.location.reload();
+                } else {
+                    console.error('Error updating product status via API:', data.error);
+                }
+            })
+            .catch((error) => {
+                console.error('Error updating product status via API:', error);
+            });
+    };
 
     const handleProductStatusChange = (orderId, productId, newStatus) => {
         const updatedOrders = orders.map((order) => {
@@ -22,6 +66,22 @@ const OrderManagement = () => {
         });
         setOrders(updatedOrders);
     };
+
+    // const handleProductStatusChange = (orderId, productId, newStatus) => {
+    //     const updatedOrders = orders.map((order) => {
+    //         if (order.orderId === orderId) {
+    //             const updatedProducts = order.products.map((product) => {
+    //                 if (product.productId === productId) {
+    //                     return { ...product, status: newStatus };
+    //                 }
+    //                 return product;
+    //             });
+    //             return { ...order, products: updatedProducts };
+    //         }
+    //         return order;
+    //     });
+    //     setOrders(updatedOrders);
+    // };
 
     const indexOfLastOrder = currentPage * ordersPerPage;
     const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
@@ -45,7 +105,7 @@ const OrderManagement = () => {
         <div>
             <OrderList
                 orders={currentOrders}
-                onProductStatusChange={handleProductStatusChange}
+                onProductStatusChange={updateProductStatus}
             />
 
             <div className="pagination">

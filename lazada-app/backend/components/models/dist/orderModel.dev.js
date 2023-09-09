@@ -48,11 +48,11 @@ var productSchema = new mongoose.Schema({
       required: true
     }
   },
-  name: {
+  status: {
     type: String,
     required: true
   },
-  status: {
+  name: {
     type: String,
     required: true
   }

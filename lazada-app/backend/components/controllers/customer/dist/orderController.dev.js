@@ -3,16 +3,16 @@
 var OrderService = require("../../services/customer/orderService.js");
 
 var createOrder = function createOrder(req, res) {
-  var _req$body, items, subTotal, shippingFee, total, customer, status, response;
+  var _req$body, items, subTotal, shippingFee, total, customer, response;
 
   return regeneratorRuntime.async(function createOrder$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _req$body = req.body, items = _req$body.items, subTotal = _req$body.subTotal, shippingFee = _req$body.shippingFee, total = _req$body.total, customer = _req$body.customer, status = _req$body.status;
+          _req$body = req.body, items = _req$body.items, subTotal = _req$body.subTotal, shippingFee = _req$body.shippingFee, total = _req$body.total, customer = _req$body.customer;
 
-          if (!(!items || !subTotal || !shippingFee || !total || !customer || !status)) {
+          if (!(!items || !subTotal || !shippingFee || !total || !customer)) {
             _context.next = 4;
             break;
           }

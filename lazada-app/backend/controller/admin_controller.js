@@ -78,6 +78,7 @@ async function deleteTopCategory(req, res) {
     try {
 
         var db = client.db('lazada');
+        var collection = db.collection('categories');
         var productCollection = db.collection('products');
         const quantity = await productCollection.find({category : categoryName}).count();
         if (quantity > 0) {
@@ -86,7 +87,16 @@ async function deleteTopCategory(req, res) {
             return;
         }
         else {
-            var collection = db.collection('categories');
+            const subCategories = await collection.find({name : categoryName}, {projection: {_id: 0, sub_category : 1}}).toArray();
+        
+            const keys = Object.keys(subCategories[0]);
+            if (keys.length !== 0) {
+                if (subCategories[0]['sub_category'].length !== 0) {
+                    console.log(subCategories[0]['sub_category'].length);
+                    res.send({status : 445});
+                    return;
+                }
+            }
             const data = await collection.deleteOne({name : categoryName});
             // console.log(json);
             res.send({status: 200});
@@ -105,6 +115,8 @@ async function updateTopCategory(req, res) {
     try {
         var db = client.db('lazada');
         var productCollection = db.collection('products');
+        var collection = db.collection('categories');
+
         const quantity = await productCollection.find({category : categoryName}).count();
         if (quantity > 0) {
             console.log("Called");
@@ -112,7 +124,16 @@ async function updateTopCategory(req, res) {
             return;
         }
         else {
-            var collection = db.collection('categories');
+            const subCategories = await collection.find({name : categoryName}, {projection: {_id: 0, sub_category : 1}}).toArray();
+        
+            const keys = Object.keys(subCategories[0]);
+            if (keys.length !== 0) {
+                if (subCategories[0]['sub_category'].length !== 0) {
+                    console.log(subCategories[0]['sub_category'].length);
+                    res.send({status : 445});
+                    return;
+                }
+            }
             const data = {};
             json.map(item => {
                 var entry = Object.entries(item);
@@ -121,16 +142,10 @@ async function updateTopCategory(req, res) {
                 const value = entryData[1];
                 data[key] = value;
             })
-            const subCategories = await collection.find({name : categoryName}, {projection: {_id: 0, sub_category : 1}}).toArray();
-
-            if (subCategories.length !== 0) {
-                data['sub_category'] = subCategories[0].sub_category;
-            }
-            console.log(data);
-
             await collection.deleteOne({name : categoryName});
             await collection.insertOne(data);
             res.send({status: 200});
+            return;
         }
     } catch (error) {
         console.log(error);

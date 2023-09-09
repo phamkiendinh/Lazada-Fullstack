@@ -96,6 +96,10 @@ function UpdateTopCategory() {
         if (response.status === 444) {
             window.alert("This category still have products~ Operation failed.");
         }
+        if (response.status === 445) {
+            window.alert("This top category has sub-categories, please delete all sub-categories first");
+            navigate('/admin/category');
+        }
         navigate('/admin/category');
         return null;
     }

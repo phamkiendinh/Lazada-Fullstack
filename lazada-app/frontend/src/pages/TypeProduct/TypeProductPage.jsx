@@ -1,11 +1,11 @@
 import React from 'react'
 import NavBarComponent from './../../components/NavBarComponent/index'
-import CardComponent from './../../components/CardComponent/index'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import CardTypeProduct from './../../components/CardTypeProduct/index'
 import { useNavigate } from 'react-router-dom'
+import PaginationComponent from './../../components/PaginationComponent/index'
 
 const TypeProductPage = () => {
   const navigate = useNavigate()
@@ -13,8 +13,8 @@ const TypeProductPage = () => {
     <div
       style={{
         backgroundColor: '#eff0f5',
-        height: '100vh',
-        padding: '10px 120px'
+        height: '100%',
+        padding: '10px 50px'
       }}
     >
       <h5 className='pt-3'>
@@ -25,7 +25,7 @@ const TypeProductPage = () => {
           }}
         >
           Trang chủ
-        </span>  
+        </span>
         - Loại Sản Phẩm
       </h5>
       <Container
@@ -52,7 +52,8 @@ const TypeProductPage = () => {
                 background: '#fff',
                 marginRight: '10px',
                 padding: '10px',
-                borderRadius: '6px'
+                borderRadius: '6px',
+                height: '55vh'
               }}
             >
               <NavBarComponent />
@@ -63,6 +64,8 @@ const TypeProductPage = () => {
           </Row>
         </div>
       </Container>
+
+      <PaginationComponent />
     </div>
   )
 }

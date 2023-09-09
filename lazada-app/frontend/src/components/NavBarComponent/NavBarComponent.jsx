@@ -4,12 +4,13 @@ import {
   WrapperContent,
   WrapperLableText,
   WrapperTextPrice,
-  WrapperTextValue
+  WrapperTextValue,
+  LineBreak,
 } from './style'
 
 const NavBarComponent = () => {
-  const onChange = () => {}
 
+  
   const renderContent = (type, options) => {
     switch (type) {
       case 'text':
@@ -20,37 +21,7 @@ const NavBarComponent = () => {
             </WrapperTextValue>
           )
         })
-      case 'checkbox':
-        return (
-          <Form>
-            {['checkbox'].map(type =>
-              <div key={`default-${type}`} className='mb-3'>
-                <Form.Check
-                  type={type}
-                  id={`default-${type}`}
-                  label={`default ${type}`}
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                  onChange={onChange}
-                >
-                  {options.map(option => {
-                    return (
-                      <Form.Check
-                        style={{ marginLeft: 0 }}
-                        value={option.value}
-                      >
-                        {option.label}
-                      </Form.Check>
-                    )
-                  })}
-                </Form.Check>
-              </div>
-            )}
-          </Form>
-        )
+    
       case 'price':
         return options.map(option => {
           return (
@@ -63,12 +34,19 @@ const NavBarComponent = () => {
         return {}
     }
   }
-
+  
   return (
     <div>
       <WrapperLableText>Lable</WrapperLableText>
       <WrapperContent>
         {renderContent('text', ['Tu lanh', 'TV', 'Laptop'])}
+      </WrapperContent>
+
+      <LineBreak></LineBreak>
+      
+      <WrapperLableText>Giá</WrapperLableText>
+      <WrapperContent>
+        {renderContent('price', ['dưới 40,000', 'trên 50,000'])}
       </WrapperContent>
     </div>
   )

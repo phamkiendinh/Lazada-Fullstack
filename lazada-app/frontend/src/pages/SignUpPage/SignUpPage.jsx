@@ -1,109 +1,61 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { routes } from './../../routes/index'
 import { useState } from 'react'
+import ToastContainer from 'react-bootstrap/ToastContainer'
+import Toast from 'react-bootstrap/Toast'
+import axios from 'axios'
+import { useAuth } from '../../context/AuthContext'
+
+
 
 const SignUpPage = () => {
   const signInPath = routes.find(route => route.path === '/sign-in')
-  const [form, setForm] = useState({ phone: '', password: '', confirm_password: '', email: ''});
-  const [errors, setError] = useState({})
+  const [show, setShow] = useState(false)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [phone, setPhone] = useState('')
+  const [auth, setAuth] = useAuth();
+  const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
+  const [showError, setShowError] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
 
-  // Update the state of form
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value
-
-      // sử dụng tính năng "computed property names" trong JavaScript để cập nhật hoặc thêm một trường mới trong đối tượng "form". Trường này có tên được xác định bởi giá trị của biến field, và giá trị của trường là giá trị của biến value.
-    })
-
-    // Check and see if errors exist, and remove them from the error object:
-    if (errors[field]) {
-      setError({
-        ...errors,
-        [field]: null
+  const handleSubmit = async e => {
+    e.preventDefault()
+    try {
+      const res = await axios.post('/api/v1/auth/register', {
+        name,
+        email,
+        phone,
+        password
       })
+
+      if (res && res.data.success) {
+        setSuccessMessage('Account created successfully!')
+        setShow(true)
+        navigate('/sign-up')
+        setName('')
+        setEmail('')
+        setPhone('')
+        setPassword('')
+      } else {
+        handleRegistrationError('Registration failed, Please try again!!')
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
-  const findFormErrors = (e) => {
-    const { password, phone, email, confirm_password } = form
-    const newErrors = {}
-    // name errors
-    if (!email || email === '') newErrors.email = ' email cannot be blank '
-    else if (email.type !== 'email') newErrors.email = 'must be a valid email'
-
-    // comment errors
-    if (!password || password === '') { newErrors.password = 'password cannot be blank!' } 
-   
-
-    // comment errors
-    if (!confirm_password || confirm_password === '') { newErrors.confirm_password = 'confirm_password cannot be blank!' } 
-   
-    return newErrors
-  }
-
-
-  const validatePhoneNumber = (phoneNumber) => {
-    // Regular expression for a basic 10-digit US phone number format
-    const phonePattern = /^\d{10}$/;
-
-    if (!phonePattern.test(phoneNumber)) {
-      return 'Please enter a valid 10-digit phone number';
-    } 
-
-  return '';
-
-  };
-
-  const validatePassword = (password) => {
-    if (password.length < 8) {
-      return " Password must be at least 8 characters long";   
-    } 
-
-    return ''
-  
-  }
-
-  const validateConfirmPassword = (confirm_password) => {
-    if (confirm_password !== form.password) {
-        return "Password do not match";
-    } 
-
-    return '';
-  
-  }
-
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Validate all fields
-    const phoneError = validatePhoneNumber(form.phone);
-      const passwordError = validatePassword(form.password);
-      const confirmpasswordError = validateConfirmPassword(form.confirm_password)
-
-    // get Errors
-    const newError = findFormErrors()
-
-    const combineError = {
-      ...newError,
-      phone: phoneError,
-      password: passwordError,
-      confirm_password: confirmpasswordError,
-
-    };
-
-    if (Object.keys(combineError).length > 0) {
-      setError(combineError)
-    } else {
-      alert('Thank for creating new account')
-    }
+  const handleRegistrationError = error => {
+    setErrorMessage(error)
+    setShowError(true)
   }
 
   return (
-    <div style={{ background: "#ccc", height: "auto", padding: "20px" }} >
+    <div style={{ background: '#ccc', height: 'auto', padding: '20px' }}>
       <Container>
         <Row className='vh-100 d-flex justify-content-center align-items-center'>
           <Col md={8} lg={6} xs={12}>
@@ -128,29 +80,32 @@ const SignUpPage = () => {
                         <Form.Control
                           type='email'
                           placeholder='Nhập email của bạn vào đây'
-                          onChange={e => setField('email', e.target.value)}
-                          isInvalid={!!errors.email}
+                          value={email}
+                          onChange={e => setEmail(e.target.value)}
+                          required
                         />
+                      </Form.Group>
 
-                        {/* Show error */}
-                        <Form.Control.Feedback type='invalid'>
-                          {errors.email}
-                        </Form.Control.Feedback>
+                      <Form.Group className='mb-3' controlId='Name'>
+                        <Form.Label className='text-center'>Name</Form.Label>
+                        <Form.Control
+                          type='text'
+                          placeholder='Nhập tên của bạn vào đây'
+                          value={name}
+                          onChange={e => setName(e.target.value)}
+                          required
+                        />
                       </Form.Group>
 
                       <Form.Group className='mb-3' controlId='Phone'>
                         <Form.Label className='text-center'>Phone</Form.Label>
                         <Form.Control
-                          type='text'
+                          type='number'
                           placeholder='Nhập số điện thoại của bận vào đây'
-                          onChange={e => setField('phone', e.target.value)}
-                          isInvalid={!!errors.phone}
+                          value={phone}
+                          onChange={e => setPhone(e.target.value)}
+                          required
                         />
-
-                        {/* Show error */}
-                        <Form.Control.Feedback type='invalid'>
-                          {errors.phone}
-                        </Form.Control.Feedback>
                       </Form.Group>
 
                       <Form.Group
@@ -161,31 +116,11 @@ const SignUpPage = () => {
                         <Form.Control
                           type='password'
                           placeholder='Vui lòng nhập password của bạn'
-                          onChange={e => setField('password', e.target.value)}
-                          isInvalid={!!errors.password}
+                          onChange={e => setPassword(e.target.value)}
+                          value={password}
+                          autoComplete='current-password'
+                          required
                         />
-
-                        {/* Show error */}
-                        <Form.Control.Feedback type='invalid'>
-                          {errors.password}
-                        </Form.Control.Feedback>
-                      </Form.Group>
-
-                      <Form.Group
-                        className='mb-3'
-                        controlId='formBasicPassword'
-                      >
-                        <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control
-                          type='password'
-                          placeholder='Nhập lại password của bạn '
-                          onChange={e => setField('confirm_password', e.target.value)}
-                          isInvalid={!!errors.confirm_password}
-                          />
-                         {/* Show error */}
-                        <Form.Control.Feedback type='invalid'>
-                          {errors.confirm_password}
-                        </Form.Control.Feedback>
                       </Form.Group>
 
                       <Form.Group
@@ -213,6 +148,69 @@ const SignUpPage = () => {
                 </div>
               </Card.Body>
             </Card>
+            {/* Toast Notification */}
+            <ToastContainer
+              position='top-end'
+              className='p-3 rounded-2'
+              style={{ zIndex: 1, marginTop: '50px' }}
+            >
+              <Toast
+                onClose={() => setShow(false)}
+                show={show}
+                delay={3000}
+                autohide
+              >
+                <Toast.Header>
+                  <img
+                    src='holder.js/20x20?text=%20'
+                    className='rounded'
+                    alt=''
+                  />
+                  <strong className='mx-auto'>Notification</strong>
+                </Toast.Header>
+                <Toast.Body
+                  style={{
+                    backgroundColor: 'green',
+                    color: 'white',
+                    textAlign: 'center'
+                  }}
+                >
+                  {successMessage}
+                </Toast.Body>
+              </Toast>
+            </ToastContainer>
+
+            {/* Error Toast Notification */}
+            <ToastContainer
+              position='top-end'
+              className='p-3 rounded-2'
+              style={{ zIndex: 1, marginTop: '50px' }}
+            >
+              <Toast
+                onClose={() => setShowError(false)}
+                show={showError}
+                delay={3000}
+                autohide
+              >
+                <Toast.Header>
+                  <img
+                    src='holder.js/20x20?text=%20'
+                    className='rounded'
+                    alt=''
+                  />
+                  <strong className='mx-auto'>Error</strong>
+                </Toast.Header>
+                <Toast.Body
+                  style={{
+                    backgroundColor: 'red',
+                    color: 'white',
+                    textAlign: 'center'
+                  }}
+                >
+                  {errorMessage}
+                </Toast.Body>
+              </Toast>
+            </ToastContainer>
           </Col>
         </Row>
       </Container>

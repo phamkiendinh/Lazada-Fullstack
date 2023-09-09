@@ -1,3 +1,3 @@
 import ProductDetailPage from "./ProductDetailPage";
 
-export default ProductDetailPage
+export default ProductDetailPage;

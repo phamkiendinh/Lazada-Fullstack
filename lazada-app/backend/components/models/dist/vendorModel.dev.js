@@ -1,0 +1,30 @@
+"use strict";
+
+var mongoose = require("mongoose");
+
+var userSchema = new mongoose.Schema({
+  name: {
+    type: String
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  phone: {
+    type: Number,
+    unique: true
+  },
+  verified: {
+    type: Boolean,
+    required: true
+  }
+}, {
+  timestamps: true
+});
+var Vendor = mongoose.model("Seller", userSchema);
+module.exports = Vendor;

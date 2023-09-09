@@ -143,4 +143,4 @@ const MyOrder = () => {
     );
 };
 
-export default MyOrder;
+export default MyOrder

@@ -25,7 +25,7 @@ const SellerSignInPage = () => {
     e.preventDefault();
     
     try {
-      const res = await axios.post('/api/vendor/user/sign-in', {
+      const res = await axios.post('http://localhost:3001/api/vendor/user/sign-in', {
         email,
         password
       })

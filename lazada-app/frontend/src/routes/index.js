@@ -81,7 +81,35 @@ export const routes = [
     path: "/dashboard/user/orders",
     page: OrderManagement,
     isShowHeader: true,
-  }
+  },
+  {
+    path: "/seller",
+    page: SellerPage,
+  },
+  {
+    path: "/seller/sign-up",
+    page: SellerSignUpPage,
+    isShowHeader: false,
+  },
+  {
+    path: "/seller/sign-in",
+    page: SellerSignInPage,
+    isShowHeader: false,
+  },
+  {
+    path: "/seller/unverified",
+    page: UnverifiedAccount,
+    isShowHeader: false,
+  },
+  {
+    path: "/seller/404",
+    page: UnauthorizedAccount,
+    isShowHeader: false,
+  },
+  {
+    path: "*",
+    page: NotFoundPage,
+  },
 ];
 
 export default routes;

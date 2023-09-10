@@ -7,18 +7,26 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 import Button from 'react-bootstrap/Button'
+import { useAuth } from '../../context/AuthContext'
+import { useCart } from '../../context/CartContext.js'
+import { useNavigate } from 'react-router-dom'
 
 const MyOrder = () => {
+  const [cart] = useCart([])
+  const [auth, setAuth] = useAuth()
+
+  console.log(cart)
   return (
     <div
       style={{
         height: '100vh',
-
         padding: '25px 110px',
-
         backgroundColor: '#eff0f5'
       }}
     >
+    <h4 className='text-center'>
+        {cart?.length > 0 ? `You have ${cart.length} items in your cart ${auth?.token  ? "" :  "please login to checkout"}` : "Your cart is empty"}
+    </h4>
       <Row className='row'>
         <Col sm={8} className='col'>
           <Row>
@@ -59,8 +67,9 @@ const MyOrder = () => {
               </div>
             </div>
           </Row>
-
-          <Row>
+          
+          {cart?.map(c => (
+          <Row key={c._id}>
             <div className='list-item-container'>
               <div className='list-item-main'>
                 <div className='list-item-left'>
@@ -71,15 +80,14 @@ const MyOrder = () => {
                   <div className='list-item-img'>
                     <img
                       className='item-img'
-                      src='https://lzd-img-global.slatic.net/g/p/3ca045c0ab8acdf3bd2e4e9f51a0b088.jpg_2200x2200q75.jpg_.webp'
+                      src={c.img}
                       alt='item-img'
                     />
                   </div>
 
                   <div className='list-item-info'>
                     <a href='#' className='item-info-title'>
-                      Ga giường Cotton Tici M2T Bedding - Ga trải giường cotton
-                      phong cách Hàn Quốc - không kèm vỏ gối - đủ size drap nệm
+                      {c.name}
                     </a>
 
                     <a href='#' className='item-info-sku'>
@@ -153,6 +161,7 @@ const MyOrder = () => {
               </div>
             </div>
           </Row>
+          ))}
         </Col>
 
         <Col sm={4} className='col order-summary-wrapper'>

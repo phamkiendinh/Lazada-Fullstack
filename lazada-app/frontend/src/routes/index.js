@@ -7,12 +7,8 @@ import ProductDetailPage from './../pages/ProductDetail/index'
 import TypeProductPage from './../pages/TypeProduct/TypeProductPage'
 import OrderManagement from './../pages/OrderManagement/index'
 import Dashboard from './../pages/DashboardPage/Dashboard'
-import PrivateRoute from './Private'
-import AdminRoute from './AdminRoute'
-import AdminDashboard from './../pages/Admin/AdminDashboard'
-import CreateCategory from './../pages/Admin/CreateCategory'
-import CreateProduct from './../pages/Admin/CreateProduct'
-import Users from './../pages/Admin/Users'
+import PrivateRoute from './PrivateRoute';
+import SearchingProduct from './../components/CardTypeProduct/SearchingProducts';
 
 export const routes = [
   {
@@ -46,6 +42,11 @@ export const routes = [
     isShowHeader: true
   },
   {
+    path: '/searching-products/:query',
+    page: SearchingProduct,
+    isShowHeader: true
+  },
+  {
     path: '/track-order',
     page: OrderManagement,
     isShowHeader: true
@@ -66,32 +67,7 @@ export const routes = [
     page: OrderManagement,
     isShowHeader: true
   },
-  {
-    path: '/dashboard/admin',
-    page: AdminRoute,
-    nestedRoutes: [
-      {
-        path: '',
-        page: AdminDashboard
-      }
-    ],
-    isShowHeader: true
-  },
-  {
-    path: '/dashboard/admin/create-category',
-    page: CreateCategory,
-    isShowHeader: true
-  },
-  {
-    path: '/dashboard/admin/create-product',
-    page: CreateProduct,
-    isShowHeader: true
-  },
-  {
-    path: '/dashboard/admin/users',
-    page: Users,
-    isShowHeader: true
-  },
+
   {
     path: '*',
     page: NotFoundPage

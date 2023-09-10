@@ -25,17 +25,17 @@ const SignInPage = () => {
     e.preventDefault();
     
     try {
-      const res = await axios.post('/api/v1/auth/login', {
+      const res = await axios.post('http://localhost:3001/api/customer/user/sign-in', {
         email,
         password
       })
 
-      if (res && res.data.success) {
+      if (res && res.data) {
         setSuccessMessage('Login successfully!')
         setShow(true);
         setAuth({             // SET AUTH TOKEN
           ...auth,
-          user: res.data.user,
+          user: res.data.checkUser,
           token: res.data.token
         });
         localStorage.setItem("auth", JSON.stringify(res.data));

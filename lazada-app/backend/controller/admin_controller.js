@@ -16,7 +16,7 @@ async function getAllTopCategory(req, res) {
     try {
         var db = client.db('lazada');
         var collection = db.collection('categories');
-        const data = await collection.find({}, {projection: {_id:0, sub_category: 0}}).toArray();
+        const data = await collection.find({}, {projection: {sub_category: 0}}).toArray();
         // console.log(data);
         if (data.length == 0) {
             res.send(null);

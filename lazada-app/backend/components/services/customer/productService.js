@@ -24,6 +24,7 @@ const getDetailsProduct = (id) => {
   });
 };
 
+/* FILTER PRODUCT  */
 const getAllProduct = (limit, page, sort, filter) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -103,8 +104,32 @@ const getAllType = () => {
   });
 };
 
+
+// const productFilterController = async(req, res) => {
+//   try {
+//     const {checked, radio} = req.body
+//     let args = {}
+//     if (checked.length > 0) args.category = checked
+//     if (radio.length > 0) args.price = {$gte : radio[0], $lte:radio[1]}
+//     const products = await Product.find(args);
+//     res.status(200).send({
+//       success: true,
+//       data:products
+//     })
+
+//   } catch (error) {
+//   console.log(error)
+//   res.status(400).send({
+//     success: false,
+//     message: 'Error while Filtering products',
+//     error
+//   })
+//   }
+
+
 module.exports = {
   getDetailsProduct,
   getAllProduct,
   getAllType,
+  
 };

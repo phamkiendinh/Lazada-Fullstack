@@ -143,7 +143,19 @@
     transition: 0.3s;
 }
 
-
+.cart-item {
+    position: relative;
+  }
+  
+.badge {
+    position: absolute;
+    top: -8px; /* Adjust the top position as needed */
+    right: -7px; /* Adjust the right position as needed */
+    border-radius: 50%; /* Make it a circle */
+    font-size: 2px; /* Adjust font size as needed */
+    width: 1px;
+    height: 9px;
+  }
 
 
 

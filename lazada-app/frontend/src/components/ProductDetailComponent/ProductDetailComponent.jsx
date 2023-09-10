@@ -1,18 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import React from 'react'
 import { Button, Container, Row, Col, Image } from 'react-bootstrap'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 import Toast from 'react-bootstrap/Toast'
 import styled from 'styled-components'
 import './style.css'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from 'axios'
+import {useCart} from "../../context/CartContext.js"
 
-const images = [
-  'https://lzd-img-global.slatic.net/g/p/2df0d5471060c5b544a48c80b7fa8e78.png_720x720q80.png_.webp',
-  'https://lzd-img-global.slatic.net/g/p/e494a1d1e2bddb0939bb090d4470ef74.png_720x720q80.png_.webp',
-  'https://lzd-img-global.slatic.net/g/p/7cb1db454f333225bd6064ccf7a4f976.png_720x720q80.png_.webp',
-  'https://lzd-img-global.slatic.net/g/p/a9256d938212b3457188dd11bd27e879.png_720x720q80.png_.webp'
-]
+
 
 const WrapperPriceProdduct = styled.div`
   background: rgb();
@@ -47,25 +44,34 @@ const WrapperQualityProduct = styled.div`
 `
 
 const ProductDetailComponent = () => {
-  const [selectedImage, setSelectedIamge] = useState(images[0])
-  const [quantity, setQuantity] = useState(1)
+  const params = useParams();
   const [show, setShow] = useState(false)
   const [showAdd, setShowAdd] = useState(false)
   const navigate = useNavigate();
+  const [cart, setCart] = useCart();
+  const [products, setProducts] = useState([]);
 
-  const handleImageClick = imageUrl => {
-    setSelectedIamge(imageUrl)
-  }
 
-  const handleDecrease = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1)
+
+
+  const getProduct = async(id) => {
+    try {
+      const data = await axios.get(`http://localhost:3001/api/customer/product/get-details/${params.id}`);
+      setProducts(data.data.data);
+      console.log(data)
+    } catch (error) {
+        console.log(error);
     }
   }
 
-  const handleIncrease = () => {
-    setQuantity(quantity + 1)
-  }
+  console.log(products);
+  useEffect(() => {
+    if (params?.id) getProduct();
+  }, [params?.id]);
+
+
+
+
 
   return (
     <div style={{ padding: '10px 10px' }}>
@@ -73,61 +79,36 @@ const ProductDetailComponent = () => {
         <Row>
           <Col sm={6}>
             <Image
-              src={selectedImage}
+              src={products.img}
               rounded
               style={{ width: '540px', heigth: '250px' }}
             />
-            {/* THUMBNAIL IMAGE */}
-            <Row className='gap-3 mt-2'>
-              {images.map((imageUrl, index) =>
-                <Image
-                  key={index}
-                  src={imageUrl}
-                  rounded
-                  style={{
-                    width: '120px',
-                    height: '100px',
-                    marginRight: '10px',
-                    border:
-                      selectedImage === imageUrl ? '2px solid blue' : 'none',
-                    cursor: 'pointer'
-                  }}
-                  onClick={() => handleImageClick(imageUrl)}
-                />
-              )}
-            </Row>
+           
           </Col>
           <Col sm={6}>
             <h2>
-              [Voucher 12% max 3TR] Laptop HP Victus 16-e1107AX (7C140PA) (AMD
-              Ryzen 5 6600H) (Đen) - Bảo hành 12 tháng
+              {products.name}
             </h2>
+            <p>
+              {products.description}
+            </p>
             <WrapperPriceProdduct>
-              <WrapperPriceTextProduct>₫17,790,00</WrapperPriceTextProduct>
+              <WrapperPriceTextProduct>{products.price} $</WrapperPriceTextProduct>
               <WrapperOldPriceTextProduct>
-                ₫25,490,000{' '}
+              {products.old_price} $
               </WrapperOldPriceTextProduct>
             </WrapperPriceProdduct>
-            <WrapperQualityProduct>
-              <div> Quantity </div>
-              <div className='mt-3'>
-                <Button variant='outline-primary' onClick={handleDecrease}>
-                  -
-                </Button>
-                <span style={{ margin: '10px 10px' }}>
-                  {quantity}
-                </span>
-                <Button variant='outline-primary' onClick={handleIncrease}>
-                  +
-                </Button>
-              </div>
-            </WrapperQualityProduct>
+          
             <div className='mt-5'>
               <Button
                 size='lg'
                 style={{ width: '200px' }}
                 variant='warning'
-                onClick={() => setShow(true)}
+                onClick={() => {
+                    setShow(true);
+                    setCart([...cart, products]);
+                    localStorage.setItem('cart',JSON.stringify([...cart, products]) )
+                  }}
               >
                 Buy Now
               </Button>
@@ -135,7 +116,12 @@ const ProductDetailComponent = () => {
                 size='lg'
                 style={{ width: '200px' }}
                 className='custom-button mx-4'
-                onClick={() => setShowAdd(true)}
+                onClick={() => {
+                    setShowAdd(true);
+                    setCart([...cart, products]);
+                    localStorage.setItem('cart',JSON.stringify([...cart, products]) )
+                  }}
+        
               >
                 Add to Cart
               </Button>
@@ -207,7 +193,7 @@ const ProductDetailComponent = () => {
             </div>
           </Col>
         </Row>
-      </Container>
+      </Container>  
     </div>
   )
 }

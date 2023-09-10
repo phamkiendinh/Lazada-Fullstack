@@ -7,31 +7,28 @@ const ProductDetailPage = () => {
   const navigate = useNavigate()
 
   return (
-    <div style={{background: '#eff0f5', height: '100vh' }}>
-      <div style={{ width: "1450px", height: '100%', margin: '0 auto' }}>
-        <h5 className="pt-3">
+    <div style={{ background: '#eff0f5', height: '100vh' }}>
+      <div style={{ width: '1450px', height: '100%', margin: '0 auto' }}>
+        <h5 className='pt-3'>
           <span
-            style={{ cursor: 'pointer', fontWeight: 'bold', }}
+            style={{ cursor: 'pointer', fontWeight: 'bold' }}
             onClick={() => {
               navigate('/')
             }}
-            
           >
             Trang chủ
           </span>
           <span
-            style={{ cursor: 'pointer', fontWeight: 'bold', }}
+            style={{ cursor: 'pointer', fontWeight: 'bold' }}
             onClick={() => {
               navigate('/type')
             }}
-            
           >
-           - Loại Sản Phẩm
-          </span> - Chi tiết sản phẩm
+            - Loại Sản Phẩm
+          </span>{' '}
+          - Chi tiết sản phẩm
         </h5>
-        <ProductDetailComponent idProduct={id} />
-            
-
+        <ProductDetailComponent id Product={id} />
       </div>
     </div>
   )

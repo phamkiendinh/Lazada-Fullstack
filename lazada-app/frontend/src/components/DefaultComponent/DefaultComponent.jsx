@@ -3,6 +3,8 @@ import HeaderComponent from '../HeaderComponent';
 import FooterComponent from '../FooterComponent';
 
 const DefaultComponent = ({children}) => {
+  
+
     return (
         <div >
             <HeaderComponent></HeaderComponent>

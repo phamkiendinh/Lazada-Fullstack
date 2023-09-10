@@ -24,7 +24,12 @@ import CreateSubCategory, { loadTopCategoryField } from "../components/AdminCate
 //Action Function
 import UpdateTopCategory from "../components/AdminCategory/UpdateTopCategory";
 import UpdateSubCategory, {loadSubCategory, updateSubCategory} from "../components/AdminCategory/UpdateSubCategory";
+import Element from "../components/Empty/Element";
 export const routes = createBrowserRouter([
+    {
+        path: '*',
+        element: <Element></Element>
+    },
     {
         path : '/admin',
         element : <Admin />,

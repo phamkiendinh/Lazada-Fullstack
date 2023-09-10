@@ -143,7 +143,7 @@ function UpdateSubCategory() {
     }
 
     function renderUpdateForm(key) {
-        entries.map(item => {
+        entry.map(item => {
             var k = item[0];
             var v = item[1];
             if (k === key) {
@@ -169,40 +169,26 @@ function UpdateSubCategory() {
             window.alert('Cant have extra name column');
             return;
         }
-        let item = {
+        let newItem = [
+            updateInput,
+            {
             type: updateType,
-            required: updateRequire
-        };
+            required: updateRequire}
+        ];
 
         if (oldInput === '') {
             return;
         }
         
-        let newItem = [];
-        entry.map(item => {
+        const newArray = entry.filter(item => {
             const k = item[0];
             const v = item[1];
-            if (k === oldInput) {
-                newItem.push(updateInput.toLowerCase());
-                newItem.push(v);
-            }
-            else {
+            if (k !== oldInput) {
                 return item;
             }
         })
 
-        if (newItem.length !== 0) {
-            entry.push(newItem);
-        }
-
-        var newArray = [];
-
-        entry.map(item => {
-            if (item[0] !== oldInput) {
-                newArray.push(item);
-                
-            }
-        })
+        newArray.push(newItem);
 
         setEntry(newArray);
         closeUpdateForm();

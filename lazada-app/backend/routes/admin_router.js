@@ -5,6 +5,7 @@ const admin_controller = require("../controller/admin_controller");
 
 admin_router.get("/", admin_controller.getOneAdmin);
 admin_router.get("/seller", admin_controller.getAllSeller);
+admin_router.post("/seller/update", admin_controller.updateSeller);
 
 // Top Category
 admin_router.get("/category", admin_controller.getAllTopCategory);

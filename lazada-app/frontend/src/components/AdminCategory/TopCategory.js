@@ -19,6 +19,9 @@ function TopCategory() {
         if (response.status === 444) {
             window.alert("This category still have products~ Operation failed.");
         }
+        if (response.status === 445) {
+            window.alert("Can't delete, please delete all sub-categories first!");
+        }
         else {
             navigate(0);
         }

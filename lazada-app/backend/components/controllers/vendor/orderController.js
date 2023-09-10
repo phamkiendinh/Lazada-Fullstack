@@ -53,8 +53,21 @@ const updateOrder = async (req, res) => {
   }
 };
 
+const getAllOrderStatus = async (req, res) => {
+  try {
+    const { vendor_id } = req.body;
+    const data = await OrderService.getAllOrderStatus(vendor_id);
+    return res.status(200).json(data);
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
 module.exports = {
   getAllOrder,
   updateOrder,
   getAllOrderByVendor,
+  getAllOrderStatus,
 };

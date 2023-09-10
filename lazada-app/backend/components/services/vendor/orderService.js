@@ -49,7 +49,6 @@ const getAllOrderByVendor = (vendor_id) => {
   });
 };
 
-
 const updateOrder = (product_id, order_id, status) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -93,8 +92,47 @@ const updateOrder = (product_id, order_id, status) => {
   });
 };
 
+const getAllOrderStatus = (vendor_id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Find orders with products that have the same vendor_id
+      const orders = await Order.find({
+        "items.vendor._id": vendor_id,
+      });
+
+      // Initialize a status count object
+      const statusCount = {
+        Pending: 0,
+        Shipped: 0,
+        Cancelled: 0,
+        Accepted: 0,
+        Rejected: 0,
+      };
+
+      // Iterate through the orders and update the status count
+      orders.forEach((order) => {
+        order.items.forEach((product) => {
+          const productStatus = product.status;
+          if (statusCount.hasOwnProperty(productStatus)) {
+            statusCount[productStatus]++;
+          }
+        });
+      });
+
+      resolve({
+        status: "OK",
+        message: "Success",
+        data: statusCount,
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   getAllOrder,
   updateOrder,
   getAllOrderByVendor,
+  getAllOrderStatus,
 };

@@ -1,5 +1,4 @@
 import { RouterProvider } from 'react-router-dom'
-import './App.css'
 import { routes } from './router/router'
 import App2 from "./App2.jsx"
 import { AuthProvider } from './context/AuthContext'

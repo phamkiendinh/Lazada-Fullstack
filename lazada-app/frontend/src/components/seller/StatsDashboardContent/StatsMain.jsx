@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 const StatsMain = () => {
   const [orderStatus, setOrderStatus] = useState({
-    Pending: 0,
+    New: 0,
     Shipped: 0,
     Cancelled: 0,
     Accepted: 0,
@@ -47,7 +47,7 @@ const StatsMain = () => {
     <div>
       <h1>Order Status</h1>
       <ul>
-        <li>Pending: {orderStatus.Pending}</li>
+        <li>New: {orderStatus.New}</li>
         <li>Shipped: {orderStatus.Shipped}</li>
         <li>Cancelled: {orderStatus.Cancelled}</li>
         <li>Accepted: {orderStatus.Accepted}</li>

@@ -22,10 +22,11 @@ router.post(
 //   // authUserMiddleWare,
 //   OrderController.cancelOrderDetails
 // );
-// router.get(
-//   "/get-all-order",
-//   // authMiddleWare,
-//   OrderController.getAllOrder
-// );
+router.post(
+  "/get-all-order",
+  OrderController.getAllOrder
+);
+
+router.put("/update-order", OrderController.updateOrder);
 
 module.exports = router;

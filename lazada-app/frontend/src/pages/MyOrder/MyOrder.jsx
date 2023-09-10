@@ -23,8 +23,8 @@ import { useCart } from '../../context/CartContext.js';
 const MyOrder = () => {
 
     const cartData = JSON.parse(localStorage.getItem('cart'));
-    let [cart] = useCart(cartData);
 
+    let [cart] = useCart(cartData);
 
     const [auth, setAuth] = useAuth();
     
@@ -193,6 +193,7 @@ const MyOrder = () => {
                 if (data.status === 'OK') {
                     // Handle success, e.g., redirect to a confirmation page
                     navigate('/track-order');
+                    window.location.reload();
                 } else {
                     throw new Error(data.message || 'Failed to create product');
                 }
@@ -233,10 +234,11 @@ const MyOrder = () => {
             customer: customer,
             };
 
-            console.log(JSON.stringify(order));
-
             // Call createOrder to send the order data to the API
             createOrder(order);
+
+            localStorage.removeItem('cart');
+            
         }
         
     };

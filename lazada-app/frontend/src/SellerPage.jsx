@@ -9,7 +9,7 @@ const SellerPage = () => {
   const userData = JSON.parse(localStorage.getItem('auth'));
   const navigate = useNavigate();
 
-  if (!userData) {
+  if (!userData.name || !userData._id) {
     navigate('/seller/404');
   } else {
     return (

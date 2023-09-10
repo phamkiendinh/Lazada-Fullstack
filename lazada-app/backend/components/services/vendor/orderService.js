@@ -102,7 +102,7 @@ const getAllOrderStatus = (vendor_id) => {
 
       // Initialize a status count object
       const statusCount = {
-        Pending: 0,
+        New: 0,
         Shipped: 0,
         Cancelled: 0,
         Accepted: 0,

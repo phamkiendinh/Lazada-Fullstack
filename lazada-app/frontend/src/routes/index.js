@@ -82,61 +82,6 @@ export const routes = [
     page: OrderManagement,
     isShowHeader: true,
   },
-
-  /* ADMIN ROUTES */
-  {
-    path: "/admin",
-    page: Admin,
-    error: <NotFoundPage />,
-  },
-
-  {
-    path: "/admin/category",
-    page: TopCategory,
-    // loader: loadAllTopCategory,
-    error: <NotFoundPage />,
-  },
-  {
-    path: "/admin/category/create",
-    page: CreateTopCategory,
-    error: <NotFoundPage />,
-  },
-  {
-    path: "/admin/category/:categoryName/update",
-    page: UpdateTopCategory,
-    // loader: loadTopCategory,
-    error: <NotFoundPage />,
-  },
-  {
-    path: "/admin/category/:categoryName/detail",
-    page: TopCategoryDetail,
-    error: <NotFoundPage />,
-  },
-  {
-    path: "/admin/category/:categoryName",
-    page: SubCategory,
-    error: <NotFoundPage />,
-  },
-  {
-    path: "/admin/category/:categoryName/create",
-    page: CreateSubCategory,
-    error: <NotFoundPage />,
-  },
-  {
-    path: "/admin/category/:categoryName/:subCategoryName/update",
-    page: UpdateSubCategory,
-    error: <NotFoundPage />,
-  },
-  {
-    path: "/admin/category/:categoryName/:subCategoryName/detail",
-    page: SubCategoryDetail,
-    error: <NotFoundPage />,
-  },
-  {
-    path: "/admin/seller",
-    page: SellerApproval,
-    error: <NotFoundPage />,
-  },
   {
     path: "/seller",
     page: SellerPage,

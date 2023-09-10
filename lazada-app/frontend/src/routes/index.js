@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import HomePage from "./../pages/HomePage/index";
 import MyOrder from "./../pages/MyOrder/MyOrder";
 import SignUpPage from "./../pages/SignUpPage/index";
@@ -23,6 +24,19 @@ import SellerApproval from "../components/AdminSellerApproval/SellerApproval";
 import SellerPage from "./../SellerPage";
 import UnverifiedAccount from "../pages/SingInPage/UnverifiedAccount";
 import UnauthorizedAccount from "../pages/SingInPage/UnauthorizedAccount";
+=======
+import HomePage from './../pages/HomePage/index'
+import MyOrder from './../pages/MyOrder/MyOrder'
+import SignUpPage from './../pages/SignUpPage/index'
+import SignInPage from './../pages/SingInPage/index'
+import NotFoundPage from './../pages/NotFoundPage/NotFoundPage'
+import ProductDetailPage from './../pages/ProductDetail/index'
+import TypeProductPage from './../pages/TypeProduct/TypeProductPage'
+import OrderManagement from './../pages/OrderManagement/index'
+import Dashboard from './../pages/DashboardPage/Dashboard'
+import PrivateRoute from './PrivateRoute';
+import SearchingProduct from './../components/CardTypeProduct/SearchingProducts';
+>>>>>>> origin/master
 
 export const routes = [
   {
@@ -56,7 +70,16 @@ export const routes = [
     isShowHeader: true,
   },
   {
+<<<<<<< HEAD
     path: "/track-order",
+=======
+    path: '/searching-products/:query',
+    page: SearchingProduct,
+    isShowHeader: true
+  },
+  {
+    path: '/track-order',
+>>>>>>> origin/master
     page: OrderManagement,
     isShowHeader: true,
   },
@@ -90,6 +113,7 @@ export const routes = [
     // loader: loadAllTopCategory,
     error: <NotFoundPage />,
   },
+<<<<<<< HEAD
   {
     path: "/admin/category/create",
     page: CreateTopCategory,
@@ -111,6 +135,9 @@ export const routes = [
     page: SubCategory,
     error: <NotFoundPage />,
   },
+=======
+
+>>>>>>> origin/master
   {
     path: "/admin/category/:categoryName/create",
     page: CreateSubCategory,

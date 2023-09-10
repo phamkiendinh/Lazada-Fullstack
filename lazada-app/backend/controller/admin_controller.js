@@ -1,3 +1,4 @@
+const { log } = require('console');
 const client = require('../database/admin_database.js');
 
 async function getOneAdmin(req, res) {
@@ -16,7 +17,7 @@ async function getAllTopCategory(req, res) {
     try {
         var db = client.db('lazada');
         var collection = db.collection('categories');
-        const data = await collection.find({}, {projection: {_id:0, sub_category: 0}}).toArray();
+        const data = await collection.find({}, {projection: {sub_category: 0}}).toArray();
         // console.log(data);
         if (data.length == 0) {
             res.send(null);
@@ -77,6 +78,7 @@ async function deleteTopCategory(req, res) {
     try {
 
         var db = client.db('lazada');
+        var collection = db.collection('categories');
         var productCollection = db.collection('products');
         const quantity = await productCollection.find({category : categoryName}).count();
         if (quantity > 0) {
@@ -85,7 +87,16 @@ async function deleteTopCategory(req, res) {
             return;
         }
         else {
-            var collection = db.collection('categories');
+            const subCategories = await collection.find({name : categoryName}, {projection: {_id: 0, sub_category : 1}}).toArray();
+        
+            const keys = Object.keys(subCategories[0]);
+            if (keys.length !== 0) {
+                if (subCategories[0]['sub_category'].length !== 0) {
+                    console.log(subCategories[0]['sub_category'].length);
+                    res.send({status : 445});
+                    return;
+                }
+            }
             const data = await collection.deleteOne({name : categoryName});
             // console.log(json);
             res.send({status: 200});
@@ -104,6 +115,8 @@ async function updateTopCategory(req, res) {
     try {
         var db = client.db('lazada');
         var productCollection = db.collection('products');
+        var collection = db.collection('categories');
+
         const quantity = await productCollection.find({category : categoryName}).count();
         if (quantity > 0) {
             console.log("Called");
@@ -111,7 +124,16 @@ async function updateTopCategory(req, res) {
             return;
         }
         else {
-            var collection = db.collection('categories');
+            const subCategories = await collection.find({name : categoryName}, {projection: {_id: 0, sub_category : 1}}).toArray();
+        
+            const keys = Object.keys(subCategories[0]);
+            if (keys.length !== 0) {
+                if (subCategories[0]['sub_category'].length !== 0) {
+                    console.log(subCategories[0]['sub_category'].length);
+                    res.send({status : 445});
+                    return;
+                }
+            }
             const data = {};
             json.map(item => {
                 var entry = Object.entries(item);
@@ -120,16 +142,10 @@ async function updateTopCategory(req, res) {
                 const value = entryData[1];
                 data[key] = value;
             })
-            const subCategories = await collection.find({name : categoryName}, {projection: {_id: 0, sub_category : 1}}).toArray();
-
-            if (subCategories.length !== 0) {
-                data['sub_category'] = subCategories[0].sub_category;
-            }
-            console.log(data);
-
             await collection.deleteOne({name : categoryName});
             await collection.insertOne(data);
             res.send({status: 200});
+            return;
         }
     } catch (error) {
         console.log(error);
@@ -235,13 +251,12 @@ async function deleteSubCategory(req, res) {
     const categoryName = req.params.categoryName;
     const subCategoryName = req.params.subCategoryName;
     // console.log(json);
-    console.log("Called");
     try {
         var db = client.db('lazada');
         var productCollection = db.collection('products');
-        const quantity = await productCollection.find({category : categoryName}).count();
+        const quantity = await productCollection.find({category : subCategoryName}).count();
         if (quantity > 0) {
-            console.log("Called");
+            console.log("More than 0");
             res.send({status: 444});
             return;
         }
@@ -261,14 +276,12 @@ async function getSubCategory(req, res) {
     // let json = req.body;
     const categoryName = req.params.categoryName;
     const subCategoryName = req.params.subCategoryName;
+    console.log(subCategoryName);
     // console.log(json);
-    // console.log("Called");
     try {
         var db = client.db('lazada');
         var collection = db.collection('categories');
         const data = await collection.findOne({name : categoryName, "sub_category.name" : subCategoryName}, {projection: {_id:0, sub_category: 1}});
-        // console.log(json);
-        // res.send({status: 200});
         res.send(data);
     } catch (error) {
         console.log(error);
@@ -282,10 +295,10 @@ async function updateSubCategory(req, res) {
     try {
         var db = client.db('lazada');
         var productCollection = db.collection('products');
-        const quantity = await productCollection.find({category : categoryName}).count();
+        const quantity = await productCollection.find({category : subCategoryName}).count();
         if (quantity > 0) {
             console.log("Called");
-            res.send({status: 500});
+            res.send({status: 444});
             return;
         }
         else {
@@ -344,14 +357,13 @@ async function getAllSeller(req, res) {
     // console.log(req.body);
     // let json = req.body;
     // console.log(json);
-    console.log("Called");
     try {
         var db = client.db('lazada');
         var collection = db.collection('sellers');
         const data = await collection.find({}, {projection: {_id:0}}).toArray();
         // console.log(json);
         // res.send({status: 200});
-        console.log(data);
+        // console.log(data);
         res.send(data);
     } catch (error) {
         console.log(error);

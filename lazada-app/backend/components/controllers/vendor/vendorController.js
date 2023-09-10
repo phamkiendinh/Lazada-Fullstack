@@ -6,7 +6,7 @@ const createVendor = async (req, res) => {
     const { name, email, password, phone } = req.body;
     const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     const isCheckEmail = reg.test(email);
-    if (!email || !password ) {
+    if (!email || !password) {
       return res.status(200).json({
         status: "ERR",
         message: "The input is required",
@@ -164,7 +164,8 @@ const refreshToken = async (req, res) => {
 
 const logoutVendor = async (req, res) => {
   try {
-    // res.clearCookie("refresh_token");
+    // localStorage.removeItem("auth");
+
     return res.status(200).json({
       status: "OK",
       message: "Logout successfully",

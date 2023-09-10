@@ -9,7 +9,7 @@ import ProductDetailPage from "./../pages/ProductDetail/index";
 import TypeProductPage from "./../pages/TypeProduct/TypeProductPage";
 import OrderManagement from "./../pages/OrderManagement/index";
 import Dashboard from "./../pages/DashboardPage/Dashboard";
-import PrivateRoute from "./Private";
+import PrivateRoute from "./PrivateRoute";
 import Admin from "../pages/Admin";
 import TopCategory from "../components/AdminCategory/TopCategory";
 import CreateTopCategory from "../components/AdminCategory/CreateTopCategory";
@@ -23,6 +23,7 @@ import SellerApproval from "../components/AdminSellerApproval/SellerApproval";
 import SellerPage from "./../SellerPage";
 import UnverifiedAccount from "../pages/SingInPage/UnverifiedAccount";
 import UnauthorizedAccount from "../pages/SingInPage/UnauthorizedAccount";
+import SearchingProduct from "../components/CardTypeProduct/SearchingProducts.jsx"
 
 export const routes = [
   {
@@ -56,7 +57,12 @@ export const routes = [
     isShowHeader: true,
   },
   {
-    path: "/track-order",
+    path: '/searching-products/:query',
+    page: SearchingProduct,
+    isShowHeader: true
+  },
+  {
+    path: '/track-order',
     page: OrderManagement,
     isShowHeader: true,
   },

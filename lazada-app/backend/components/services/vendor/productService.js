@@ -26,6 +26,7 @@ const createProduct = (newProduct) => {
         category,
         vendor,
         date,
+        status: "New"
       });
 
       if (createdProduct) {

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema(
   {
@@ -8,10 +8,10 @@ const userSchema = new mongoose.Schema(
     phone: { type: Number, unique: true },
   },
   {
-    timestamps: true,
+    timestamps: true
   }
-);
+)
 
 const User = mongoose.model("Customer", userSchema);
 
-module.exports = User;
+module.exports = User

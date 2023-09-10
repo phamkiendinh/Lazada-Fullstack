@@ -26,14 +26,14 @@ const SignUpPage = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      const res = await axios.post('/api/v1/auth/register', {
+      const res = await axios.post('http://localhost:3001/api/customer/user/sign-up', {
         name,
         email,
         phone,
         password
       })
 
-      if (res && res.data.success) {
+      if (res && res.data) {
         setSuccessMessage('Account created successfully!')
         setShow(true)
         navigate('/sign-up')

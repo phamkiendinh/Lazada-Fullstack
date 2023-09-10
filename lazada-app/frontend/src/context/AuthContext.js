@@ -19,7 +19,7 @@ const AuthContext = createContext();
             const parseData = JSON.parse(data);
             setAuth({
                 ...auth,
-                user:parseData.user,
+                user:parseData.checkUser,
                 token:parseData.token                
             })
         }

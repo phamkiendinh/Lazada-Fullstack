@@ -17,7 +17,7 @@ const ProductApp = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({"vendor_name": userData.name}),
+            body: JSON.stringify({ "vendor_name": userData.name }),
 
         })
             .then((response) => {

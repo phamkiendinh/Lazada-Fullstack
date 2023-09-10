@@ -1,20 +1,30 @@
-  import React, { useContext } from 'react'
+  import React, { useState } from 'react'
   import './HeaderComponent.css'
   import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-  import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
   import { faCartShopping } from '@fortawesome/free-solid-svg-icons'
-  import { Link, NavLink } from 'react-router-dom'
-  import { useAuth } from '../../context/AuthContext'
+  import { Link, NavLink, useNavigate } from 'react-router-dom'
   import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-
+  import Nav from 'react-bootstrap/Nav';
+  import Navbar from 'react-bootstrap/Navbar';
+  import NavDropdown from 'react-bootstrap/NavDropdown';
+  import { useAuth } from '../../context/AuthContext'
+  import {useCart} from "../../context/CartContext.js"
+  import useCategory from './../../hooks/useCategory';
 
 
 
   const HeaderComponent = () => {
+    const [cart] = useCart();
     const [auth, setAuth] = useAuth();
+    const navigate = useNavigate()
+    const products = useCategory();
+    const [searchQuery, setSearchQuery] = useState('');
+
+
+    const handleSearchSubmit = (e) => {
+      e.preventDefault();
+      navigate(`/searching-products/${searchQuery}`);
+    };
     const handleLogout = () => {
       setAuth({
         ...auth, 
@@ -30,9 +40,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
         <nav className='navbar navbar-expand'>
           <div className='navbar-container'>
             <ul className='navbar-nav'>
-            
-                
-                {!auth.user ? (
+                {!auth.user? (
                   <>
                   <li className='nav-item'>
                     <NavLink to='/sign-in' className='nav-link'>
@@ -53,7 +61,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
                           <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
                               <NavDropdown style={{ fontSize: "15px" }} title={auth?.user?.name} id="basic-nav-dropdown">
-                                <NavDropdown.Item as={NavLink} to={`/dashboard/${auth?.user?.role === 1 ? 'admin' : 'user' }`} style={{ fontSize: "15px" }}>
+                                <NavDropdown.Item as={NavLink} to={'/dashboard/user'} style={{ fontSize: "15px" }}>
                                 Dasboard</NavDropdown.Item>
                                 <NavDropdown.Item  as={NavLink} to="/sign-in" style={{ fontSize: "15px" }} onClick={handleLogout}>
                                 Logout
@@ -77,27 +85,37 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
                 />
               </Link>
             </div>
+
             <div className='search-bar-content'>
-              <form className='search-form'>
+              <form className='search-form' onSubmit={handleSearchSubmit} >
                 <input
                   type='text'
                   className='form-control'
-                  placeholder='Search in Lazada'
-                  aria-label='Search in Lazada'
-                  aria-describedby='basic-addon2'
+                  placeholder='Search products...'
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button className='btn search-btn' type='button'>
-                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                <button className='btn search-btn' type='submit'>
+                 Search
                 </button>
               </form>
             </div>
+            
             <div className='cart-bar-content'>
-              <NavLink to='/my-order'>
+            <NavLink to='/my-order'>
+              {cart.length > 0 ? (
+                <span className='cart-item'>
+                  <FontAwesomeIcon icon={faCartShopping} />
+                  <span className='badge text-center'>{cart.length}</span>
+                </span>
+              ) : (
                 <span className='cart-item'>
                   <FontAwesomeIcon icon={faCartShopping} />
                 </span>
-              </NavLink>
+              )}
+            </NavLink>
             </div>
+
           </div>
         </div>
       </div>

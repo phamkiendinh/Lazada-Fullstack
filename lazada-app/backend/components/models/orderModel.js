@@ -28,8 +28,8 @@ const productSchema = new mongoose.Schema(
       },
       name: { type: String, ref: "Vendor", required: true },
     },
+    status: { type: String, required: true },
     name: { type: String, required: true },
-    status: { type: String, required: true }
   },
   {
     timestamps: true,
@@ -49,7 +49,7 @@ const orderSchema = new mongoose.Schema(
         required: true,
       },
       name: { type: String, ref: "Customer", required: true },
-    }
+    },
   },
   {
     timestamps: true,

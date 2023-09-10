@@ -20,4 +20,5 @@
 
 .arrow {
   transform: rotate(90deg);
+  background-color: var(--side-nav-hover);
 }

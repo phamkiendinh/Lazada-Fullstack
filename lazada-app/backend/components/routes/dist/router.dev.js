@@ -12,6 +12,8 @@ var VendorProductRouter = require("./vendor/productRoutes.js");
 
 var VendorCategoryRouter = require("./vendor/categoryRoutes.js");
 
+var VendorOrderRouter = require("./vendor/orderRoutes.js");
+
 var routes = function routes(app) {
   // User/Customer routes
   app.use("/api/customer/user", UserRouter);
@@ -21,6 +23,7 @@ var routes = function routes(app) {
   app.use("/api/vendor/user", VendorRouter);
   app.use("/api/vendor/product", VendorProductRouter);
   app.use("/api/vendor/category", VendorCategoryRouter);
+  app.use("/api/vendor/order", VendorOrderRouter);
 };
 
 module.exports = routes;

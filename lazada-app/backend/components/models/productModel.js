@@ -25,6 +25,7 @@ const productSchema = new mongoose.Schema(
       name: { type: String, ref: "Vendor", required: true },
     },
     name: { type: String, required: true, unique: true },
+    status: { type: String, required: true },
   },
   {
     timestamps: true,

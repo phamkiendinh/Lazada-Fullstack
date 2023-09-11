@@ -102,12 +102,17 @@ Since the ReactJS is already done by us, please navigate to frontend directory a
 Our team is group 18 and we have four members:
 
 * Dinh Pham : S3878568
-* 
+* Khiem Min: S3878280
+* Huy Pham: S3926681
+* Khang Nguyen: S3929994 
+
 
 The contribution scores have been agreed by all members and they are:
 
 * Dinh Pham: 5
-* 
+* Khiem Min: 5
+* Huy Pham: 5
+* Khang Nguyen: 5
 
 The following works are what were done by each member:
 

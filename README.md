@@ -114,10 +114,6 @@ The contribution scores have been agreed by all members and they are:
 * Huy Pham: 5
 * Khang Nguyen: 5
 
-The following works are what were done by each member:
-
-* Dinh Pham: Completed admin requirements, write 2/3 report, and video demonstration for presentation and admin management demo
-* 
 
 ---
 

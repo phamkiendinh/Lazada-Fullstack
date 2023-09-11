@@ -85,23 +85,11 @@ Finally, run "npx nodemon" to start the server. The server file is "index.js" an
 
 # ! Front-end Set-up
 
-In our application, we use both React-JS app to run admin & customer roles. For seller role, we use Live-Server to stimulate the front-end since not all members know React-JS.
-
-##### ~ Static Hosting / Seller
-
-Live-Server is a Visual Studio Code Editor extension to host html files on local machine. It can be replaced by any other technology, but it's the one of the easiest and fastest to use.
-
-Visual Studio Code Editor can be intalled via [Visual Studio](https://code.visualstudio.com/download). Once intalled, Live-Server can be installed easily in **Extension**. Guide can be found here [Install Guide](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer).
-
-Only seller needs to be hosted with static hosting methods like Live-Server. Please navigate to directory seller as follow : "./frontend/seller".
-
-Inside this directory, please host the seller.html with Live-Server or any static file hosting technology. Assets folder is used to store images posted by the seller.
+In our application, we use React-JS to build verything. 
 
 ##### ~ React JS
 
-Please navigate to directory seller as follow : "./frontend/admin".
-
-Since the ReactJS is already done by us, please run the following commands:
+Since the ReactJS is already done by us, please navigate to frontend directory and run the following commands:
 
     npm install node-modules
 
@@ -111,14 +99,14 @@ Since the ReactJS is already done by us, please run the following commands:
 
 # ! Team Contribution
 
-Our team is group 14 and we have three members:
+Our team is group 18 and we have four members:
 
 * Dinh Pham : S3878568
 * 
 
 The contribution scores have been agreed by all members and they are:
 
-* Dinh Pham:
+* Dinh Pham: 5
 * 
 
 The following works are what were done by each member:
